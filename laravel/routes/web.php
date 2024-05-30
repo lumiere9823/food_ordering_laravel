@@ -40,5 +40,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
          * Logout Routes
          */
         Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
+
+        Route::get('/category/add','categoryController@index')->name('show_cate_table');
+        Route::post('/category/save','categoryController@save')->name('cate_save');
     });
 });
