@@ -25,4 +25,30 @@ class categoryController extends Controller
 
     }
 
+    public function manage(){
+        $categories = Category::all();
+        return view('BackEnd.category.manageCategory',compact('categories'));
+    }
+
+    public function edit($id){
+        $category = Category::find($id);
+        return view('BackEnd.category.editCategory', compact('category'));
+    }
+
+    public function delete($id){
+        Category::destroy($id);
+        return redirect()->route('category.manage')->with('success', 'Category deleted successfully');
+    }
+
+    public function changeStatus($id){
+        $category = Category::find($id);
+        if($category->category_status == 1){
+            $category->category_status = 0;
+        }else{
+            $category->category_status = 1;
+        }
+        $category->save();
+        return response()->json(['message' => 'Category status changed successfully']);
+    }
+
 }

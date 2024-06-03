@@ -43,5 +43,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
         Route::get('/category/add','categoryController@index')->name('show_cate_table');
         Route::post('/category/save','categoryController@save')->name('cate_save');
+        Route::get('/category/manage','categoryController@manage')->name('manage_cate');
+        Route::get('/category/edit/{id}', [categoryController::class, 'edit'])->name('category.edit');
+        Route::post('/category/delete/{id}', [categoryController::class, 'delete'])->name('category.delete');
+        Route::post('/category/change-status/{id}', [categoryController::class, 'changeStatus'])->name('category.changeStatus');
     });
 });

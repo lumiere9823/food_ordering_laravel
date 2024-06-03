@@ -43,7 +43,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="{{route('show_cate_table')}}">Add category</a></li>
-            <!-- <li><a href="#">Link in level 2</a></li> -->
+            <li><a href="{{route('manage_cate')}}">Manage category</a></li>
           </ul>
         </li>
       </ul>
