@@ -19,21 +19,46 @@
                     @endif
                     <div class="card">
                         <div class="card-header text-center">
-                            Category
+                            Add coupon
                         </div>
                         <div class="card-body">
-                            <form action="{{ url('/category/save') }}" method="post" id="categoryForm">
+                            <form action="{{ url('/coupon/save') }}" method="post" id="couponForm">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="category_name">Category Name</label>
-                                    <input style="border-radius:12px" type="text" class="form-control"
-                                        name="category_name">
+                                    <label for="coupon_value">Coupon Value</label>
+                                    <input style="border-radius:12px" type="number" class="form-control"
+                                        name="coupon_value">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="order_number">Order Number</label>
+                                    <label for="coupon_type">Coupon Type</label>
+                                    <select class="form-control" id="coupon_type" name="coupon_type"
+                                        style="border-radius:12px">
+                                        <option value="1">Percentage
+                                        </option>
+                                        <option value="2">Fixed
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="cart_min_value">Cart Min Value</label>
                                     <input style="border-radius:12px" type="number" class="form-control"
-                                        name="order_number">
+                                        name="cart_min_value">
+                                </div>
+
+                                <div class="form-group d-flex justify-content-center">
+                                    <label for="coupon_status">Coupon Status</label>
+                                    <div class="radio" style="margin-left:20px; display:flex">
+                                        <div>
+                                            <input type="radio" name="coupon_status" value="1" id="active">
+                                            <label for="active">Active</label>
+                                        </div>
+                                        <div style="margin-left:50px">
+                                            <input type="radio" name="coupon_status" value="0" id="inactive">
+                                            <label for="inactive">Inactive</label>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -41,21 +66,12 @@
                                     <input style="border-radius:12px" type="date" class="form-control" name="added_on">
                                 </div>
 
-                                <div class="form-group d-flex justify-content-center">
-                                    <label for="category_status">Category Status</label>
-                                    <div class="radio" style="margin-left:20px; display:flex">
-                                        <div>
-                                            <input type="radio" name="status" value="1" id="active">
-                                            <label for="active">Active</label>
-                                        </div>
-                                        <div style="margin-left:50px">
-                                            <input type="radio" name="status" value="0" id="inactive">
-                                            <label for="inactive">Inactive</label>
-                                        </div>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="expire_on">Expire On</label>
+                                    <input style="border-radius:12px" type="date" class="form-control" name="expire_on">
                                 </div>
 
-                                <button type="submit" name="btn" class="btn btn-success">Category Add</button>
+                                <button type="submit" class="btn btn-success">Add</button>
 
                             </form>
                         </div>

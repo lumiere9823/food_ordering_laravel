@@ -19,21 +19,27 @@
                     @endif
                     <div class="card">
                         <div class="card-header text-center">
-                            Category
+                            Add Delivery Boy
                         </div>
                         <div class="card-body">
-                            <form action="{{ url('/category/save') }}" method="post" id="categoryForm">
+                            <form action="{{ url('/delivery-boy/save') }}" method="post" id="deliveryBoyForm">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="category_name">Category Name</label>
+                                    <label for="delivery_boy_name">Delivery Boy Name</label>
                                     <input style="border-radius:12px" type="text" class="form-control"
-                                        name="category_name">
+                                        name="delivery_boy_name">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="order_number">Order Number</label>
+                                    <label for="delivery_boy_phone_number">Delivery Boy Phone Number</label>
                                     <input style="border-radius:12px" type="number" class="form-control"
-                                        name="order_number">
+                                        name="delivery_boy_phone_number">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="delivery_boy_password"> Delivery Boy Password</label>
+                                    <input style="border-radius:12px" type="password" class="form-control"
+                                        name="delivery_boy_password">
                                 </div>
 
                                 <div class="form-group">
@@ -41,21 +47,7 @@
                                     <input style="border-radius:12px" type="date" class="form-control" name="added_on">
                                 </div>
 
-                                <div class="form-group d-flex justify-content-center">
-                                    <label for="category_status">Category Status</label>
-                                    <div class="radio" style="margin-left:20px; display:flex">
-                                        <div>
-                                            <input type="radio" name="status" value="1" id="active">
-                                            <label for="active">Active</label>
-                                        </div>
-                                        <div style="margin-left:50px">
-                                            <input type="radio" name="status" value="0" id="inactive">
-                                            <label for="inactive">Inactive</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <button type="submit" name="btn" class="btn btn-success">Category Add</button>
+                                <button type="submit" name="btn" class="btn btn-success">Add</button>
 
                             </form>
                         </div>

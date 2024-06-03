@@ -9,7 +9,7 @@
                     <!-- Allocate six columns for the form -->
                     <div class="card">
                         <div class="card-header">
-                            <h3>Datatable for category</h3>
+                            <h3>Datatable for dish</h3>
                         </div>
                         <div class="card-body">
                             <table class="table table-bordered table-striped" id="example1">
@@ -18,26 +18,28 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Id</th>
                                         <th scope="col">Name</th>
-                                        <th scope="col">Order Number</th>
+                                        <th scope="col">Detail</th>
                                         <th scope="col">Status</th>
-                                        <th scope="col">Added On</th>
-                                        <th scope="col">Created At</th>
-                                        <th scope="col">Updated At</th>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Created at</th>
+                                        <th scope="col">Updated at</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($categories as $index => $category)
+                                    @foreach ($dishes as $index => $dish)
                                         <tr style="text-align:center">
                                             <th scope="row">{{ $index + 1 }}</th>
-                                            <td>{{ $category->category_id }}</td>
-                                            <td>{{ $category->category_name }}</td>
-                                            <td>{{ $category->order_number }}</td>
-                                            <td id="categoryStatus_{{ $category->category_id }}">
-                                                {{ $category->category_status == 1 ? 'active' : 'inactive' }}</td>
-                                            <td>{{ $category->added_on }}</td>
-                                            <td>{{ $category->created_at }}</td>
-                                            <td>{{ $category->updated_at }}</td>
+                                            <td>{{ $dish->dish_id }}</td>
+                                            <td>{{ $dish->dish_name }}</td>
+                                            <td>{{ $dish->dish_detail }}</td>
+                                            <td id="dishStatus_{{ $dish->dish_status }}">
+                                                {{ $dish->dish_status == 1 ? 'active' : 'inactive' }}</td>
+                                            <td><img src="{{ asset('dish_images/' . $dish->dish_image) }}" alt="Dish Image"
+                                                    style="max-width: 200px">
+                                            </td>
+                                            <td>{{ $dish->created_at }}</td>
+                                            <td>{{ $dish->updated_at }}</td>
                                             <td>
                                                 <div class="dropdown">
                                                     <button type="button" class="btn btn-default dropdown-toggle"
@@ -50,23 +52,23 @@
                                                         <div style="text-align: center;">
                                                             <button type="button" class="btn btn-warning"
                                                                 style="width: 80%;" data-toggle="modal"
-                                                                data-target="#updateCategoryModal{{ $category->category_id }}">
+                                                                data-target="#updatedishModal{{ $dish->dish_id }}">
                                                                 Edit
                                                             </button>
                                                         </div>
                                                         <div style="text-align: center; margin-top: 10px;">
-                                                            <input type="hidden" id="categoryIdToDelete" name="category_id"
+                                                            <input type="hidden" id="dishToDelete" name="dish_id"
                                                                 value="">
                                                             <button type="button" class="btn btn-sm btn-danger delete-btn"
-                                                                data-toggle="modal" data-target="#confirmDeleteModal"
-                                                                data-category-id="{{ $category->category_id }}">Delete</button>
+                                                                data-toggle="modal" data-target="#confirmdishDeleteModal"
+                                                                data-dish-id="{{ $dish->dish_id }}">Delete</button>
                                                         </div>
                                                         <div style="text-align: center; margin-top: 10px;">
                                                             <div style="text-align: center; margin-top: 10px;">
                                                                 <label class="switch">
-                                                                    <input type="checkbox" class="status-toggle"
-                                                                        data-id="{{ $category->category_id }}"
-                                                                        {{ $category->category_status == 1 ? 'checked' : '' }}>
+                                                                    <input type="checkbox" class="status-toggle-dish"
+                                                                        data-id="{{ $dish->dish_id }}"
+                                                                        {{ $dish->dish_status == 1 ? 'checked' : '' }}>
                                                                     <span class="slider round"></span>
                                                                 </label>
                                                             </div>
@@ -75,38 +77,50 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <div class="modal fade" id="updateCategoryModal{{ $category->category_id }}"
-                                            tabindex="-1" role="dialog"
-                                            aria-labelledby="updateCategoryModalLabel{{ $category->category_id }}"
+                                        <div class="modal fade" id="updatedishModal{{ $dish->dish_id }}" tabindex="-1"
+                                            role="dialog" aria-labelledby="updatedishModalLabel{{ $dish->dish_id }}"
                                             aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title"
-                                                            id="updateCategoryModalLabel{{ $category->category_id }}">
-                                                            Update Category</h5>
+                                                            id="updatedishModalLabel{{ $dish->dish_id }}">Update dish
+                                                        </h5>
                                                         <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form
-                                                            action="{{ route('category.update', $category->category_id) }}"
+                                                        <form action="{{ route('update_dish', $dish->dish_id) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('PUT')
                                                             <div class="form-group">
-                                                                <label for="categoryName">Category Name</label>
-                                                                <input type="text" class="form-control" id="categoryName"
-                                                                    name="category_name"
-                                                                    value="{{ $category->category_name }}">
+                                                                <label for="dishName">Dish Name</label>
+                                                                <input type="text" class="form-control" id="dishName"
+                                                                    name="dish_name" value="{{ $dish->dish_name }}">
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="orderNumber">Order Number</label>
-                                                                <input type="number" class="form-control" id="orderNumber"
-                                                                    name="order_number"
-                                                                    value="{{ $category->order_number }}">
+                                                                <label for="dishDetail">Dish Detail</label>
+                                                                <textarea class="form-control" id="dishDetail" name="dish_detail" rows="3">{{ $dish->dish_detail }}</textarea>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="dish_image">Dish Image</label>
+                                                                <input type="file" class="form-control-file"
+                                                                    id="dish_image" name="dish_image">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="dishStatus">Dish Status</label>
+                                                                <select class="form-control" id="dishStatus"
+                                                                    name="dish_status">
+                                                                    <option value="1"
+                                                                        {{ $dish->dish_status == 1 ? 'selected' : '' }}>
+                                                                        Active</option>
+                                                                    <option value="0"
+                                                                        {{ $dish->dish_status == 0 ? 'selected' : '' }}>
+                                                                        Inactive</option>
+                                                                </select>
                                                             </div>
                                                             <!-- Add other fields as needed -->
 
@@ -126,8 +140,8 @@
             </div>
         </section>
     </div>
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="confirmdishDeleteModal" tabindex="-1" role="dialog"
+        aria-labelledby="confirmdishDeleteModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -138,7 +152,7 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <p>Are you sure you want to delete this category?</p>
+                    <p>Are you sure you want to delete this dish?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

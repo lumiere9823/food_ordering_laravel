@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 
-class categoryController extends Controller
+class CategoryController extends Controller
 {
     public function index(){
         return view('BackEnd.category.addCategory');
@@ -21,8 +21,7 @@ class categoryController extends Controller
 
         $category->save();
 
-        return back()->with('sms','Category Saved');
-
+        return redirect('/category/manage')->with('sms','Category Saved');
     }
 
     public function manage(){
@@ -30,25 +29,55 @@ class categoryController extends Controller
         return view('BackEnd.category.manageCategory',compact('categories'));
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
+        // Find the category by its primary key
         $category = Category::find($id);
-        return view('BackEnd.category.editCategory', compact('category'));
+
+        // Check if the category exists
+        if (!$category) {
+            return redirect()->route('manage_cate')->with('error', 'Category not found.');
+        }
+
+        return view('categories.edit', compact('category'));
     }
 
-    public function delete($id){
-        Category::destroy($id);
-        return redirect()->route('category.manage')->with('success', 'Category deleted successfully');
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            // 'name' => 'required|string|max:255',
+            // Add other fields you want to validate
+        ]);
+
+        $category = Category::findOrFail($id);
+        $category->update($request->all());
+
+        return redirect()->route('manage_cate')->with('success', 'Category updated successfully.');
+    }
+
+    public function delete($id)
+    {
+        $category = Category::find($id);
+
+        if ($category) {
+            $category->delete();
+            return redirect()->route('manage_cate')->with('success', 'Category deleted successfully.');
+        } else {
+            return redirect()->route('manage_cate')->with('error', 'Category not found.');
+        }
     }
 
     public function changeStatus($id){
-        $category = Category::find($id);
-        if($category->category_status == 1){
-            $category->category_status = 0;
-        }else{
-            $category->category_status = 1;
+        $category = Category::find($id); 
+    
+        if(!$category) {
+            return response()->json(['error' => 'Category not found'], 404);
         }
+    
+        $category->category_status = $category->category_status == 1 ? 0 : 1;
         $category->save();
-        return response()->json(['message' => 'Category status changed successfully']);
+    
+        return response()->json(['category_status' => $category->category_status]);
     }
-
+    
 }

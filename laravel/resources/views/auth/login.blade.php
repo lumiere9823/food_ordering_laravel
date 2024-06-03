@@ -11,16 +11,16 @@
         @include('layouts.partials.messages')
 
         <div class="form-group form-floating mb-3">
-            <input type="text" class="form-control" name="username" value="{{ old('username') }}" placeholder="Username" required="required" autofocus>
             <label for="floatingName">Email or Username</label>
+            <input type="text" class="form-control" name="username" value="{{ old('username') }}" placeholder="Username" required="required" autofocus>
             @if ($errors->has('username'))
                 <span class="text-danger text-left">{{ $errors->first('username') }}</span>
             @endif
         </div>
         
         <div class="form-group form-floating mb-3">
-            <input type="password" class="form-control" name="password" value="{{ old('password') }}" placeholder="Password" required="required">
             <label for="floatingPassword">Password</label>
+            <input type="password" class="form-control" name="password" value="{{ old('password') }}" placeholder="Password" required="required">
             @if ($errors->has('password'))
                 <span class="text-danger text-left">{{ $errors->first('password') }}</span>
             @endif
@@ -30,4 +30,7 @@
         
         @include('auth.partials.copy')
     </form>
+    <div>
+        <a href="{{ route('register.show') }}">Create an account</a>
+    </div>
 @endsection
