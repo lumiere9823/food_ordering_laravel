@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+use App\Models\Category;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        View::composer('FrontEnd.include.banner', function ($view) {
+            $categories = Category::where('category_status', 1)->get();
+            $view->with(compact('categories'));
+        });
+        View::composer('FrontEnd.include.dish', function ($view) {
+            $categories = Category::where('category_status', 1)->get();
+            $view->with(compact('categories'));
+        });
     }
 }

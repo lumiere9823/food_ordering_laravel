@@ -63,6 +63,26 @@
                                     </div>
                                 </div>
 
+                                <div class="card">
+                                    <div class="card-header" title="You can skip this">Dish attribute</div>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Full price</label>
+                                                    <input type="text" class="form-control" name="full_price"
+                                                        id="full_price" placeholder="full_price" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>Half price</label>
+                                                    <input type="text" class="form-control" name="half_price"
+                                                        id="half_price" placeholder="half_price" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <button type="submit" class="btn btn-success">Add</button>
 
                             </form>

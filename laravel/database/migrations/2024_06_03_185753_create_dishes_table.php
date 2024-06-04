@@ -18,6 +18,8 @@ return new class extends Migration
             $table->longText('dish_detail');
             $table->text('dish_image');
             $table->integer('dish_status');
+            $table->float('full_price',10,2)->nullable();
+            $table->float('half_price',10,2)->nullable();
             $table->timestamps();
         });
     }

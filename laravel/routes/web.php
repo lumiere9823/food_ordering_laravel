@@ -18,8 +18,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     /**
      * Home Routes
      */
-    Route::get('/', 'HomeController@index')->name('home.index');
-
+    Route::get('/', 'FrontEndController@index');
+    Route::get('/category/dish/show/', 'FrontEndController@dish_show')->name('dish_show');
+    
+    Route::get('/home', 'HomeController@index')->name('home.index');
     Route::group(['middleware' => ['guest']], function() {
         /**
          * Register Routes
@@ -69,7 +71,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::post('/dish/save','dishController@save')->name('dish_save');
         Route::get('/dish/manage', 'dishController@manage')->name('manage_dish');
         Route::get('/dish/edit/{id}', 'dishController@edit')->name('edit_dish');
-        Route::post('/dish/update/{id}', 'dishController@update')->name('update_dish');
+        Route::put('/dish/update/{id}', 'dishController@update')->name('update_dish');
         Route::get('/dish/delete/{id}', 'dishController@delete')->name('delete_dish');
         Route::post('/dish/change-status/{id}', 'dishController@changeStatus')->name('change_dish_status');
     });

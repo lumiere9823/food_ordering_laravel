@@ -33,7 +33,7 @@
                                             <td>{{ $dish->dish_id }}</td>
                                             <td>{{ $dish->dish_name }}</td>
                                             <td>{{ $dish->dish_detail }}</td>
-                                            <td id="dishStatus_{{ $dish->dish_status }}">
+                                            <td id="dishStatus_{{ $dish->dish_id }}">
                                                 {{ $dish->dish_status == 1 ? 'active' : 'inactive' }}</td>
                                             <td><img src="{{ asset('dish_images/' . $dish->dish_image) }}" alt="Dish Image"
                                                     style="max-width: 200px">
@@ -110,6 +110,25 @@
                                                                 <input type="file" class="form-control-file"
                                                                     id="dish_image" name="dish_image">
                                                             </div>
+
+                                                            <div class="form-group">
+                                                                <label for="category_id">Category</label>
+                                                                <select class="form-control" id="category_id"
+                                                                    name="category_id">
+                                                                    @php
+                                                                        $selected_cate = \App\Models\Category::find(
+                                                                            $dish->category_id,
+                                                                        );
+                                                                    @endphp
+                                                                    @foreach ($categories as $category)
+                                                                        <option value="{{ $category->category_id }}"
+                                                                            {{ $category->category_id == $selected_cate->category_id ? 'selected' : '' }}>
+                                                                            {{ $category->category_name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
                                                             <div class="form-group">
                                                                 <label for="dishStatus">Dish Status</label>
                                                                 <select class="form-control" id="dishStatus"
@@ -123,6 +142,31 @@
                                                                 </select>
                                                             </div>
                                                             <!-- Add other fields as needed -->
+
+                                                            <div class="card">
+                                                                <div class="card-header" title="You can skip this">Dish
+                                                                    attribute</div>
+                                                                <div class="card-body">
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <label>Full price</label>
+                                                                                <input type="text" class="form-control"
+                                                                                    name="full_price" id="full_price"
+                                                                                    placeholder="full_price"
+                                                                                    value="{{ $dish->full_price }}">
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label>Half price</label>
+                                                                                <input type="text" class="form-control"
+                                                                                    name="half_price" id="half_price"
+                                                                                    placeholder="half_price"
+                                                                                    value="{{ $dish->half_price }}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
 
                                                             <button type="submit" class="btn btn-primary">Save
                                                                 changes</button>

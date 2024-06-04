@@ -41,6 +41,8 @@ class dishController extends Controller
         }
         
         $dish->dish_status = $request->dish_status;
+        $dish->full_price = $request->full_price;
+        $dish->half_price = $request->half_price;
 
 
         $dish->save();
@@ -50,7 +52,8 @@ class dishController extends Controller
     
     public function manage(){
         $dishes = Dish::all();
-        return view('BackEnd.dish.manage', compact('dishes'));
+        $categories = Category::all();
+        return view('BackEnd.dish.manage', compact('dishes','categories'));
     }
     
     public function edit($id)
@@ -86,6 +89,10 @@ class dishController extends Controller
             $image->move(public_path('dish_images'), $imageName);
             $dish->dish_image = $imageName;
         }
+
+        $dish->dish_status = $request->dish_status;
+        $dish->full_price = $request->full_price;
+        $dish->half_price = $request->half_price;
     
         $dish->dish_status = $request->dish_status;
         $dish->save();

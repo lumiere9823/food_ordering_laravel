@@ -34,7 +34,7 @@
                                             <td>{{ $coupon->coupon_type == 1 ? 'Percentage' : 'Fixed' }}</td>
                                             <td>{{ $coupon->coupon_value }}</td>
                                             <td>{{ $coupon->cart_min_value }}</td>
-                                            <td id="CouponStatus_{{ $coupon->coupon_status }}">
+                                            <td id="CouponStatus_{{ $coupon->coupon_id }}">
                                                 {{ $coupon->coupon_status == 1 ? 'active' : 'inactive' }}</td>
                                             <td>{{ $coupon->added_on }}</td>
                                             <td>{{ $coupon->expire_on }}</td>

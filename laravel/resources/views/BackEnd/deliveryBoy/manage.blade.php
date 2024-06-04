@@ -33,7 +33,7 @@
                                             <td>{{ $deliveryBoy->delivery_boy_id }}</td>
                                             <td>{{ $deliveryBoy->delivery_boy_name }}</td>
                                             <td>{{ $deliveryBoy->delivery_boy_phone_number }}</td>
-                                            <td id="deliveryBoyStatus_{{ $deliveryBoy->delivery_boy_status }}">
+                                            <td id="deliveryBoyStatus_{{ $deliveryBoy->delivery_boy_id }}">
                                                 {{ $deliveryBoy->delivery_boy_status == 1 ? 'active' : 'inactive' }}</td>
                                             <td>{{ $deliveryBoy->added_on }}</td>
                                             <td>{{ $deliveryBoy->created_at }}</td>
