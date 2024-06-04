@@ -121,7 +121,7 @@
         <div class="container">
             <h3 class="w3ls-title">Special Foods</h3>
             <div class="spldishes-agileinfo">
-                <div class="col-md-3 spldishes-w3left">
+                <div class="col-md-3 spldishes-w3left" style="height: 200px">
                     <h5 class="w3ltitle">Staple Specials</h5>
                     <p>Vero vulputate enim non justo posuere placerat Phasellus mauris vulputate enim non justo enim .
                     </p>

@@ -20,6 +20,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
      */
     Route::get('/', 'FrontEndController@index');
     Route::get('/category/dish/show/', 'FrontEndController@dish_show')->name('dish_show');
+
+    Route::post('add/cart', 'cartController@insert')->name('add_to_cart');
+    Route::get('cart/show', 'cartController@show')->name('cart_show');
     
     Route::get('/home', 'HomeController@index')->name('home.index');
     Route::group(['middleware' => ['guest']], function() {

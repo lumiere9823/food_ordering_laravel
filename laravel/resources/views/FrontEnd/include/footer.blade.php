@@ -10,16 +10,16 @@
                     <li><a href="#" class="fa fa-dribbble icon dribbble"> </a></li>
                     <li><a href="#" class="fa fa-rss icon rss"> </a></li>
                 </ul>
-                <ul class="apps">
+                <!-- <ul class="apps">
                     <li>
                         <h4>Download Our app : </h4>
                     </li>
                     <li><a href="#" class="fa fa-apple"></a></li>
                     <li><a href="#" class="fa fa-windows"></a></li>
                     <li><a href="#" class="fa fa-android"></a></li>
-                </ul>
+                </ul> -->
             </div>
-            <div class="col-md-6 subscribe-right">
+            <!-- <div class="col-md-6 subscribe-right">
                 <h3 class="w3ls-title">Subscribe to Our <br><span>Newsletter</span></h3>
                 <form action="#" method="post">
                     <input type="email" name="email" placeholder="Enter your Email..." required="">
@@ -27,7 +27,7 @@
                     <div class="clearfix"> </div>
                 </form>
                 <img src="{{ asset('/frontEndSourceFile/images/i1.png') }}" class="sub-w3lsimg" alt="" />
-            </div>
+            </div> -->
             <div class="clearfix"> </div>
         </div>
     </div>
@@ -38,36 +38,36 @@
                 <div class="col-xs-6 col-sm-3 footer-grids w3-agileits">
                     <h3>company</h3>
                     <ul>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
-                        <li><a href="careers.html">Careers</a></li>
-                        <li><a href="help.html">Partner With Us</a></li>
+                        <li><a href="">About Us</a></li>
+                        <li><a href="">Contact Us</a></li>
+                        <li><a href="">Careers</a></li>
+                        <li><a href="">Partner With Us</a></li>
                     </ul>
                 </div>
                 <div class="col-xs-6 col-sm-3 footer-grids w3-agileits">
                     <h3>help</h3>
                     <ul>
-                        <li><a href="faq.html">FAQ</a></li>
-                        <li><a href="login.html">Returns</a></li>
-                        <li><a href="login.html">Order Status</a></li>
-                        <li><a href="offers.html">Offers</a></li>
+                        <li><a href="">FAQ</a></li>
+                        <li><a href="">Returns</a></li>
+                        <li><a href="">Order Status</a></li>
+                        <li><a href="">Offers</a></li>
                     </ul>
                 </div>
                 <div class="col-xs-6 col-sm-3 footer-grids w3-agileits">
                     <h3>policy info</h3>
                     <ul>
-                        <li><a href="terms.html">Terms & Conditions</a></li>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-                        <li><a href="login.html">Return Policy</a></li>
+                        <li><a href="">Terms & Conditions</a></li>
+                        <li><a href="">Privacy Policy</a></li>
+                        <li><a href="">Return Policy</a></li>
                     </ul>
                 </div>
                 <div class="col-xs-6 col-sm-3 footer-grids w3-agileits">
                     <h3>Menu</h3>
                     <ul>
-                        <li><a href="menu.html">All Day Menu</a></li>
-                        <li><a href="menu.html">Lunch</a></li>
-                        <li><a href="menu.html">Dinner</a></li>
-                        <li><a href="menu.html">Flavours</a></li>
+                        <li><a href="">All Day Menu</a></li>
+                        <li><a href="">Lunch</a></li>
+                        <li><a href="">Dinner</a></li>
+                        <li><a href="">Flavours</a></li>
                     </ul>
                 </div>
                 <div class="clearfix"> </div>
