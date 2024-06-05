@@ -86,8 +86,10 @@ Dish
                                         </div>
                                         <p class="single-price-text">{{ $dish->dish_detail }}</p>
                                         <form action="{{route('add_to_cart')}}" method="post">
+                                            @csrf
                                             <input type="hidden" name="dish_id" value="{{$dish->dish_id}}" />
-                                            <input type="number" min="1" name="qty" value="Quantity" />
+                                            <input type="number" min="1" name="qty" value="1" />
+                                            <input type="hidden" name="half_price_value" value="false" />
                                             <button type="submit" class="w3ls-cart"><i class="fa fa-cart-plus"
                                                     aria-hidden="true"></i> Add to cart</button>
                                             <span class="w3-agile-line"></span>
@@ -149,4 +151,16 @@ Dish
         <h5>for a better food experience</h5>
     </div>
 </div>
+<script>
+    // Function to update hidden input value when half_price checkbox changes
+    function updateHalfPriceValue() {
+        // Get the checkbox element
+        var checkbox = document.querySelector('input[name="half_price"]');
+        // Get the hidden input element for half_price
+        var halfPriceInput = document.querySelector('input[name="half_price_value"]');
+
+        // Set the value of the hidden input based on checkbox state
+        halfPriceInput.value = checkbox.checked ? 'true' : 'false';
+    }
+</script>
 @endsection

@@ -22,7 +22,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/category/dish/show/', 'FrontEndController@dish_show')->name('dish_show');
 
     Route::post('add/cart', 'cartController@insert')->name('add_to_cart');
-    Route::get('cart/show', 'cartController@show')->name('cart_show');
+    Route::get('add/remove', 'cartController@remove')->name('remove-item');
+    Route::get('cart/remove', 'cartController@show')->name('cart_show');
+    Route::post('/update-quantity', 'cartController@updateQuantity')->name('update-quantity');
     
     Route::get('/home', 'HomeController@index')->name('home.index');
     Route::group(['middleware' => ['guest']], function() {

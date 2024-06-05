@@ -10,9 +10,13 @@
                 <div class="w3ls-header-right">
                     <ul>
                         <li class="head-dpdn">
-                            <i class="fa fa-phone" aria-hidden="true"></i> Call us: +01 222 33345
+                            <i class="fa fa-phone" aria-hidden="true"></i> Call us:
                         </li>
                         @auth
+                        <li class="head-dpdn">
+                            <a href="#"><i class="fa fa-user" aria-hidden="true"></i>
+                                {{Auth::user()->name}}</a>
+                        </li>
                         <li class="head-dpdn">
                             <a href="{{ route('logout.perform') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>
                                 Logout</a>
@@ -54,7 +58,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <h1><a href="index.html">Staple<span>Best Food Collection</span></a></h1>
+                        <h1><a href="{{ auth()->check() ? route('home.index') : url('/') }}">Staple<span>Best Food Collection</span></a></h1>
                     </div>
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                         <ul class="nav navbar-nav navbar-right">
