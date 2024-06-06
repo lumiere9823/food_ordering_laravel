@@ -5,13 +5,14 @@ Cart
 @endsection
 
 @section('content')
-<div class="">
+<div style="min-height: 50vh;">
     <section class="">
         <div class="row justify-content-center " style="position: relative; display: flex;padding-right: 20px;">
             <!-- Center the row -->
-            <div style="flex: 2; " >
+            <div style="flex: 2; ">
                 <!-- Nội dung của div đầu tiên -->
-                <div style="border: solid white 1px; border-radius: 12px; padding: 20px;margin:50px; background: white;">
+                <div
+                    style="border: solid white 1px; border-radius: 12px; padding: 20px;margin:50px; background: white;">
                     <div class="card">
                         <div class="card-header">
                             <h3>Your Shopping Cart</h3>
@@ -31,6 +32,7 @@ Cart
                                 </thead>
                                 <tbody>
                                     @php($i = 1)
+                                    @if($CartDish->count() > 0)
                                     @foreach($CartDish as $dish)
                                     <tr>
                                         <th scope="row">{{$i++}}</th>
@@ -73,6 +75,11 @@ Cart
                                         </td>
                                     </tr>
                                     @endforeach
+                                    @else
+                                    <tr>
+                                        <td colspan="7" style="text-align: center;">Emty as fuck !</td>
+                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -80,7 +87,6 @@ Cart
                 </div>
             </div>
             <div class="invoice" style="flex: 1; display: flex; justify-content: center; align-items: center;">
-                <!-- Nội dung của div thứ hai -->
                 <div class="col-md-8"
                     style="border: solid 1px #ccc; border-radius: 12px; padding: 20px; background: white;">
                     <h3 style="text-align: center;padding-bottom:20px">Invoice</h3>
@@ -89,20 +95,84 @@ Cart
                     @foreach($CartDish as $dish)
                     <div class="item" style="display: flex; justify-content: space-between;">
                         <span class="name">{{$dish->name}}</span>
-                        <span class="quantity">{{$dish->qty}}</span>
-                        <span class="total">{{$dish->price * $dish->qty}}</span>
+                        <span class="quantity" id="quantity1_{{ $dish->rowId }}">{{$dish->qty}}</span>
+                        <span class="total1" id="total1_{{ $dish->rowId }}">{{$dish->price * $dish->qty}}</span>
                     </div>
                     @php($i += $dish->price * $dish->qty)
                     @endforeach
                     <hr>
-                    <div class="grand-total" style="margin-top: 20px; text-align: right;">
-                        <span>Total:</span>
-                        <span>{{$i}}</span>
+                    <div style="display: flex; justify-content: space-between;align-item: center;">
+                        <div class="grand-total" id="final" style="margin-top: 10px; text-align: left; ">
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#payment">
+                                <i class="fa fa-shopping-bag"></i> Check Out
+                            </button>
+                        </div>
+                        <div class="grand-total" id="final" style="margin-top: 20px; text-align: right;">
+                            <span>Total:</span>
+                            <span>{{$i}}</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+</div>
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="payment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        @auth
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                payment method
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+        @else
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center; padding: 20px; display: flex; justify-content: center; align-items: center;">
+    <div class="col-md-6" style="margin-right: 20px; position: relative;">
+        <div style="width: 100%; height: 0; padding-bottom: 100%; position: relative;">
+            <img src="https://t3.ftcdn.net/jpg/06/76/45/32/240_F_676453298_oawytYg5O4uT2TDkORl8t5rbGuuwGqf9.jpg" alt="" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: auto;">
+        </div>
+    </div>
+    <hr style="position: absolute; top: 0; bottom: 0; left: 50%; transform: translateX(-50%); height: 100%; border-left: 1px solid ;">
+    <div class="col-md-6" style="position: relative;">
+        <a type="button" href="{{route('login.show')}}" class="btn btn-primary" style="margin-bottom: 20px;">Go to login</a>
+        <div style="text-align: center; margin-bottom: 20px;">
+                        <hr style="width: 45%; float: left;border: 1px solid ;">
+                        <span style="display: inline-block; margin: 0 10px;">Or</span>
+                        <hr style="width: 45%; float: right;border: 1px solid ;">
+                    </div>
+        <a type="button" href="{{route('sign_up')}}" class="btn btn-primary" style="margin-top: 20px;">Go to register</a>
+    </div>
+</div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        @endauth
+    </div>
 </div>
 
 <script>
@@ -117,14 +187,31 @@ function updateQuantity(rowId, action, price) {
         },
         success: function(data) {
             $('#qty_' + rowId).html(data.qty);
+            $('#quantity1_' + rowId).html(data.qty);
 
             // Update the total price based on the new quantity
             var totalPrice = data.qty * price;
             $('#total_' + rowId).html(totalPrice);
+            $('#total1_' + rowId).html(totalPrice);
+
+            var grandTotal = 0;
+            $('.total1').each(function() {
+                grandTotal += parseFloat($(this).text());
+            });
+            $('#final span:last-child').text(grandTotal);
         }
     });
 }
+
+// JavaScript for handling tab switching
+$(document).ready(function() {
+    $('#authTabs a').click(function(e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+});
 </script>
+
 
 
 @endsection

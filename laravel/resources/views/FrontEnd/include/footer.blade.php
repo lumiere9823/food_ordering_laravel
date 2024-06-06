@@ -1,5 +1,6 @@
-    <!-- subscribe -->
-    <div class="subscribe agileits-w3layouts">
+    <div style="position: relative; bottom: 0; left: 0; width: 100%">
+        <!-- subscribe -->
+    <div class="subscribe agileits-w3layouts" >
         <div class="container">
             <div class="col-md-6 social-icons w3-agile-icons">
                 <h4>Keep in touch</h4>
@@ -10,24 +11,7 @@
                     <li><a href="#" class="fa fa-dribbble icon dribbble"> </a></li>
                     <li><a href="#" class="fa fa-rss icon rss"> </a></li>
                 </ul>
-                <!-- <ul class="apps">
-                    <li>
-                        <h4>Download Our app : </h4>
-                    </li>
-                    <li><a href="#" class="fa fa-apple"></a></li>
-                    <li><a href="#" class="fa fa-windows"></a></li>
-                    <li><a href="#" class="fa fa-android"></a></li>
-                </ul> -->
             </div>
-            <!-- <div class="col-md-6 subscribe-right">
-                <h3 class="w3ls-title">Subscribe to Our <br><span>Newsletter</span></h3>
-                <form action="#" method="post">
-                    <input type="email" name="email" placeholder="Enter your Email..." required="">
-                    <input type="submit" value="Subscribe">
-                    <div class="clearfix"> </div>
-                </form>
-                <img src="{{ asset('/frontEndSourceFile/images/i1.png') }}" class="sub-w3lsimg" alt="" />
-            </div> -->
             <div class="clearfix"> </div>
         </div>
     </div>
@@ -79,4 +63,5 @@
             <p>&copy; 2017 Staple Food. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a>
             </p>
         </div>
+    </div>
     </div>

@@ -32,8 +32,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </head>
 
 <body>
-    <!-- banner -->
-    @include('FrontEnd.include.banner')
+    <!-- Header -->
+    @include('FrontEnd.include.navTop')
+    
     <!-- //banner -->
     @yield('content')
     <!-- //dishes -->
