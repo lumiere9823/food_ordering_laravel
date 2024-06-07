@@ -1,4 +1,4 @@
-@extends('FrontEnd.master')
+@extends('FrontEnd.cart_master')
 
 @section('title')
 Cart
@@ -124,7 +124,6 @@ Cart
 <!-- Modal -->
 <div class="modal fade" id="payment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        @auth
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Payment</h5>
@@ -132,46 +131,35 @@ Cart
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                payment method
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-        @else
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Payment</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" style="text-align: center; padding: 20px; display: flex; justify-content: center; align-items: center;">
-    <div class="col-md-6" style="margin-right: 20px; position: relative;">
-        <div style="width: 100%; height: 0; padding-bottom: 100%; position: relative;">
-            <img src="https://t3.ftcdn.net/jpg/06/76/45/32/240_F_676453298_oawytYg5O4uT2TDkORl8t5rbGuuwGqf9.jpg" alt="" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: auto;">
-        </div>
-    </div>
-    <hr style="position: absolute; top: 0; bottom: 0; left: 50%; transform: translateX(-50%); height: 100%; border-left: 1px solid ;">
-    <div class="col-md-6" style="position: relative;">
-        <a type="button" href="{{route('login.show')}}" class="btn btn-primary" style="margin-bottom: 20px;">Go to login</a>
-        <div style="text-align: center; margin-bottom: 20px;">
+            <div class="modal-body"
+                style="text-align: center; padding: 20px; display: flex; justify-content: center; align-items: center;">
+                <div class="col-md-6" style="margin-right: 20px; position: relative;">
+                    <div style="width: 100%; height: 0; padding-bottom: 100%; position: relative;">
+                        <img src="https://t3.ftcdn.net/jpg/06/76/45/32/240_F_676453298_oawytYg5O4uT2TDkORl8t5rbGuuwGqf9.jpg"
+                            alt=""
+                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: auto;">
+                    </div>
+                </div>
+                <hr
+                    style="position: absolute; top: 0; bottom: 0; left: 50%; transform: translateX(-50%); height: 100%; border-left: 1px solid ;">
+                <div class="col-md-6" style="position: relative;">
+                    <a type="button" href="{{route('sign_in')}}" class="btn btn-primary"
+                        style="margin-bottom: 20px;">Go to login</a>
+                    <div style="text-align: center; margin-bottom: 20px;">
                         <hr style="width: 45%; float: left;border: 1px solid ;">
                         <span style="display: inline-block; margin: 0 10px;">Or</span>
                         <hr style="width: 45%; float: right;border: 1px solid ;">
                     </div>
-        <a type="button" href="{{route('sign_up')}}" class="btn btn-primary" style="margin-top: 20px;">Go to register</a>
-    </div>
-</div>
+                    <a type="button" href="{{route('sign_up')}}" class="btn btn-primary" style="margin-top: 20px;">Go to
+                        register</a>
+                </div>
+            </div>
 
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
-        @endauth
     </div>
 </div>
 

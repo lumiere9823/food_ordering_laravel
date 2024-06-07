@@ -184,25 +184,25 @@
             </div>
         </section>
     </div>
-    <div class="modal fade" id="confirmdishDeleteModal" tabindex="-1" role="dialog"
-        aria-labelledby="confirmdishDeleteModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <p>Are you sure you want to delete this dish?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
-                </div>
+    <div class="modal fade" id="confirmdishDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmdishDeleteModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="_token" id="csrfToken" value="{{ csrf_token() }}">
+                <p>Are you sure you want to delete this dish?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtnDish">Delete</button>
             </div>
         </div>
     </div>
+</div>
+
 @endsection

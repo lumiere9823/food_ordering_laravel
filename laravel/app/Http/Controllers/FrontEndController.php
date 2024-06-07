@@ -10,7 +10,13 @@ class FrontEndController extends Controller
 {
     public function index()
     {
-        $dishes = Dish::where('dish_status', 1)->get();
+        if(Dish::all()->isEmpty()){
+            view('FrontEnd.include.home');
+        }
+        $dishes = Dish::where('dish_status', 1)
+              ->orderBy('created_at', 'desc')
+              ->take(3)
+              ->get();
         return view('FrontEnd.include.home', compact('dishes'));
     }
     public function dish_show(Request $request)

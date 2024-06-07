@@ -26,7 +26,6 @@
                                     href="{{ route('dish_show', ['category_id' => $category->category_id]) }}">{{ $category->category_name }}</a>
                             </li>
                             @endforeach
-                            <li><a href="about.html">About</a></li>
                             <li class="w3pages"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                     aria-haspopup="true" aria-expanded="false">Pages <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
@@ -34,7 +33,6 @@
                                     <li><a href="codes.html">Short Codes</a></li>
                                 </ul>
                             </li>
-                            <li><a href="contact.html">Contact Us</a></li>
                         </ul>
                     </div>
                     <div class="cart cart box_1">

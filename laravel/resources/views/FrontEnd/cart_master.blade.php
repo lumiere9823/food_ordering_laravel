@@ -28,19 +28,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- web-fonts -->
     <link href="//fonts.googleapis.com/css?family=Berkshire+Swash" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Yantramanav:100,300,400,500,700,900" rel="stylesheet">
-
+    <!-- //web-fonts -->
 </head>
 
 <body>
     <!-- Header -->
     @include('FrontEnd.include.navTop')
     
-    <!-- //banner -->
-    @include('FrontEnd.include.banner')
-
     <!-- //dishes -->
     @yield('content')
-
+    
     <!-- footer -->
     @include('FrontEnd.include.footer')
     <!-- //footer -->

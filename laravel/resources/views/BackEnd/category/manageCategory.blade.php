@@ -55,8 +55,6 @@
                                                             </button>
                                                         </div>
                                                         <div style="text-align: center; margin-top: 10px;">
-                                                            <input type="hidden" id="categoryIdToDelete" name="category_id"
-                                                                value="">
                                                             <button type="button" class="btn btn-sm btn-danger delete-btn"
                                                                 data-toggle="modal" data-target="#confirmDeleteModal"
                                                                 data-category-id="{{ $category->category_id }}">Delete</button>
@@ -137,12 +135,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <p>Are you sure you want to delete this category?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+                    <!-- Add CSRF token field -->
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <!-- Add categoryId field -->
+                    <input type="hidden" id="categoryIdToDelete">
                 </div>
             </div>
         </div>

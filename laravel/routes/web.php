@@ -23,13 +23,17 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     Route::post('add/cart', 'cartController@insert')->name('add_to_cart');
     Route::get('add/remove', 'cartController@remove')->name('remove-item');
-    Route::get('cart/remove', 'cartController@show')->name('cart_show');
+    Route::get('cart/show', 'cartController@show')->name('cart_show');
     Route::post('/update-quantity', 'cartController@updateQuantity')->name('update-quantity');
 
     //customer route
 
     Route::get('/customer/register', 'customerController@show')->name('sign_up');
-    Route::get('/customer/login', 'customerController@show')->name('sign_up');
+    Route::post('/customer/register/store', 'customerController@store')->name('store_customer');
+    Route::get('/customer/login', 'customerController@sign_in')->name('sign_in');
+    Route::post('/customer/login', 'customerController@post_sign_in')->name('sign_in_customer');
+    Route::get('/shipping','customerController@shipping')->name('shipping.show');
+    Route::post('/shipping/store','customerController@store_shipping')->name('store_shipping');
     
     Route::get('/home', 'HomeController@index')->name('home.index');
     Route::group(['middleware' => ['guest']], function() {
@@ -82,10 +86,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/dish/manage', 'dishController@manage')->name('manage_dish');
         Route::get('/dish/edit/{id}', 'dishController@edit')->name('edit_dish');
         Route::put('/dish/update/{id}', 'dishController@update')->name('update_dish');
-        Route::get('/dish/delete/{id}', 'dishController@delete')->name('delete_dish');
+        Route::delete('/dish/delete/{id}', 'dishController@delete')->name('delete_dish');
         Route::post('/dish/change-status/{id}', 'dishController@changeStatus')->name('change_dish_status');
 
-        Route::get('/check/out','checkOutController@check')->name('check_out');
+        Route::get('/checkout/payment','checkOutController@check')->name('checkout_payment');
+        
 
     });
 });

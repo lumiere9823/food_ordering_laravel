@@ -109,6 +109,8 @@ class dishController extends Controller
             if (file_exists(public_path('dish_images/' . $dish->dish_image))) {
                 unlink(public_path('dish_images/' . $dish->dish_image));
             }
+
+            Storage::delete('dish_images/'. $dish->dish_image);
     
             $dish->delete();
             return redirect()->route('manage_dish')->with('success', 'Dish deleted successfully.');

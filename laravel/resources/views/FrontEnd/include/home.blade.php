@@ -3,7 +3,6 @@
     Home
 @endsection
 <!-- banner -->
-@include('FrontEnd.include.banner')
 @section('content')
     <!-- add-products -->
     <div class="add-products">

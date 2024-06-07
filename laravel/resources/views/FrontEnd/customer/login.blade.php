@@ -1,4 +1,4 @@
-@extends('FrontEnd.master')
+@extends('FrontEnd.cart_master')
 
 @section('title')
     Login Customer
@@ -10,9 +10,9 @@
 		<div class="container"> 
 			<h3 class="w3ls-title w3ls-title1">Login to your account</h3>  
 			<div class="login-agileinfo"> 
-				<form amethod="post" action="{{ route('login.perform') }}"> 
+				<form amethod="post" action="{{ route('sign_in_customer') }}"> 
                     @csrf
-					<input class="agile-ltext" type="text" name="Username" placeholder="Username" required="">
+					<input class="agile-ltext" type="email" name="email" placeholder="Email" required="">
 					<input class="agile-ltext" type="password" name="password" placeholder="Password" required="">
 					<div class="wthreelogin-text"> 
 						<ul> 
@@ -27,7 +27,7 @@
 					</div>   
 					<input type="submit" value="LOGIN">
 				</form>
-				<p>Don't have an Account? <a href="{{ route('register.show') }}"> Sign Up Now!</a></p> 
+				<p>Don't have an Account? <a href="{{ route('sign_up') }}"> Sign Up Now!</a></p> 
 			</div>	 
 		</div>
 	</div>
