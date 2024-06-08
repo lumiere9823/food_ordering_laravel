@@ -31,9 +31,15 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/customer/register', 'customerController@show')->name('sign_up');
     Route::post('/customer/register/store', 'customerController@store')->name('store_customer');
     Route::get('/customer/login', 'customerController@sign_in')->name('sign_in');
-    Route::post('/customer/login', 'customerController@post_sign_in')->name('sign_in_customer');
+    Route::post('/customer/post-login', 'customerController@post_sign_in')->name('sign_in_customer');
+    Route::post('/customer/logout', 'customerController@logout')->name('logout_customer');
     Route::get('/shipping','customerController@shipping')->name('shipping.show');
     Route::post('/shipping/store','customerController@store_shipping')->name('store_shipping');
+
+    Route::get('/checkout/payment','checkOutController@payment')->name('checkout_payment');
+    Route::post('/checkout/new/order','checkOutController@order')->name('new_order');
+    Route::get('/checkout/order/complete','checkOutController@order_complete')->name('order_complete');
+
     
     Route::get('/home', 'HomeController@index')->name('home.index');
     Route::group(['middleware' => ['guest']], function() {
@@ -89,8 +95,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::delete('/dish/delete/{id}', 'dishController@delete')->name('delete_dish');
         Route::post('/dish/change-status/{id}', 'dishController@changeStatus')->name('change_dish_status');
 
-        Route::get('/checkout/payment','checkOutController@check')->name('checkout_payment');
-        
+        Route::get('/order/manage','OrderController@manageOrder')->name('order_manage');
+        Route::get('/order/delete/{order_id}','OrderController@deleteOrder')->name('delete_order');
 
     });
 });

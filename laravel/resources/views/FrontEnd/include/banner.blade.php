@@ -1,7 +1,7 @@
 <div class="banner">
     <!-- header -->
     <div class="header">
-        
+
         <!-- //header-one -->
         <!-- navigation -->
         <div class="navigation agiletop-nav">
@@ -16,21 +16,22 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <h1><a href="{{ auth()->check() ? route('home.index') : url('/') }}">Staple<span>Best Food Collection</span></a></h1>
+                        <h1><a href="{{ auth()->check() ? route('home.index') : url('/') }}">Staple<span>Best Food
+                                    Collection</span></a></h1>
                     </div>
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                         <ul class="nav navbar-nav navbar-right">
                             @foreach ($categories as $category)
-                            <li>
-                                <a
-                                    href="{{ route('dish_show', ['category_id' => $category->category_id]) }}">{{ $category->category_name }}</a>
-                            </li>
+                                <li>
+                                    <a
+                                        href="{{ route('dish_show', ['category_id' => $category->category_id]) }}">{{ $category->category_name }}</a>
+                                </li>
                             @endforeach
-                            <li class="w3pages"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                    aria-haspopup="true" aria-expanded="false">Pages <span class="caret"></span></a>
+                            <li class="w3pages"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                    role="button" aria-haspopup="true" aria-expanded="false">Pages <span
+                                        class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="icons.html">Web Icons</a></li>
-                                    <li><a href="codes.html">Short Codes</a></li>
+                                    <li><a href="{{ route('cart_show') }}">Your Cart</a></li>
                                 </ul>
                             </li>
                         </ul>

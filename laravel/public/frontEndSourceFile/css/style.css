@@ -929,6 +929,11 @@ h3.w3ls-title.w3ls-title1 {
     float: right;
     padding: 0;
 }
+.product-w3ls {
+    display: inline-block; /* Make it inline block so it only takes the necessary width */
+    text-align: center; /* Center its content horizontally */
+}
+
 .breadcrumb.breadcrumb1  > li { 
     font-size: 1.1em;
     font-weight: 300;

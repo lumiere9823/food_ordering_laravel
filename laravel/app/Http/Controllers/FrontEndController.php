@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Dish;
+use Illuminate\Support\Facades\Session;
 
 class FrontEndController extends Controller
 {
     public function index()
     {
+        Session::put('previous_url', '/');
         if(Dish::all()->isEmpty()){
             view('FrontEnd.include.home');
         }
@@ -21,6 +23,7 @@ class FrontEndController extends Controller
     }
     public function dish_show(Request $request)
     {
+        Session::put('previous_url', '/category/dish/show/'.$request->category_id);
         $categoryDish = Dish::where('dish_status', 1)
                             ->where('category_id', $request->category_id)
                             ->get();

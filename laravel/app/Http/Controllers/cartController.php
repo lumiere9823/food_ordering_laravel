@@ -19,7 +19,7 @@ class cartController extends Controller
             'options' => ['dish_image' => $dish->dish_image]
         ]);
     
-        return redirect()->route('cart_show')->with('sms','Added to cart successfully');
+        return redirect()->back()->with('sms','Added to cart successfully');
     }
     
 

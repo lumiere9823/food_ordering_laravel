@@ -29,6 +29,8 @@ class customerController extends Controller
         $customer_id = $customer->id;
         Session::put('customer_id',$customer_id);
         Session::put('customer_name',$customer->name);
+        Session::put('customer_email',$customer->email);
+        Session::put('customer_phone',$customer->phone);
 
         $data = $customer->toArray();
 
@@ -37,23 +39,25 @@ class customerController extends Controller
             $message->subject('Welcome to our site');
         });
 
-        return redirect()->route('sign_in')->with('sms','Customer created successfully');
+        return redirect()->route('shipping.show')->with('sms','Customer created successfully');
     }
 
     public function post_sign_in(Request $request){
 
-        dd($request->all());
         $customer = Customer::where('email',$request->email)->first();
+        $previousUrl=$request->session()->get('previous_url');
         if($customer){
             if(password_verify($request->password,$customer->password)){
                 Session::put('customer_id',$customer->id);
                 Session::put('customer_name',$customer->name);
-                return redirect()->route('checkout_payment');
+                Session::put('customer_email',$customer->email);
+                Session::put('customer_phone',$customer->phone);
+                return redirect($previousUrl)->with('sms','Login successfully');
             }else{
-                return redirect()->back()->with('sms','Password is incorrect');
+                return redirect($previousUrl)->with('sms','Password is incorrect');
             }
         }else{
-            return redirect()->back()->with('sms','Email is incorrect');
+            return redirect($previousUrl)->with('sms','Email is incorrect');
         }
     }
 
@@ -63,16 +67,36 @@ class customerController extends Controller
     }
 
     public function store_shipping(Request $request){
-        $shipping = new Shipping();
-        $shipping->id = Session::get('customer_id');
-        $shipping->name = $request->name;
-        $shipping->email = $request->email;
-        $shipping->phone = $request->phone;
-        $shipping->address = $request->address;
-        $shipping->save();
+        $customer_id = Session::get('customer_id');
+    
+        $customer_shipping = Shipping::where('id', $customer_id)->first();
+    
+        if($customer_shipping){
+            $customer_shipping->address = $request->address;
+            $customer_shipping->save();
+            Session::put('shipping_id', $customer_shipping->id );
+        }else{
+            $shipping = new Shipping();
+            $shipping->id = $customer_id;
+            $shipping->name = Session::get('customer_name');
+            $shipping->email = Session::get('customer_email');
+            $shipping->phone = Session::get('customer_phone');
+            $shipping->address = $request->address;
+            $shipping->save();
+            Session::put('shipping_id', $shipping->id );
+        }
+    
+        Session::put('customer_name', $shipping->name ?? Session::get('customer_name'));
+    
+        return redirect()->route('checkout_payment');
+    }
+    
 
-        Sesstion::put('customer_name',$shipping->name);
-
-        return \redirect->route('checkout_payment');
+    public function logout(){
+        Session::forget('customer_id');
+        Session::forget('customer_name');
+        Session::forget('customer_email');
+        Session::forget('customer_phone');
+        return redirect('/')->with('sms','Logout successfully');
     }
 }

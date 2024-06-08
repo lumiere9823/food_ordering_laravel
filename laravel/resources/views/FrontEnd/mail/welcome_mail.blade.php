@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-body">
-        <h1>Welcome buddy!</h1>
-        <p>Thank you for registering with us. We are happy to have you on board.</p>
+        <h1>Test Mail Trap</h1>
+        <p>alo alo 123 nam ngu</p>
     </div>
 </div>
