@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Session;
 
 class OrderController extends Controller
 {
@@ -35,6 +36,7 @@ class OrderController extends Controller
         DB::table('payments')->where('order_id', $id)->delete();
         DB::table('order_details')->where('order_id', $id)->delete();
 
-        return redirect()->back()->with('message', 'Order Deleted Successfully');
+        Session::put('sms', 'Order Deleted Successfully');
+        return redirect()->back();
     }
 }

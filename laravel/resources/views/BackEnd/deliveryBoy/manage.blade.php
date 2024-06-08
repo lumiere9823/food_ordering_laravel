@@ -55,18 +55,23 @@
                                                             </button>
                                                         </div>
                                                         <div style="text-align: center; margin-top: 10px;">
-                                                            <input type="hidden" id="deliveryBoyIdToDelete"
-                                                                name="deliveryBoy_id" value="">
-                                                            <button type="button" class="btn btn-sm btn-danger delete-btn"
-                                                                data-toggle="modal"
-                                                                data-target="#confirmDeliveryBoyDeleteModal"
-                                                                data-deliveryBoy-id="{{ $deliveryBoy->delivery_boy_id }}">Delete</button>
+                                                            <form method="POST"
+                                                                action="{{ route('delivery_boy.delete', $deliveryBoy->delivery_boy_id) }}">
+                                                                @csrf
+                                                                <input name="_method" type="hidden" value="DELETE">
+                                                                <button
+                                                                    id="deleteCategoryBtn_{{ $deliveryBoy->delivery_boy_id }}"
+                                                                    class="btn btn-danger show_confirm" style="width: 80%;"
+                                                                    data-toggle="tooltip" title='Delete'>Delete</button>
+                                                            </form>
                                                         </div>
                                                         <div style="text-align: center; margin-top: 10px;">
                                                             <div style="text-align: center; margin-top: 10px;">
                                                                 <label class="switch">
                                                                     <input type="checkbox" class="status-toggle-deli"
                                                                         data-id="{{ $deliveryBoy->delivery_boy_id }}"
+                                                                        data-url="/delivery-boy/change-status/"
+                                                                        data-code="deliveryBoyStatus_"
                                                                         {{ $deliveryBoy->delivery_boy_status == 1 ? 'checked' : '' }}>
                                                                     <span class="slider round"></span>
                                                                 </label>
@@ -93,7 +98,7 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form
+                                                        <form class="update-deli-form"
                                                             action="{{ route('delivery_boy.update', $deliveryBoy->delivery_boy_id) }}"
                                                             method="POST">
                                                             @csrf

@@ -81,7 +81,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         
         Route::get('/coupon/add','couponController@index')->name('show_coupon_table');
         Route::post('/coupon/save','couponController@save')->name('coupon_save');
-        Route::get('/coupony/manage','couponController@manage')->name('manage_coupon');
+        Route::get('/coupon/manage','couponController@manage')->name('manage_coupon');
         Route::get('/coupon/edit/{id}', 'couponController@edit')->name('coupon.edit');
         Route::put('/coupon/update/{id}', 'couponController@update')->name('coupon.update');
         Route::delete('/coupon/delete/{id}', 'couponController@delete')->name('coupon.delete');
@@ -96,7 +96,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::post('/dish/change-status/{id}', 'dishController@changeStatus')->name('change_dish_status');
 
         Route::get('/order/manage','OrderController@manageOrder')->name('order_manage');
-        Route::get('/order/delete/{order_id}','OrderController@deleteOrder')->name('delete_order');
+        Route::delete('/order/delete/{order_id}','OrderController@deleteOrder')->name('delete_order');
 
     });
 });

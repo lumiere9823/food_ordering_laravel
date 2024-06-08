@@ -55,7 +55,7 @@ class couponController extends Controller
         $coupon = Coupon::find($id);
 
         if (!$coupon) {
-            return redirect()->route('manage_coupons')->with('error', 'Coupon not found.');
+            return redirect()->route('manage_coupon')->with('error', 'Coupon not found.');
         }
 
         return view('coupons.edit', compact('coupon'));
@@ -85,9 +85,9 @@ class couponController extends Controller
 
         if ($coupon) {
             $coupon->delete();
-            return redirect()->route('manage_coupons')->with('success', 'Coupon deleted successfully.');
+            return redirect()->route('manage_coupon')->with('success', 'Coupon deleted successfully.');
         } else {
-            return redirect()->route('manage_coupons')->with('error', 'Coupon not found.');
+            return redirect()->route('manage_coupon')->with('error', 'Coupon not found.');
         }
     }
 

@@ -2,16 +2,16 @@
 
 @section('content')
     <div class="content-wrapper">
+        @if (Session::get('sms'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>{{ Session::get('sms') }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
         <section class="content container">
             <div class="row justify-content-center" style="position: relative">
-                @if (Session::get('sms'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>{{ Session::get('sms') }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
                 <div style=" border:solid white 1px; border-radius:12px; padding: 20px; background: white">
                     <!-- Allocate six columns for the form -->
                     <div class="card">
@@ -58,11 +58,16 @@
                                                                 Detail
                                                             </button>
                                                         </div>
-                                                        <div style="text-align: center; margin-top: 10px;">
-                                                            <input type="hidden" id="dishToDelete" name="dish_id"
-                                                                value="">
-                                                            <a type="button" class="btn btn-sm btn-danger delete-btn"
-                                                                href="{{ route('delete_order', ['order_id' => $order->order_id]) }}">Delete</a>
+                                                        <div
+                                                            style="text-align: center; margin-top: 10px;min-width:100px; padding:8px">
+                                                            <form method="POST"
+                                                                action="{{ route('delete_order', $order->order_id) }}">
+                                                                @csrf
+                                                                <input name="_method" type="hidden" value="DELETE">
+                                                                <button id="deleteOrderBtn_{{ $order->order_id }}"
+                                                                    class="btn btn-danger show_confirm" style="width: 80%;"
+                                                                    data-toggle="tooltip" title='Delete'>Delete</button>
+                                                            </form>
                                                         </div>
                                                         <div style="text-align: center; margin-top: 10px;">
                                                             <div style="text-align: center; margin-top: 10px;">
@@ -134,7 +139,7 @@
                                                                     style="border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); margin-bottom: 20px;">
                                                                     <div style="padding: 10px;">
                                                                         <label for="customer_info">Dish
-                                                                            {{ $index }}</label>
+                                                                            {{ $index + 1 }}</label>
                                                                         <div style="margin-bottom: 10px;">
                                                                             <label for="OrderName">Name</label>
                                                                             <input type="text" class="form-control"
@@ -174,25 +179,4 @@
             </div>
         </section>
     </div>
-    {{-- <div class="modal fade" id="confirmdishDeleteModal" tabindex="-1" role="dialog"
-        aria-labelledby="confirmdishDeleteModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="_token" id="csrfToken" value="{{ csrf_token() }}">
-                    <p>Are you sure you want to delete this dish?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteBtnDish">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div> --}}
 @endsection

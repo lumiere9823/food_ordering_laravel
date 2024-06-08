@@ -57,17 +57,22 @@
                                                             </button>
                                                         </div>
                                                         <div style="text-align: center; margin-top: 10px;">
-                                                            <input type="hidden" id="dishToDelete" name="dish_id"
-                                                                value="">
-                                                            <button type="button" class="btn btn-sm btn-danger delete-btn"
-                                                                data-toggle="modal" data-target="#confirmdishDeleteModal"
-                                                                data-dish-id="{{ $dish->dish_id }}">Delete</button>
+                                                            <form method="POST"
+                                                                action="{{ route('delete_order', $dish->dish_id) }}">
+                                                                @csrf
+                                                                <input name="_method" type="hidden" value="DELETE">
+                                                                <button id="deleteOrderBtn_{{ $dish->dish_id }}"
+                                                                    class="btn btn-danger show_confirm" style="width: 80%;"
+                                                                    data-toggle="tooltip" title='Delete'>Delete</button>
+                                                            </form>
                                                         </div>
                                                         <div style="text-align: center; margin-top: 10px;">
                                                             <div style="text-align: center; margin-top: 10px;">
                                                                 <label class="switch">
                                                                     <input type="checkbox" class="status-toggle-dish"
                                                                         data-id="{{ $dish->dish_id }}"
+                                                                        data-url="/dish/change-status/"
+                                                                        data-code="dishStatus_"
                                                                         {{ $dish->dish_status == 1 ? 'checked' : '' }}>
                                                                     <span class="slider round"></span>
                                                                 </label>
@@ -92,7 +97,8 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form action="{{ route('update_dish', $dish->dish_id) }}"
+                                                        <form class="update-dish-form"
+                                                            action="{{ route('update_dish', $dish->dish_id) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('PUT')
@@ -183,26 +189,5 @@
                 </div>
             </div>
         </section>
-    </div>
-    <div class="modal fade" id="confirmdishDeleteModal" tabindex="-1" role="dialog"
-        aria-labelledby="confirmdishDeleteModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="_token" id="csrfToken" value="{{ csrf_token() }}">
-                    <p>Are you sure you want to delete this dish?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteBtnDish">Delete</button>
-                </div>
-            </div>
-        </div>
     </div>
 @endsection

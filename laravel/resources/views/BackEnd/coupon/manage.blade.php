@@ -55,17 +55,22 @@
                                                             </button>
                                                         </div>
                                                         <div style="text-align: center; margin-top: 10px;">
-                                                            <input type="hidden" id="deliveryBoyIdToDelete"
-                                                                name="deliveryBoy_id" value="">
-                                                            <button type="button" class="btn btn-sm btn-danger delete-btn"
-                                                                data-toggle="modal" data-target="#confirmCouponDeleteModal"
-                                                                data-deliveryBoy-id="{{ $coupon->coupon_id }}">Delete</button>
+                                                            <form method="POST"
+                                                                action="{{ route('coupon.delete', $coupon->coupon_id) }}">
+                                                                @csrf
+                                                                <input name="_method" type="hidden" value="DELETE">
+                                                                <button id="deleteCategoryBtn_{{ $coupon->coupon_id }}"
+                                                                    class="btn btn-danger show_confirm" style="width: 80%;"
+                                                                    data-toggle="tooltip" title='Delete'>Delete</button>
+                                                            </form>
                                                         </div>
                                                         <div style="text-align: center; margin-top: 10px;">
                                                             <div style="text-align: center; margin-top: 10px;">
                                                                 <label class="switch">
                                                                     <input type="checkbox" class="status-toggle-coupon"
                                                                         data-id="{{ $coupon->coupon_id }}"
+                                                                        data-url="/coupon/change-status/"
+                                                                        data-code="CouponStatus_"
                                                                         {{ $coupon->coupon_status == 1 ? 'checked' : '' }}>
                                                                     <span class="slider round"></span>
                                                                 </label>
@@ -91,7 +96,8 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form action="{{ route('coupon.update', $coupon->coupon_id) }}"
+                                                        <form class="update-coupon-form"
+                                                            action="{{ route('coupon.update', $coupon->coupon_id) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('PUT')

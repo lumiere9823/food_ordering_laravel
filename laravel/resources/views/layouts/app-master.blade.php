@@ -24,79 +24,216 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"></script>
 
+    <script src="{!! url('bower_components/jquery/dist/jquery.min.js') !!}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+
+    <script src="{!! url('bower_components/bootstrap/dist/js/bootstrap.min.js') !!}"></script>
+    <script src="{!! url('dist/js/adminlte.min.js') !!}"></script>
+
+    <script src="{!! url('plugins/datatables/jquery.dataTables.js') !!}"></script>
+    <script src="{!! url('plugins/datatables-bs4/js/dataTables.bootstrap4.js') !!}"></script>
+
+    <script src="../../bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(function() {
+            $('#example1').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false
+            })
+        })
+
+        $(document).ready(function() {
+            //toggle status
+            $('.status-toggle-cate, .status-toggle-deli, .status-toggle-coupon, .status-toggle-dish').change(
+                function() {
+                    var id = $(this).data('id');
+                    var passing_url = $(this).data('url');
+                    var passing_code = $(this).data('code');
+                    var status = $(this).is(':checked') ? 1 : 0;
+
+                    $.ajax({
+                        url: passing_url + id,
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            status: status
+                        },
+                        success: function(response) {
+                            var status_text = $('#' + passing_code + id);
+                            status_text.text(status == 1 ? 'active' : 'inactive');
+                            showToast('Category status changed successfully!');
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+                });
+
+            //Created Form
+            $('#categoryForm, #deliveryBoyForm, #CouponForm, #DishForm').submit(function(e) {
+                e.preventDefault(); // prevent default form submission
+                var form = $(this);
+                $.ajax({
+                    url: form.attr('action'),
+                    type: form.attr('method'),
+                    data: form.serialize(),
+                    success: function(response) {
+                        showToast('Created successfully!');
+                        form.trigger('reset'); // reset form fields
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+
+            //Update Form
+            $('.update-category-form, .update-dish-form, .update-deli-form, .update-coupon-form').submit(function(
+                e) {
+                e.preventDefault();
+                var form = $(this);
+                var modal = form.closest('.modal');
+                $.ajax({
+                    url: form.attr('action'),
+                    type: form.attr('method'),
+                    data: form.serialize(),
+                    success: function(response) {
+                        showToast('Updated successfully!');
+                        modal.modal('hide');
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+
+            //delete record
+            $('.show_confirm').click(function(event) {
+                event.preventDefault();
+                var form = $(this).closest("form");
+                var order_id = $(this).attr('id').split('_')[1];
+                Swal.fire({
+                    title: `Are you sure you want to delete this record?`,
+                    text: "If you delete this, it will be gone forever.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: 'POST',
+                            data: form.serialize(),
+                            success: function(response) {
+                                showToast('Record deleted successfully!');
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 1000);
+                            },
+                            error: function(xhr) {
+                                console.log(xhr.responseText);
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+        function showToast(message) {
+            Toastify({
+                text: message,
+                duration: 3000,
+                gravity: "top",
+                position: 'right',
+                backgroundColor: "linear-gradient(to right, #ff7e5f, #feb47b)",
+                className: 'toastify',
+                stopOnFocus: true
+            }).showToast();
+        }
+    </script>
 
     <style>
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 60px;
-        height: 34px;
-    }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
 
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
 
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
 
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
 
-    input:checked+.slider {
-        background-color: #2196F3;
-    }
+        input:checked+.slider {
+            background-color: #2196F3;
+        }
 
-    input:focus+.slider {
-        box-shadow: 0 0 1px #2196F3;
-    }
+        input:focus+.slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
 
-    input:checked+.slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
-    }
+        input:checked+.slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
 
-    /* Rounded sliders */
-    .slider.round {
-        border-radius: 34px;
-    }
+        .slider.round {
+            border-radius: 34px;
+        }
 
-    .slider.round:before {
-        border-radius: 50%;
-    }
+        .slider.round:before {
+            border-radius: 50%;
+        }
     </style>
-    <!--
-    
-
-    
-  Custom styles for this template
-    <link href="{!! url('assets/css/app.css') !!}" rel="stylesheet"> -->
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
-
         @include('layouts.partials.navbar')
 
         @include('layouts.partials.sidebar')
@@ -109,292 +246,4 @@
 
         @include('layouts.partials.control-sidebar')
     </div>
-
-    <!-- <script src="{!! url('assets/bootstrap/js/bootstrap.bundle.min.js') !!}"></script> -->
-    <script src="{!! url('bower_components/jquery/dist/jquery.min.js') !!}"></script>
-    <!-- Bootstrap 3.3.7 -->
-    <script src="{!! url('bower_components/bootstrap/dist/js/bootstrap.min.js') !!}"></script>
-    <!-- AdminLTE App -->
-    <script src="{!! url('dist/js/adminlte.min.js') !!}"></script>
-
-    <script src="{!! url('plugins/datatables/jquery.dataTables.js') !!}"></script>
-    <script src="{!! url('plugins/datatables-bs4/js/dataTables.bootstrap4.js') !!}"></script>
-
-    <script src="../../bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
-    <script>
-    $(function() {
-        $('#example1').DataTable({
-            'paging': true,
-            'lengthChange': false,
-            'searching': false,
-            'ordering': true,
-            'info': true,
-            'autoWidth': false
-        })
-    })
-    </script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-    $(document).ready(function() {
-        $('.status-toggle').change(function() {
-            var categoryId = $(this).data('id');
-            var status = $(this).is(':checked') ? 1 : 0;
-
-            $.ajax({
-                url: '/category/change-status/' + categoryId,
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    status: status
-                },
-                success: function(response) {
-                    var categoryStatus = $('#categoryStatus_' + categoryId);
-                    categoryStatus.text(status == 1 ? 'active' : 'inactive');
-                    showToast('Category status changed successfully!');
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                }
-            });
-        });
-        $('#categoryForm').submit(function(e) {
-            e.preventDefault(); // prevent default form submission
-            var form = $(this);
-            $.ajax({
-                url: form.attr('action'),
-                type: form.attr('method'),
-                data: form.serialize(),
-                success: function(response) {
-                    showToast('Category added successfully!');
-                    form.trigger('reset'); // reset form fields
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                }
-            });
-        });
-        $('.update-category-form').submit(function(e) {
-            e.preventDefault(); // prevent default form submission
-            var form = $(this);
-            var modal = form.closest('.modal');
-            $.ajax({
-                url: form.attr('action'),
-                type: form.attr('method'),
-                data: form.serialize(),
-                success: function(response) {
-                    showToast('Category updated successfully!');
-                    modal.modal('hide'); // Hide the modal after successful update
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                }
-            });
-        });
-        //deliver boy
-        $('.status-toggle-deli').change(function() {
-            var deli_Id = $(this).data('id');
-            var status = $(this).is(':checked') ? 1 : 0;
-
-            $.ajax({
-                url: '/delivery-boy/change-status/' + deli_Id,
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    status: status // Sử dụng tên biến là 'status' thay vì 'status1'
-                },
-                success: function(response) {
-                    var deliveryBoyStatus_ = $('#deliveryBoyStatus_' + deli_Id);
-                    deliveryBoyStatus_.text(status == 1 ? 'active' : 'inactive');
-                    showToast('Delivery Boy Status changed successfully!');
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                }
-            });
-        });
-
-        $('#deliveryBoyForm').submit(function(e) {
-            e.preventDefault();
-            var form = $(this);
-            $.ajax({
-                url: form.attr('action'),
-                type: form.attr('method'),
-                data: form.serialize(),
-                success: function(response) {
-                    showToast('Delivery Boy added successfully!');
-                    form.trigger('reset');
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                }
-            });
-        });
-        //coupon
-        $('.status-toggle-coupon').change(function() {
-            var coupon_Id = $(this).data('id');
-            var status = $(this).is(':checked') ? 1 : 0;
-
-            $.ajax({
-                url: '/coupon/change-status/' + coupon_Id,
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    status: status
-                },
-                success: function(response) {
-                    var CouponStatus_ = $('#CouponStatus_' + coupon_Id);
-                    CouponStatus_.text(status == 1 ? 'active' : 'inactive');
-                    showToast('Coupon Status changed successfully!');
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                }
-            });
-        });
-
-        $('#CouponForm').submit(function(e) {
-            e.preventDefault();
-            var form = $(this);
-            $.ajax({
-                url: form.attr('action'),
-                type: form.attr('method'),
-                data: form.serialize(),
-                success: function(response) {
-                    showToast('Coupon added successfully!');
-                    form.trigger('reset');
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                }
-            });
-        });
-
-        //dish
-        $('.status-toggle-dish').change(function() {
-            var dish_Id = $(this).data('id');
-            var status = $(this).is(':checked') ? 1 : 0;
-
-            $.ajax({
-                url: '/dish/change-status/' + dish_Id,
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    status: status
-                },
-                success: function(response) {
-                    var dishStatus_ = $('#dishStatus_' + dish_Id);
-                    dishStatus_.text(status == 1 ? 'active' : 'inactive');
-                    showToast('Dish Status changed successfully!');
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                }
-            });
-        });
-
-        $('#DishForm').submit(function(e) {
-            e.preventDefault();
-            var form = $(this);
-            var formData = new FormData(form[0]);
-
-            $.ajax({
-                url: form.attr(
-                    'action'),
-                type: form.attr(
-                    'method'),
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    showToast('Dish added successfully!');
-                    form.trigger('reset');
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                }
-            });
-        });
-
-        $(document).ready(function() {
-            $('.delete-btn').click(function() {
-                var dishId = $(this).data('dish-id');
-                $('#dishToDelete').val(dishId);
-            });
-
-            $('#confirmDeleteBtn').click(function() {
-                var dishId = $('#dishToDelete').val();
-                $.ajax({
-                    url: '/dish/delete/' + dishId, // Correct URL for deleting dishes
-                    method: 'DELETE',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        showToast('Dish deleted successfully!');
-                        $('#confirmdishDeleteModal').modal('hide');
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                    }
-                });
-            });
-        });
-    });
-
-    $(document).ready(function() {
-        $('.delete-btn').click(function() {
-            var categoryId = $(this).data('category-id');
-            $('#categoryIdToDelete').val(categoryId);
-        });
-
-        $('#confirmDeleteBtn').click(function() {
-            var categoryId = $('#categoryIdToDelete').val();
-            if (categoryId) { // Ensure categoryId is not undefined or empty
-                $.ajax({
-                    url: '/category/delete/' + categoryId,
-                    method: 'DELETE',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        showToast('Category deleted successfully!');
-                        $('#confirmDeleteModal').modal('hide');
-                        // Optionally, you can reload the page here to reflect the changes
-                        location.reload();
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                        // Handle the error here (e.g., display an error message)
-                        alert('An error occurred while deleting the category.');
-                    }
-                });
-            } else {
-                console.log('categoryId is undefined or empty.');
-                // Handle the case where categoryId is undefined or empty
-            }
-        });
-    });
-
-    function showToast(message) {
-        Toastify({
-            text: message,
-            duration: 3000,
-            gravity: "top",
-            position: 'right',
-            backgroundColor: "linear-gradient(to right, #ff7e5f, #feb47b)",
-            className: 'toastify',
-            stopOnFocus: true
-        }).showToast();
-    }
-    </script>
-
 </body>
-
-</html>
