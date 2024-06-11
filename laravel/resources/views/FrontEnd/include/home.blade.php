@@ -131,7 +131,8 @@
                     <!-- Owl-Carousel -->
                     <div id="owl-demo" class="owl-carousel text-center agileinfo-gallery-row">
                         @foreach ($dishes as $dish)
-                            <a href="products.html" class="item g1" style="height: 200px;width: 200px">
+                            <a href="{{ route('dish_show', ['category_id' => $dish->category_id]) }}" class="item g1"
+                                style="height: 200px;width: 200px">
                                 <img class="lazyOwl" style="height: 200px;width: 200px"
                                     src="{{ asset('dish_images/' . $dish->dish_image) }}" title="Our latest gallery"
                                     alt="" />
