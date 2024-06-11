@@ -44,191 +44,213 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        $(function() {
-            $('#example1').DataTable({
-                'paging': true,
-                'lengthChange': false,
-                'searching': false,
-                'ordering': true,
-                'info': true,
-                'autoWidth': false
-            })
+    $(function() {
+        $('#example1').DataTable({
+            'paging': true,
+            'lengthChange': false,
+            'searching': false,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false
         })
+    })
 
-        $(document).ready(function() {
-            //toggle status
-            $('.status-toggle-cate, .status-toggle-deli, .status-toggle-coupon, .status-toggle-dish').change(
-                function() {
-                    var id = $(this).data('id');
-                    var passing_url = $(this).data('url');
-                    var passing_code = $(this).data('code');
-                    var status = $(this).is(':checked') ? 1 : 0;
+    $(document).ready(function() {
+        //toggle status
+        $('.status-toggle-cate, .status-toggle-deli, .status-toggle-coupon, .status-toggle-dish').change(
+            function() {
+                var id = $(this).data('id');
+                var passing_url = $(this).data('url');
+                var passing_code = $(this).data('code');
+                var status = $(this).is(':checked') ? 1 : 0;
 
+                $.ajax({
+                    url: passing_url + id,
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        status: status
+                    },
+                    success: function(response) {
+                        var status_text = $('#' + passing_code + id);
+                        status_text.text(status == 1 ? 'active' : 'inactive');
+                        showToast('Category status changed successfully!');
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+
+        //Created Form
+        $('#categoryForm, #deliveryBoyForm, #CouponForm, #DishForm').submit(function(e) {
+            e.preventDefault(); // prevent default form submission
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                type: form.attr('method'),
+                data: form.serialize(),
+                success: function(response) {
+                    showToast('Created successfully!');
+                    form.trigger('reset'); // reset form fields
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+
+        $('#DishForm').submit(function(e) {
+            e.preventDefault(); // Prevent default form submission
+            var form = $(this);
+            var formData = new FormData(form[0]); // Create FormData object with form data
+
+            $.ajax({
+                url: form.attr('action'), // Get the form action URL
+                type: form.attr('method'), // Get the form submission method (POST, GET, etc.)
+                data: formData, // Use FormData object for data
+                processData: false, // Prevent jQuery from processing data
+                contentType: false, // Prevent jQuery from setting contentType
+                success: function(response) {
+                    showToast('Dish created successfully!'); // Show success message
+                    form.trigger('reset'); // Reset form fields
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText); // Log error message
+                }
+            });
+        });
+
+
+        //Update Form
+        $('.update-category-form,  .update-deli-form, .update-coupon-form').submit(function(
+            e) {
+            e.preventDefault();
+            var form = $(this);
+            var modal = form.closest('.modal');
+            $.ajax({
+                url: form.attr('action'),
+                type: form.attr('method'),
+                data: form.serialize(),
+                success: function(response) {
+                    showToast('Updated successfully!');
+                    modal.modal('hide');
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+
+        //delete record
+        $('.show_confirm').click(function(event) {
+            event.preventDefault();
+            var form = $(this).closest("form");
+            var order_id = $(this).attr('id').split('_')[1];
+            Swal.fire({
+                title: `Are you sure you want to delete this record?`,
+                text: "If you delete this, it will be gone forever.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
                     $.ajax({
-                        url: passing_url + id,
+                        url: form.attr('action'),
                         type: 'POST',
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            status: status
-                        },
+                        data: form.serialize(),
                         success: function(response) {
-                            var status_text = $('#' + passing_code + id);
-                            status_text.text(status == 1 ? 'active' : 'inactive');
-                            showToast('Category status changed successfully!');
+                            showToast('Record deleted successfully!');
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
                         },
                         error: function(xhr) {
                             console.log(xhr.responseText);
                         }
                     });
-                });
-
-            //Created Form
-            $('#categoryForm, #deliveryBoyForm, #CouponForm, #DishForm').submit(function(e) {
-                e.preventDefault(); // prevent default form submission
-                var form = $(this);
-                $.ajax({
-                    url: form.attr('action'),
-                    type: form.attr('method'),
-                    data: form.serialize(),
-                    success: function(response) {
-                        showToast('Created successfully!');
-                        form.trigger('reset'); // reset form fields
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                    }
-                });
-            });
-
-            //Update Form
-            $('.update-category-form, .update-dish-form, .update-deli-form, .update-coupon-form').submit(function(
-                e) {
-                e.preventDefault();
-                var form = $(this);
-                var modal = form.closest('.modal');
-                $.ajax({
-                    url: form.attr('action'),
-                    type: form.attr('method'),
-                    data: form.serialize(),
-                    success: function(response) {
-                        showToast('Updated successfully!');
-                        modal.modal('hide');
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1000);
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                    }
-                });
-            });
-
-            //delete record
-            $('.show_confirm').click(function(event) {
-                event.preventDefault();
-                var form = $(this).closest("form");
-                var order_id = $(this).attr('id').split('_')[1];
-                Swal.fire({
-                    title: `Are you sure you want to delete this record?`,
-                    text: "If you delete this, it will be gone forever.",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: form.attr('action'),
-                            type: 'POST',
-                            data: form.serialize(),
-                            success: function(response) {
-                                showToast('Record deleted successfully!');
-                                setTimeout(function() {
-                                    location.reload();
-                                }, 1000);
-                            },
-                            error: function(xhr) {
-                                console.log(xhr.responseText);
-                            }
-                        });
-                    }
-                });
+                }
             });
         });
+    });
 
-        function showToast(message) {
-            Toastify({
-                text: message,
-                duration: 3000,
-                gravity: "top",
-                position: 'right',
-                backgroundColor: "linear-gradient(to right, #ff7e5f, #feb47b)",
-                className: 'toastify',
-                stopOnFocus: true
-            }).showToast();
-        }
+    function showToast(message) {
+        Toastify({
+            text: message,
+            duration: 3000,
+            gravity: "top",
+            position: 'right',
+            backgroundColor: "linear-gradient(to right, #ff7e5f, #feb47b)",
+            className: 'toastify',
+            stopOnFocus: true
+        }).showToast();
+    }
     </script>
 
     <style>
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
 
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
 
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            -webkit-transition: .4s;
-            transition: .4s;
-        }
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
 
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            -webkit-transition: .4s;
-            transition: .4s;
-        }
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
 
-        input:checked+.slider {
-            background-color: #2196F3;
-        }
+    input:checked+.slider {
+        background-color: #2196F3;
+    }
 
-        input:focus+.slider {
-            box-shadow: 0 0 1px #2196F3;
-        }
+    input:focus+.slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
 
-        input:checked+.slider:before {
-            -webkit-transform: translateX(26px);
-            -ms-transform: translateX(26px);
-            transform: translateX(26px);
-        }
+    input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
 
-        .slider.round {
-            border-radius: 34px;
-        }
+    .slider.round {
+        border-radius: 34px;
+    }
 
-        .slider.round:before {
-            border-radius: 50%;
-        }
+    .slider.round:before {
+        border-radius: 50%;
+    }
     </style>
 </head>
 

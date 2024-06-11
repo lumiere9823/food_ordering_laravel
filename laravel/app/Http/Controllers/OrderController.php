@@ -10,10 +10,10 @@ class OrderController extends Controller
 {
     public function manageOrder()
     {
+
         $orders = DB::table('orders')
             ->join('customers', 'orders.customer_id', '=', 'customers.id')
             ->join('payments', 'orders.order_id', '=', 'payments.order_id')
-            ->join('order_details', 'orders.order_id', '=', 'order_details.order_id')
             ->join('shippings', 'orders.shipping_id', '=', 'shippings.id')
             ->select(
                 'orders.*',
@@ -21,9 +21,6 @@ class OrderController extends Controller
                 'payments.payment_type',
                 'payments.payment_status',
                 'shippings.*',
-                'order_details.dish_name',
-                'order_details.dish_price',
-                'order_details.dish_qty'
             )
             ->get();
 

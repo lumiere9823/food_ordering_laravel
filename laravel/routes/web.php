@@ -40,6 +40,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::post('/checkout/new/order','checkOutController@order')->name('new_order');
     Route::get('/checkout/order/complete','checkOutController@order_complete')->name('order_complete');
 
+    Route::delete('/order/delete/{order_id}','OrderController@deleteOrder')->name('delete_order');
+
     
     Route::get('/home', 'HomeController@index')->name('home.index');
     Route::group(['middleware' => ['guest']], function() {
@@ -96,7 +98,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::post('/dish/change-status/{id}', 'dishController@changeStatus')->name('change_dish_status');
 
         Route::get('/order/manage','OrderController@manageOrder')->name('order_manage');
-        Route::delete('/order/delete/{order_id}','OrderController@deleteOrder')->name('delete_order');
+        
 
     });
 });

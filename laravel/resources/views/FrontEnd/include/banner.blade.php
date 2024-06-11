@@ -22,27 +22,15 @@
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                         <ul class="nav navbar-nav navbar-right">
                             @foreach ($categories as $category)
-                                <li>
-                                    <a
-                                        href="{{ route('dish_show', ['category_id' => $category->category_id]) }}">{{ $category->category_name }}</a>
-                                </li>
+                            <li>
+                                <a
+                                    href="{{ route('dish_show', ['category_id' => $category->category_id]) }}">{{ $category->category_name }}</a>
+                            </li>
                             @endforeach
-                            <li class="w3pages"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                    role="button" aria-haspopup="true" aria-expanded="false">Pages <span
-                                        class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ route('cart_show') }}">Your Cart</a></li>
-                                </ul>
+                            <li class="w3pages">
+                                <a href="{{ route('cart_show') }}">Your Cart</a>
                             </li>
                         </ul>
-                    </div>
-                    <div class="cart cart box_1">
-                        <form action="#" method="post" class="last">
-                            <input type="hidden" name="cmd" value="_cart" />
-                            <input type="hidden" name="display" value="1" />
-                            <button class="w3view-cart" type="submit" name="submit" value=""><i
-                                    class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
-                        </form>
                     </div>
                 </nav>
             </div>

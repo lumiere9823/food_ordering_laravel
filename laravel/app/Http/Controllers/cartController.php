@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Dish;
+use App\Models\Coupon;
 use Cart;
+use Carbon\Carbon;
 
 class cartController extends Controller
 {
@@ -24,8 +26,12 @@ class cartController extends Controller
     
 
     public function show(){
+        $current = Carbon::now();
+        $coupons = Coupon::where('coupon_status', 1,)
+                            ->where('expire_on', '>', $current)
+                            ->get();
         $CartDish = Cart::content();
-        return view('FrontEnd.cart.show',compact('CartDish'));
+        return view('FrontEnd.cart.show',compact('CartDish','coupons'));
     }
 
     public function remove(Request $request){

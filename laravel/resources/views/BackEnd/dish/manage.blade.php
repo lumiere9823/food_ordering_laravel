@@ -58,10 +58,10 @@
                                                         </div>
                                                         <div style="text-align: center; margin-top: 10px;">
                                                             <form method="POST"
-                                                                action="{{ route('delete_order', $dish->dish_id) }}">
+                                                                action="{{ route('delete_dish', $dish->dish_id) }}">
                                                                 @csrf
                                                                 <input name="_method" type="hidden" value="DELETE">
-                                                                <button id="deleteOrderBtn_{{ $dish->dish_id }}"
+                                                                <button id="deleteDishBtn_{{ $dish->dish_id }}"
                                                                     class="btn btn-danger show_confirm" style="width: 80%;"
                                                                     data-toggle="tooltip" title='Delete'>Delete</button>
                                                             </form>
@@ -99,7 +99,7 @@
                                                     <div class="modal-body">
                                                         <form class="update-dish-form"
                                                             action="{{ route('update_dish', $dish->dish_id) }}"
-                                                            method="POST">
+                                                            method="POST" enctype="multipart/form-data">
                                                             @csrf
                                                             @method('PUT')
                                                             <div class="form-group">

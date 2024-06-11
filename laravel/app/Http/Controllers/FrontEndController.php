@@ -19,6 +19,8 @@ class FrontEndController extends Controller
               ->orderBy('created_at', 'desc')
               ->take(3)
               ->get();
+
+        
         return view('FrontEnd.include.home', compact('dishes'));
     }
     public function dish_show(Request $request)

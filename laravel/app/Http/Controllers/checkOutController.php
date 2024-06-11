@@ -21,7 +21,7 @@ class checkOutController extends Controller
             $order = new Order();
             $order->customer_id = Session::get('customer_id');
             $order->shipping_id = Session::get('shipping_id');
-            $order->order_total = Session::get('sum');
+            $order->order_total = Session::get('sum') ;
             $order->save();
 
             $payment = new Payment();

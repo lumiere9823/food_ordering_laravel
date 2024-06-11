@@ -104,6 +104,56 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
         });
     </script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.show_confirm').click(function(event) {
+            event.preventDefault();
+            var form = $(this).closest("form");
+            var order_id = $(this).attr('id').split('_')[1];
+            Swal.fire({
+                title: `Are you sure you want to delete this record?`,
+                text: "If you delete this, it will be gone forever.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: 'POST',
+                        data: form.serialize(),
+                        success: function(response) {
+                            showToast('Record deleted successfully!');
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+                }
+            });
+        });
+        });function showToast(message) {
+        Toastify({
+            text: message,
+            duration: 3000,
+            gravity: "top",
+            position: 'right',
+            backgroundColor: "linear-gradient(to right, #ff7e5f, #feb47b)",
+            className: 'toastify',
+            stopOnFocus: true
+        }).showToast();
+    }
+    </script>
     <!-- //smooth-scrolling-of-move-up -->
     <!-- Bootstrap core JavaScript
     ================================================== -->

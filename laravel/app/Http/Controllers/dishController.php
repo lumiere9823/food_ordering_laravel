@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Dish;
 use App\Models\Category;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class dishController extends Controller
 {
@@ -20,18 +21,17 @@ class dishController extends Controller
             'category_id' => ['required', Rule::exists('categories', 'category_id')],
             'dish_name' => 'required|string',
             'dish_detail' => 'required|string',
-            'dish_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'dish_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:7000',
             'dish_status' => 'required|integer',
         ]);
 
-        
         $dish = new Dish();
         
         $dish->category_id = $request->category_id;
         $dish->dish_name = $request->dish_name;
         $dish->dish_detail = $request->dish_detail;
 
-        // Handle dish image upload
+
         if ($request->hasFile('dish_image')) {
 
             $image = $request->file('dish_image');
@@ -58,10 +58,8 @@ class dishController extends Controller
     
     public function edit($id)
     {
-        // Find the dish by its primary key
         $dish = Dish::find($id);
     
-        // Check if the dish exists
         if (!$dish) {
             return redirect()->route('manage_dish')->with('error', 'Dish not found.');
         }
@@ -72,18 +70,24 @@ class dishController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            // 'name' => 'required|string|max:255',
-            // Add other fields you want to validate
+            'category_id' => ['required', Rule::exists('categories', 'category_id')],
+            'dish_name' => 'required|string',
+            'dish_detail' => 'required|string',
+            'dish_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:7000',
+            'dish_status' => 'required|integer',
         ]);
     
         $dish = Dish::findOrFail($id);
-    
+
         $dish->category_id = $request->category_id;
         $dish->dish_name = $request->dish_name;
         $dish->dish_detail = $request->dish_detail;
     
-        // Handle dish image update
         if ($request->hasFile('dish_image')) {
+            if (file_exists(public_path('dish_images/' . $dish->dish_image))) {
+                unlink(public_path('dish_images/' . $dish->dish_image));
+            }
+            Storage::delete('dish_images/'. $dish->dish_image);
             $image = $request->file('dish_image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('dish_images'), $imageName);
@@ -103,7 +107,7 @@ class dishController extends Controller
     public function delete($id)
     {
         $dish = Dish::find($id);
-    
+
         if ($dish) {
             // Delete dish image file from public directory
             if (file_exists(public_path('dish_images/' . $dish->dish_image))) {
@@ -113,6 +117,7 @@ class dishController extends Controller
             Storage::delete('dish_images/'. $dish->dish_image);
     
             $dish->delete();
+            
             return redirect()->route('manage_dish')->with('success', 'Dish deleted successfully.');
         } else {
             return redirect()->route('manage_dish')->with('error', 'Dish not found.');
