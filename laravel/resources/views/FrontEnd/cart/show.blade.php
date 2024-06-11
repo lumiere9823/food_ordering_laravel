@@ -224,7 +224,7 @@
             $('#coupon').change(function() {
                 var couponValue = parseInt(this.options[this.selectedIndex].getAttribute(
                     'data-coupon-value'));
-                var totalAmount = parseInt($('#totalAmount').text());
+                var totalAmount = {{ $i }};
                 var discountedAmount = totalAmount - (totalAmount * couponValue / 100);
                 $('#totalAmount').text(discountedAmount);
 
