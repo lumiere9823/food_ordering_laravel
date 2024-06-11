@@ -162,13 +162,6 @@
                                                                                     placeholder="full_price"
                                                                                     value="{{ $dish->full_price }}">
                                                                             </div>
-                                                                            <div class="col-md-6">
-                                                                                <label>Half price</label>
-                                                                                <input type="text" class="form-control"
-                                                                                    name="half_price" id="half_price"
-                                                                                    placeholder="half_price"
-                                                                                    value="{{ $dish->half_price }}">
-                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>

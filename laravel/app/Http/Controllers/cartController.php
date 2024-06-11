@@ -17,7 +17,7 @@ class CartController extends Controller
             'id' => $request->dish_id, 
             'name' => $dish->dish_name,
             'qty' => $request->qty, 
-            'price' => $request->half_price_value ? $dish->half_price : $dish->full_price,
+            'price' => $dish->full_price,
             'options' => ['dish_image' => $dish->dish_image]
         ]);
     

@@ -42,8 +42,6 @@ class DishController extends Controller
         
         $dish->dish_status = $request->dish_status;
         $dish->full_price = $request->full_price;
-        $dish->half_price = $request->half_price;
-
 
         $dish->save();
 
@@ -96,7 +94,6 @@ class DishController extends Controller
 
         $dish->dish_status = $request->dish_status;
         $dish->full_price = $request->full_price;
-        $dish->half_price = $request->half_price;
     
         $dish->dish_status = $request->dish_status;
         $dish->save();

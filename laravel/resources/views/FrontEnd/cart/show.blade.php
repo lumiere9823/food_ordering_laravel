@@ -8,9 +8,7 @@
     <div style="min-height: 50vh;">
         <section class="">
             <div class="row justify-content-center " style="position: relative; display: flex;padding-right: 20px;">
-                <!-- Center the row -->
                 <div style="flex: 2; ">
-                    <!-- Nội dung của div đầu tiên -->
                     <div style="border: solid white 1px; border-radius: 12px; padding: 20px;margin:50px; background: white;">
                         <div class="card">
                             <div class="card-header">
@@ -145,10 +143,6 @@
         </section>
     </div>
 
-    <!-- Button trigger modal -->
-
-
-    <!-- Modal -->
     <div class="modal fade" id="payment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
