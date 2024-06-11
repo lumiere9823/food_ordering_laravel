@@ -9,7 +9,7 @@ use App\Models\Payment;
 use Session;
 use Cart;
 
-class checkOutController extends Controller
+class CheckOutController extends Controller
 {
     public function payment(){
         return \view('FrontEnd.checkout.checkout_payment');

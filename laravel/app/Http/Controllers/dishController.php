@@ -8,7 +8,7 @@ use App\Models\Category;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 
-class dishController extends Controller
+class DishController extends Controller
 {
     public function index()
     {

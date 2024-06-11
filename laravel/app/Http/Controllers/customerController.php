@@ -8,7 +8,7 @@ use App\Models\Shipping;
 use Mail;
 use Session;
 
-class customerController extends Controller
+class CustomerController extends Controller
 {
     public function show(){
         return view('FrontEnd.customer.register');
@@ -91,12 +91,17 @@ class customerController extends Controller
         return redirect()->route('checkout_payment');
     }
     
-
     public function logout(){
         Session::forget('customer_id');
         Session::forget('customer_name');
         Session::forget('customer_email');
         Session::forget('customer_phone');
         return redirect('/')->with('sms','Logout successfully');
+    }
+
+    public function couponApply(Request $request){
+        $discountedAmount = $request->input('discountedAmount');
+        session()->put('sum', $discountedAmount);
+        return response()->json(['status' => 'success']);
     }
 }

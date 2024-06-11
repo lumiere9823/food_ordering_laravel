@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Coupon;
 
-class couponController extends Controller
+class CouponController extends Controller
 {
     public function index(){
         return view('BackEnd.coupon.add');

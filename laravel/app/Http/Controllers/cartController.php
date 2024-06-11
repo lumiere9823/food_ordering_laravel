@@ -8,7 +8,7 @@ use App\Models\Coupon;
 use Cart;
 use Carbon\Carbon;
 
-class cartController extends Controller
+class CartController extends Controller
 {
     public function insert(Request $request){
         $dish = Dish::findOrFail($request->dish_id);
