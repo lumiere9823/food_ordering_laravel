@@ -119,10 +119,12 @@
                             <div class="grand-total" id="final" style="margin-top: 20px; text-align: right;">
                                 <span>Discount:</span>
                                 <select name="coupon" id="coupon">
+                                    <option data-coupon-value = 0 ></option>
                                     @foreach ($coupons as $coupon)
                                         @if ($coupon->cart_min_value <= $i)
                                             <option value="{{ $coupon->coupon_number }}"
-                                                data-coupon-value="{{ $coupon->coupon_value }}">
+                                                data-coupon-value="{{ $coupon->coupon_value }}"
+                                                data-coupon-id="{{ $coupon->coupon_id }}">
                                                 {{ $coupon->coupon_code }}-{{ $coupon->coupon_value }}%
                                             </option>
                                         @endif
@@ -224,22 +226,26 @@
             $('#coupon').change(function() {
                 var couponValue = parseInt(this.options[this.selectedIndex].getAttribute(
                     'data-coupon-value'));
+                var couponId = parseInt(this.options[this.selectedIndex].getAttribute(
+                    'data-coupon-id'));
                 var totalAmount = {{ $i }};
                 var discountedAmount = totalAmount - (totalAmount * couponValue / 100);
                 $('#totalAmount').text(discountedAmount);
 
                 $.ajax({
-                    url: '{{ route('apply-coupon') }}',
+                    url: '{{ route('apply_coupon') }}',
                     method: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
-                        discountedAmount: discountedAmount
+                        discountedAmount: discountedAmount,
+                        couponId: couponId
                     },
                     success: function(response) {
                         console.log('Coupon applied successfully!');
                     }
                 });
             });
+            $('#coupon').change();
         });
     </script>
 @endsection

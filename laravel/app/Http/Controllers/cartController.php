@@ -29,6 +29,7 @@ class CartController extends Controller
         $current = Carbon::now();
         $coupons = Coupon::where('coupon_status', 1,)
                             ->where('expire_on', '>', $current)
+                            ->where('coupon_number', '>', 0)
                             ->get();
         $CartDish = Cart::content();
         return view('FrontEnd.cart.show',compact('CartDish','coupons'));

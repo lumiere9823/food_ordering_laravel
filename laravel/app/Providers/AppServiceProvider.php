@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 use App\Models\Category;
 use DB;
 use Session;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,17 +30,17 @@ class AppServiceProvider extends ServiceProvider
         });
         View::composer('FrontEnd.include.navTop', function ($view) {
             $orders = DB::table('orders')
-              ->join('users', 'orders.user_id', '=', 'users.id')
-              ->join('payments', 'orders.order_id', '=', 'payments.order_id')
-              ->join('shippings', 'orders.shipping_id', '=', 'shippings.id')
-              ->select(
-                  'orders.*',
-                  'users.name',
-                  'payments.payment_type',
-                  'payments.payment_status',
-                  'shippings.*',
-              )
-              ->where('user_id', Session::get('user_id'))
+            ->join('users', 'orders.user_id', '=', 'users.id')
+            ->join('payments', 'orders.order_id', '=', 'payments.order_id')
+            ->join('shippings', 'orders.shipping_id', '=', 'shippings.id')
+            ->select(
+                'orders.*',
+                'users.name',
+                'payments.payment_type',
+                'payments.payment_status',
+                'shippings.*',
+            )
+              ->where('user_id', Auth::user()->id)
               ->get();  
 
               $order_details = DB::table('order_details')    

@@ -113,8 +113,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
         Route::delete('/order/delete/{order_id}','OrderController@deleteOrder')->name('delete_order');
 
-        Route::post('/coupon/apply','UserController@couponApply')->name('apply-coupon');
-
+        Route::post('/coupon/apply','UserController@couponApply')->name('apply_coupon');
+        
         Route::get('/user/add','UserController@save')->name('show_user_table');
         Route::post('/user/save','UserController@store')->name('user_save');
         Route::get('/user/manage','UserController@manage')->name('manage_user');

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Payment;
+use App\Models\Coupon;
 use Session;
 use Cart;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,13 @@ class CheckOutController extends Controller
             $payment->payment_type = $payment_type;
             $payment->save();
 
+            try {
+                $coupon_left = Coupon::find(Session::get('coupon'));
+                $coupon_left->coupon_number = $coupon_left->coupon_number - 1;
+                $coupon_left->save();
+            } catch (\Exception $e) {
+                echo $e;
+            }
             
             $cartProducts = Cart::content();
             foreach($cartProducts as $cartProduct){

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Shipping;
 use App\Models\Role;
+use App\Models\Coupon;
 use Mail;
 use Session;
 use Illuminate\Support\Facades\Auth;
@@ -106,8 +107,20 @@ class UserController extends Controller
     }
 
     public function couponApply(Request $request){
-        $discountedAmount = $request->input('discountedAmount');
-        session()->put('sum', $discountedAmount);
+        try {
+            $discountedAmount = $request->input('discountedAmount');
+            session()->put('sum', $discountedAmount);
+        } catch (\Exception $th) {
+            echo $th;
+        }
+        try {
+            $couponId = $request->input('couponId');
+            session()->put('coupon', $couponId);
+        } catch (\Exception $e) {
+            echo $e;
+        }
+        
         return response()->json(['status' => 'success']);
     }
+
 }

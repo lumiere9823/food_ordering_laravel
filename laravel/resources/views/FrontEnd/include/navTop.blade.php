@@ -6,25 +6,11 @@
         </div>
         <div class="w3ls-header-right">
             <ul>
-                @auth
-                <li class="head-dpdn dropdown" style="position: relative;">
+                @if (Auth::check() && Auth::user()->role == '3')
+                <li class="head-dpdn">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
                         <i class="fa fa-user" aria-hidden="true"></i> {{ Auth::user()->name }}
-                    </a>
-                    <ul class="dropdown-menu" style="color:#E14740">
-                        <li><a href="{{ route('home.index') }}" style="color:#E14740">Dashboard</a></li>
-                    </ul>
-                </li>
-                <li class="head-dpdn">
-                    <a href="{{ route('logout.perform') }}"><i class="fa fa-sign-in" aria-hidden="true"></i> Logout</a>
-                </li>
-                @else
-                @if (Session::get('user_id'))
-                <li class="head-dpdn">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                        <i class="fa fa-user" aria-hidden="true"></i> {{ Session::get('customer_name') }}
                     </a>
                 </li>
                 <li class="head-dpdn dropdown" style="position: relative;">
@@ -63,9 +49,22 @@
                     <a href="#" onclick="document.getElementById('customerLogoutForm').submit();">
                         <i class="fa fa-sign-in" aria-hidden="true"></i> Logout
                     </a>
-                    <form id="customerLogoutForm" action="{{ route('logout_customer') }}" method="post">
+                    <form id="customerLogoutForm" action="{{ route('logout.perform') }}" method="post">
                         @csrf
                     </form>
+                </li>
+                @elseif(Auth::check() && Auth::user()->role !== '3')
+                <li class="head-dpdn dropdown" style="position: relative;">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <i class="fa fa-user" aria-hidden="true"></i> {{ Auth::user()->name }}
+                    </a>
+                    <ul class="dropdown-menu" style="color:#E14740">
+                        <li><a href="{{ route('home.index') }}" style="color:#E14740">Dashboard</a></li>
+                    </ul>
+                </li>
+                <li class="head-dpdn">
+                    <a href="{{ route('logout.perform') }}"><i class="fa fa-sign-in" aria-hidden="true"></i> Logout</a>
                 </li>
                 @else
                 <div style="position: relative; display: inline-block;">
@@ -90,7 +89,6 @@
                     </div>
                 </div>
                 @endif
-                @endauth
             </ul>
         </div>
 
