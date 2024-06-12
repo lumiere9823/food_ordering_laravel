@@ -43,6 +43,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
+
     <script>
     $(function() {
         $('#example1').DataTable({
@@ -84,7 +86,7 @@
 
         //Created Form
         $('#categoryForm, #deliveryBoyForm, #CouponForm, #DishForm, #roleForm').submit(function(e) {
-            e.preventDefault(); 
+            e.preventDefault();
             var form = $(this);
             $.ajax({
                 url: form.attr('action'),
@@ -101,9 +103,9 @@
         });
 
         $('#DishForm').submit(function(e) {
-            e.preventDefault(); 
+            e.preventDefault();
             var form = $(this);
-            var formData = new FormData(form[0]); 
+            var formData = new FormData(form[0]);
 
             $.ajax({
                 url: form.attr('action'), // Get the form action URL
@@ -250,6 +252,242 @@
 
     .slider.round:before {
         border-radius: 50%;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html,
+body,
+.toggle-container,
+.followers,
+.followers-card,
+.followers-card_user,
+.fallowers-today-number,
+.overview-today_card_header,
+.overview-today,
+.overview-today_card_main {
+  display: flex;
+}
+
+
+html,
+body,
+.followers-card {
+  flex-direction: column;
+}
+
+html,
+body {
+  min-height: 100vh;
+  background-color: var(--bg);
+}
+
+    :root {
+        --bg: hsl(230, 17%, 14%);
+        --bg-top: hsl(232, 19%, 15%);
+        --bg-card: hsl(228, 28%, 20%);
+
+        --text: hsl(228, 34%, 66%);
+        --text-secondary: hsl(0, 0%, 100%);
+
+        --input-bg: linear-gradient(to right, hsl(210, 78%, 56%), hsl(146, 68%, 55%));
+
+        --font-weight-normal: 400;
+        --font-weight-bold: 700;
+
+        --border-top-card: hsl(228, 34%, 66%);
+
+        --lime-green: hsl(163, 72%, 41%);
+        --bright-red: hsl(356, 69%, 56%);
+
+        font-size: 14px;
+        font-family: "Inter", sans-serif;
+    }
+
+    .light {
+        --bg: hsl(0, 0%, 100%);
+        --bg-top: hsl(225, 100%, 98%);
+        --bg-card: hsl(227, 47%, 96%);
+
+        --input-bg: hsl(230, 22%, 74%);
+
+        --text: hsl(228, 12%, 44%);
+        --text-secondary: hsl(230, 17%, 14%);
+    }
+
+    .facebook {
+        --border-top-card: hsl(195, 100%, 50%);
+    }
+
+    .twitter {
+        --border-top-card: hsl(203, 89%, 53%);
+    }
+
+    .youtube {
+        --border-top-card: hsl(348, 97%, 39%);
+    }
+
+    .instagram {
+        --border-top-card: linear-gradient(to right,
+                hsl(37, 97%, 70%),
+                hsl(329, 70%, 58%));
+    }
+
+    .positive {
+        color: var(--lime-green);
+    }
+
+    .negative {
+        color: var(--bright-red);
+    }
+
+    main {
+        margin: 1.5rem;
+    }
+
+
+
+    .toggle-container,
+    .overview-today_card_header,
+    .overview-today_card_main {
+        justify-content: space-between;
+    }
+
+    .toggle-container {
+        gap: 12px;
+    }
+
+    #dark {
+        appearance: none;
+        position: relative;
+        padding: 2.5px;
+
+        width: 50px;
+        height: 25px;
+
+        background: var(--input-bg);
+        border-radius: 1000px;
+        transition: 0.3s ease-in-out;
+    }
+
+    #dark::before {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: var(--bg-card);
+        border-radius: 50%;
+        transition: 0.3s;
+    }
+
+    #dark:checked::before {
+        transform: translateX(25px);
+    }
+
+    .followers {
+        margin-bottom: 2rem;
+        gap: 24px;
+        flex-wrap: wrap;
+    }
+
+    .followers-card {
+        padding: 2rem;
+        width: 300px;
+        color: white;
+        background-color: var(--bg-card);
+        border-radius: 6px;
+        flex: 1 1 282px;
+        gap: 1rem;
+        overflow: hidden;
+        position: relative;
+        animation-name: start;
+        animation-duration: 1s;
+    }
+
+    .followers-card_border {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 6px;
+        background: var(--border-top-card);
+        width: 100%;
+    }
+
+    .followers-card_user {
+        gap: 8px;
+    }
+
+    .followers-number {
+        text-align: center;
+    }
+
+    .followers-number_text {
+        text-transform: uppercase;
+        letter-spacing: 0.5rem;
+    }
+
+    .fallowers-today-number {
+        text-align: center;
+        gap: 6px;
+    }
+
+    .followers-number_value {
+        font-size: 5rem;
+    }
+
+    .followers-today-number_text {
+        font-weight: var(--font-weight-bold);
+    }
+
+    .overview-today {
+        margin-top: 1.5rem;
+        flex-wrap: wrap;
+        gap: 24px;
+    }
+
+    .overview-today_card {
+        padding: 2rem;
+        background-color: var(--bg-card);
+        border-radius: 5px;
+        flex: 1 1 282px;
+        animation-name: start;
+        animation-duration: 1s;
+    }
+
+    .overview-today_card_header {
+        padding-bottom: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .overview-today_card_main_number {
+        font-size: 2.5rem;
+    }
+
+    .overview-today_card_main {
+        align-items: flex-end;
+    }
+
+    @media (min-width: 875px) {
+        header {
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title-container {
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+    }
+
+    @keyframes start {
+        from {
+            transform: translate(50%);
+        }
     }
     </style>
 </head>

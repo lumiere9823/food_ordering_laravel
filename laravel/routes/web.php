@@ -73,14 +73,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::put('/category/update/{id}', 'CategoryController@update')->name('category.update');
         Route::delete('/category/delete/{id}', 'CategoryController@delete')->name('category.delete');
         Route::post('/category/change-status/{id}', 'CategoryController@changeStatus')->name('category.changeStatus');
-
-        Route::get('/delivery-boy/add','DeliveryBoyController@index')->name('show_delivery_boy_table');
-        Route::post('/delivery-boy/save','DeliveryBoyController@save')->name('delivery_boy_save');
-        Route::get('/delivery-boy/manage','DeliveryBoyController@manage')->name('manage_delivery_boy');
-        Route::get('/delivery-boy/edit/{id}', 'DeliveryBoyController@edit')->name('delivery_boy.edit');
-        Route::put('/delivery-boy/update/{id}', 'DeliveryBoyController@update')->name('delivery_boy.update');
-        Route::delete('/delivery-boy/delete/{id}', 'DeliveryBoyController@delete')->name('delivery_boy.delete');
-        Route::post('/delivery-boy/change-status/{id}', 'DeliveryBoyController@changeStatus')->name('delivery_boy.changeStatus');
         
         Route::get('/coupon/add','CouponController@index')->name('show_coupon_table');
         Route::post('/coupon/save','CouponController@save')->name('coupon_save');
