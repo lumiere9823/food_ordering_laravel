@@ -6,11 +6,15 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     public function index() 
     {
+        if(Auth::user()->role == 3){
+            return redirect('/');
+        }
         $today = Carbon::today();
 
         $yesterday = Carbon::yesterday();
