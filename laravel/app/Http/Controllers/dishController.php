@@ -106,7 +106,6 @@ class DishController extends Controller
         $dish = Dish::find($id);
 
         if ($dish) {
-            // Delete dish image file from public directory
             if (file_exists(public_path('dish_images/' . $dish->dish_image))) {
                 unlink(public_path('dish_images/' . $dish->dish_image));
             }

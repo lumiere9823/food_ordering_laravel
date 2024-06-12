@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('coupons', function (Blueprint $table) {
             $table->bigIncrements('coupon_id');
             $table->string('coupon_code')->unique();
+            $table->integer('coupon_number');
             $table->integer('coupon_type');
             $table->integer('coupon_value');
             $table->integer('cart_min_value');

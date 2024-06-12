@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Shipping extends Model
 {
-    protected $primarykey = 'customer_id';
+    protected $primarykey = 'user_id';
 }

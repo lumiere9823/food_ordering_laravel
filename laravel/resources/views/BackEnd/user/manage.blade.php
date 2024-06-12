@@ -9,7 +9,7 @@
                     <!-- Allocate six columns for the form -->
                     <div class="card">
                         <div class="card-header">
-                            <h3>Datatable for deliveryBoy</h3>
+                            <h3>Datatable for user</h3>
                         </div>
                         <div class="card-body">
                             <table class="table table-bordered table-striped" id="example1">
@@ -18,26 +18,25 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Id</th>
                                         <th scope="col">Name</th>
-                                        <th scope="col">Order Number</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Added On</th>
+                                        <th scope="col">Role</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Phone</th>
                                         <th scope="col">Created At</th>
                                         <th scope="col">Updated At</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($deliveryBoies as $index => $deliveryBoy)
+                                    @foreach ($users as $index => $user)
                                         <tr style="text-align:center">
                                             <th scope="row">{{ $index + 1 }}</th>
-                                            <td>{{ $deliveryBoy->delivery_boy_id }}</td>
-                                            <td>{{ $deliveryBoy->delivery_boy_name }}</td>
-                                            <td>{{ $deliveryBoy->delivery_boy_phone_number }}</td>
-                                            <td id="deliveryBoyStatus_{{ $deliveryBoy->delivery_boy_id }}">
-                                                {{ $deliveryBoy->delivery_boy_status == 1 ? 'active' : 'inactive' }}</td>
-                                            <td>{{ $deliveryBoy->added_on }}</td>
-                                            <td>{{ $deliveryBoy->created_at }}</td>
-                                            <td>{{ $deliveryBoy->updated_at }}</td>
+                                            <td>{{ $user->id }}</td>
+                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->role }}</td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $user->phone }}</td>
+                                            <td>{{ $user->created_at }}</td>
+                                            <td>{{ $user->updated_at }}</td>
                                             <td>
                                                 <div class="dropdown">
                                                     <button type="button" class="btn btn-default dropdown-toggle"
@@ -50,48 +49,48 @@
                                                         <div style="text-align: center;">
                                                             <button type="button" class="btn btn-warning"
                                                                 style="width: 80%;" data-toggle="modal"
-                                                                data-target="#updatedeliveryBoyModal{{ $deliveryBoy->delivery_boy_id }}">
+                                                                data-target="#updateuserModal{{ $user->id }}">
                                                                 Edit
                                                             </button>
                                                         </div>
                                                         <div style="text-align: center; margin-top: 10px;">
                                                             <form method="POST"
-                                                                action="{{ route('delivery_boy.delete', $deliveryBoy->delivery_boy_id) }}">
+                                                                action="{{ route('user.delete', $user->id) }}">
                                                                 @csrf
                                                                 <input name="_method" type="hidden" value="DELETE">
                                                                 <button
-                                                                    id="deleteCategoryBtn_{{ $deliveryBoy->delivery_boy_id }}"
+                                                                    id="deleteCategoryBtn_{{ $user->id }}"
                                                                     class="btn btn-danger show_confirm" style="width: 80%;"
                                                                     data-toggle="tooltip" title='Delete'>Delete</button>
                                                             </form>
                                                         </div>
-                                                        <div style="text-align: center; margin-top: 10px;">
+                                                        <!-- <div style="text-align: center; margin-top: 10px;">
                                                             <div style="text-align: center; margin-top: 10px;">
                                                                 <label class="switch">
                                                                     <input type="checkbox" class="status-toggle-deli"
-                                                                        data-id="{{ $deliveryBoy->delivery_boy_id }}"
+                                                                        data-id="{{ $user->id }}"
                                                                         data-url="/delivery-boy/change-status/"
-                                                                        data-code="deliveryBoyStatus_"
-                                                                        {{ $deliveryBoy->delivery_boy_status == 1 ? 'checked' : '' }}>
+                                                                        data-code="userStatus_"
+                                                                        {{ $user->delivery_boy_status == 1 ? 'checked' : '' }}>
                                                                     <span class="slider round"></span>
                                                                 </label>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
                                         <div class="modal fade"
-                                            id="updatedeliveryBoyModal{{ $deliveryBoy->delivery_boy_id }}" tabindex="-1"
+                                            id="updateuserModal{{ $user->id }}" tabindex="-1"
                                             role="dialog"
-                                            aria-labelledby="updatedeliveryBoyModalLabel{{ $deliveryBoy->delivery_boy_id }}"
+                                            aria-labelledby="updateuserModalLabel{{ $user->id }}"
                                             aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title"
-                                                            id="updatedeliveryBoyModalLabel{{ $deliveryBoy->delivery_boy_id }}">
-                                                            Update deliveryBoy</h5>
+                                                            id="updateuserModalLabel{{ $user->id }}">
+                                                            Update user</h5>
                                                         <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
@@ -99,24 +98,53 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <form class="update-deli-form"
-                                                            action="{{ route('delivery_boy.update', $deliveryBoy->delivery_boy_id) }}"
+                                                            action="{{ route('user.update', $user->id) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('PUT')
+                                                            <input type="hidden" name="id" value="{{ $user->id }}">
                                                             <div class="form-group">
-                                                                <label for="deliveryBoyName">Delivery Boy Name</label>
+                                                                <label for="name">Name</label>
                                                                 <input type="text" class="form-control"
-                                                                    id="delivery_boy_name" name="delivery_boy_name"
-                                                                    value="{{ $deliveryBoy->delivery_boy_name }}">
+                                                                    id="name" name="name"
+                                                                    value="{{ $user->name }}">
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="delivery_boy_phone_number">Phone Number</label>
+                                                                <label for="username">User Name</label>
                                                                 <input type="text" class="form-control"
-                                                                    id="delivery_boy_phone_number"
-                                                                    name="delivery_boy_phone_number"
-                                                                    value="{{ $deliveryBoy->delivery_boy_phone_number }}">
+                                                                    id="username" name="username"
+                                                                    value="{{ $user->username }}">
                                                             </div>
-                                                            <!-- Add other fields as needed -->
+                                                            <div class="form-group">
+                                                                <label for="phone">Phone Number</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="phone"
+                                                                    name="phone"
+                                                                    value="{{ $user->phone }}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="email">Email</label>
+                                                                <input type="email" class="form-control"
+                                                                    id="email" name="email"
+                                                                    value="{{ $user->email }}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="role">Role</label>
+                                                                <select class="form-control" id="role"
+                                                                    name="role">
+                                                                    @php
+                                                                        $selected_role = \App\Models\Role::find(
+                                                                            $user->role,
+                                                                        );
+                                                                    @endphp
+                                                                    @foreach ($roles as $role)
+                                                                        <option value="{{ $role->id }}"
+                                                                            {{ $role->id == $selected_role->id ? 'selected' : '' }}>
+                                                                            {{ $role->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
 
                                                             <button type="submit" class="btn btn-primary">Save
                                                                 changes</button>
@@ -134,25 +162,5 @@
             </div>
         </section>
     </div>
-    <div class="modal fade" id="confirmDeliveryBoyDeleteModal" tabindex="-1" role="dialog"
-        aria-labelledby="confirmDeliveryBoyDeleteModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <p>Are you sure you want to delete this deliveryBoy?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 @endsection

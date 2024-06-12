@@ -31,6 +31,13 @@ class RegisterController extends Controller
 
         auth()->login($user);
 
+        $data = $user->toArray();
+
+        Mail::send('FrontEnd.mail.welcome_mail',$data,function($message) use ($data){
+            $message->to($data['email']);
+            $message->subject('Welcome to our site');
+        });
+
         return redirect('/')->with('success', "Account successfully registered.");
     }
 }

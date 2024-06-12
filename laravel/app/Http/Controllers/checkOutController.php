@@ -8,6 +8,7 @@ use App\Models\OrderDetail;
 use App\Models\Payment;
 use Session;
 use Cart;
+use Illuminate\Support\Facades\Auth;
 
 class CheckOutController extends Controller
 {
@@ -19,8 +20,8 @@ class CheckOutController extends Controller
         $payment_type =  $request->payment_type;
         if($payment_type == 'Cash'){
             $order = new Order();
-            $order->customer_id = Session::get('customer_id');
-            $order->shipping_id = Session::get('shipping_id');
+            $order->user_id = Auth::user()->id;
+            $order->shipping_id = Auth::user()->id;
             $order->order_total = Session::get('sum') ;
             $order->save();
 
@@ -46,8 +47,8 @@ class CheckOutController extends Controller
         }
         else{
             $order = new Order();
-            $order->customer_id = Session::get('customer_id');
-            $order->shipping_id = Session::get('shipping_id');
+            $order->user_id = Auth::user()->id;
+            $order->shipping_id = Auth::user()->id;
             $order->order_total = Session::get('sum');
             $order->save();
 

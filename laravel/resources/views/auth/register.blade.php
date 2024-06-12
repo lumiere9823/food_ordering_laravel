@@ -33,6 +33,14 @@
         </div>
         
         <div class="form-group form-floating mb-3">
+            <label for="floatingName">Phone</label>
+            <input type="number" class="form-control" name="phone" value="{{ old('phone') }}" placeholder="Your phone number Here" required="required" autofocus>
+            @if ($errors->has('phone'))
+                <span class="text-danger text-left">{{ $errors->first('phone') }}</span>
+            @endif
+        </div>
+        
+        <div class="form-group form-floating mb-3">
             <label for="floatingPassword">Password</label>
             <input type="password" class="form-control" name="password" value="{{ old('password') }}" placeholder="Password" required="required">
             @if ($errors->has('password'))

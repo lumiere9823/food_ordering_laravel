@@ -14,36 +14,38 @@ class CouponController extends Controller
     }
 
 
-    public function save(Request $request){
+    public function save(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'coupon_type' => 'required|integer',
+        'coupon_value' => 'required|integer',
+        'coupon_number' => 'required|integer',
+        'cart_min_value' => 'required|integer',
+        'coupon_status' => 'required|integer',
+        'expire_on' => 'required|date',
+        'added_on' => 'required|date', 
+    ]);
 
-        $validator = Validator::make($request->all(), [
-            'coupon_type' => 'required|integer',
-            'coupon_value' => 'required|integer',
-            'cart_min_value' => 'required|integer',
-            'coupon_status' => 'required|integer',
-            'expire_on' => 'required|date',
-            'added_on' => 'required|date', 
-        ]);
-        
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400); 
-        }
-
-        $expireOn = Carbon::parse($request->expire_on);
-        $addedOn = Carbon::parse($request->added_on);
-        if ($expireOn->lt($addedOn)) {
-            return response()->json(['error' => 'The expiration date must be after the added date.'], 400);
-        }
-        
-        try {
-            $coupon = Coupon::create($request->all());
-        } catch (\Exception $e) {
-            \Log::error($e->getMessage());
-            return back()->with('error', 'An error occurred while saving the coupon.');
-        }
-        
-        return back()->with('sms','Saved Successfully');
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 400); 
     }
+
+    $expireOn = Carbon::parse($request->expire_on);
+    $addedOn = Carbon::parse($request->added_on);
+    if ($expireOn->lt($addedOn)) {
+        return response()->json(['error' => 'The expiration date must be after the added date.'], 400);
+    }
+
+    try {
+        $coupon = Coupon::create($request->all());
+    } catch (\Exception $e) {
+        \Log::error($e->getMessage());
+        dd($e->getMessage());
+        return back()->with('error', 'An error occurred while saving the coupon.');
+    }
+
+    return back()->with('sms', 'Saved Successfully');
+}
 
     public function manage(){
         $coupons = Coupon::all();
@@ -67,6 +69,7 @@ class CouponController extends Controller
         $request->validate([
             'coupon_type' => 'required|integer',
             'coupon_value' => 'required|integer',
+            'coupon_number' => 'required|integer',
             'cart_min_value' => 'required|integer',
             'coupon_status' => 'required|integer',
             'expire_on' => 'required|date',

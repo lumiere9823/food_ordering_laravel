@@ -28,21 +28,20 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
     //customer route
 
-    Route::get('/customer/register', 'CustomerController@show')->name('sign_up');
-    Route::post('/customer/register/store', 'CustomerController@store')->name('store_customer');
-    Route::get('/customer/login', 'CustomerController@sign_in')->name('sign_in');
-    Route::post('/customer/post-login', 'CustomerController@post_sign_in')->name('sign_in_customer');
-    Route::post('/customer/logout', 'CustomerController@logout')->name('logout_customer');
-    Route::get('/shipping','CustomerController@shipping')->name('shipping.show');
-    Route::post('/shipping/store','CustomerController@store_shipping')->name('store_shipping');
+    // Route::get('/customer/register', 'CustomerController@show')->name('sign_up');
+    // Route::post('/customer/register/store', 'CustomerController@store')->name('store_customer');
+    // Route::get('/customer/login', 'CustomerController@sign_in')->name('sign_in');
+    // Route::post('/customer/post-login', 'CustomerController@post_sign_in')->name('sign_in_customer');
+    // Route::post('/customer/logout', 'CustomerController@logout')->name('logout_customer');
+    
 
-    Route::get('/checkout/payment','CheckOutController@payment')->name('checkout_payment');
-    Route::post('/checkout/new/order','CheckOutController@order')->name('new_order');
-    Route::get('/checkout/order/complete','CheckOutController@order_complete')->name('order_complete');
+    // Route::get('/checkout/payment','CheckOutController@payment')->name('checkout_payment');
+    // Route::post('/checkout/new/order','CheckOutController@order')->name('new_order');
+    // Route::get('/checkout/order/complete','CheckOutController@order_complete')->name('order_complete');
 
-    Route::delete('/order/delete/{order_id}','OrderController@deleteOrder')->name('delete_order');
+    // Route::delete('/order/delete/{order_id}','OrderController@deleteOrder')->name('delete_order');
 
-    Route::post('/coupon/apply','CustomerController@couponApply')->name('apply-coupon');
+    // Route::post('/coupon/apply','CustomerController@couponApply')->name('apply-coupon');
 
     
     Route::get('/home', 'HomeController@index')->name('home.index');
@@ -100,7 +99,29 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::post('/dish/change-status/{id}', 'DishController@changeStatus')->name('change_dish_status');
 
         Route::get('/order/manage','OrderController@manageOrder')->name('order_manage');
-        
+
+        Route::get('/role/add','RoleController@show')->name('show_role_table');
+        Route::post('/role/save','RoleController@store')->name('role_save');
+        Route::get('/role/manage','RoleController@manage')->name('role_manage');
+        Route::get('/role/edit/{id}', 'RoleController@edit')->name('role.edit');
+        Route::put('/role/update/{id}', 'RoleController@update')->name('role.update');
+        Route::delete('/role/delete/{id}', 'RoleController@delete')->name('role.delete');
+
+        Route::get('/checkout/payment','CheckOutController@payment')->name('checkout_payment');
+        Route::post('/checkout/new/order','CheckOutController@order')->name('new_order');
+        Route::get('/checkout/order/complete','CheckOutController@order_complete')->name('order_complete');
+
+        Route::delete('/order/delete/{order_id}','OrderController@deleteOrder')->name('delete_order');
+
+        Route::post('/coupon/apply','UserController@couponApply')->name('apply-coupon');
+
+        Route::get('/user/add','UserController@save')->name('show_user_table');
+        Route::post('/user/save','UserController@store')->name('user_save');
+        Route::get('/user/manage','UserController@manage')->name('manage_user');
+        Route::put('/user/update/{id}', 'UserController@update')->name('user.update');
+        Route::delete('/user/delete/{id}', 'UserController@delete')->name('user.delete');
+        Route::get('/shipping','UserController@shipping')->name('shipping.show');
+        Route::post('/shipping/store','UserController@store_shipping')->name('store_shipping');
 
     });
 });

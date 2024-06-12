@@ -12,12 +12,12 @@ class OrderController extends Controller
     {
 
         $orders = DB::table('orders')
-            ->join('customers', 'orders.customer_id', '=', 'customers.id')
+            ->join('users', 'orders.user_id', '=', 'users.id')
             ->join('payments', 'orders.order_id', '=', 'payments.order_id')
             ->join('shippings', 'orders.shipping_id', '=', 'shippings.id')
             ->select(
                 'orders.*',
-                'customers.name',
+                'users.name',
                 'payments.payment_type',
                 'payments.payment_status',
                 'shippings.*',

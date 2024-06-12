@@ -22,12 +22,18 @@
                             Add coupon
                         </div>
                         <div class="card-body">
-                            <form action="{{ url('/coupon/save') }}" method="post" id="couponForm">
+                            <form action="{{ url('/coupon/save') }}" method="post" id="CouponForm">
                                 @csrf
                                 <div class="form-group">
                                     <label for="coupon_value">Coupon Value</label>
                                     <input style="border-radius:12px" type="number" class="form-control"
                                         name="coupon_value">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="coupon_number">Number Of Coupon</label>
+                                    <input style="border-radius:12px" type="number" class="form-control"
+                                        name="coupon_number" value="1">
                                 </div>
 
                                 <div class="form-group">

@@ -20,7 +20,7 @@
                     <a href="{{ route('logout.perform') }}"><i class="fa fa-sign-in" aria-hidden="true"></i> Logout</a>
                 </li>
                 @else
-                @if (Session::get('customer_id'))
+                @if (Session::get('user_id'))
                 <li class="head-dpdn">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">

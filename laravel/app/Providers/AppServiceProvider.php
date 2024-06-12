@@ -29,17 +29,17 @@ class AppServiceProvider extends ServiceProvider
         });
         View::composer('FrontEnd.include.navTop', function ($view) {
             $orders = DB::table('orders')
-              ->join('customers', 'orders.customer_id', '=', 'customers.id')
+              ->join('users', 'orders.user_id', '=', 'users.id')
               ->join('payments', 'orders.order_id', '=', 'payments.order_id')
               ->join('shippings', 'orders.shipping_id', '=', 'shippings.id')
               ->select(
                   'orders.*',
-                  'customers.name',
+                  'users.name',
                   'payments.payment_type',
                   'payments.payment_status',
                   'shippings.*',
               )
-              ->where('customer_id', Session::get('customer_id'))
+              ->where('user_id', Session::get('user_id'))
               ->get();  
 
               $order_details = DB::table('order_details')    
@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
                   'order_details.dish_price',
                   'order_details.dish_qty'
               )
-              ->where('customer_id', Session::get('customer_id'))
+              ->where('user_id', Session::get('user_id'))
               ->get();      
             $view->with(compact('orders','order_details'));
         });

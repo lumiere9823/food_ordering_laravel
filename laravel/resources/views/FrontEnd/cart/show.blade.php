@@ -104,15 +104,15 @@
                             <div class="grand-total" id="final" style="margin-top: 10px; text-align: left; ">
                                 @if (count($CartDish) == 0)
                                 @else
-                                    @if (!Session::get('customer_id'))
-                                        <button type="button" class="btn btn-info" data-toggle="modal"
-                                            data-target="#payment">
-                                            <i class="fa fa-shopping-bag"></i> Check Out
-                                        </button>
-                                    @else
+                                    @if (Auth::check())
                                         <a type="button" class="btn btn-info" href="{{ route('shipping.show') }}">
                                             <i class="fa fa-shopping-bag"></i> Check Out
                                         </a>
+                                    @else
+                                    <button type="button" class="btn btn-info" data-toggle="modal"
+                                            data-target="#payment">
+                                            <i class="fa fa-shopping-bag"></i> Check Out
+                                        </button>
                                     @endif
                                 @endif
                             </div>
@@ -165,14 +165,14 @@
                     <hr
                         style="position: absolute; top: 0; bottom: 0; left: 50%; transform: translateX(-50%); height: 100%; border-left: 1px solid ;">
                     <div class="col-md-6" style="position: relative;">
-                        <a type="button" href="{{ route('sign_in') }}" class="btn btn-primary"
+                        <a type="button" href="{{ route('login.show') }}" class="btn btn-primary"
                             style="margin-bottom: 20px;">Go to login</a>
                         <div style="text-align: center; margin-bottom: 20px;">
                             <hr style="width: 45%; float: left;border: 1px solid ;">
                             <span style="display: inline-block; margin: 0 10px;">Or</span>
                             <hr style="width: 45%; float: right;border: 1px solid ;">
                         </div>
-                        <a type="button" href="{{ route('sign_up') }}" class="btn btn-primary"
+                        <a type="button" href="{{ route('register.show') }}" class="btn btn-primary"
                             style="margin-top: 20px;">Go
                             to
                             register</a>

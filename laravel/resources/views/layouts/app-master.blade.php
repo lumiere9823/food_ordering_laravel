@@ -83,8 +83,8 @@
             });
 
         //Created Form
-        $('#categoryForm, #deliveryBoyForm, #CouponForm, #DishForm').submit(function(e) {
-            e.preventDefault(); // prevent default form submission
+        $('#categoryForm, #deliveryBoyForm, #CouponForm, #DishForm, #roleForm').submit(function(e) {
+            e.preventDefault(); 
             var form = $(this);
             $.ajax({
                 url: form.attr('action'),
@@ -92,7 +92,7 @@
                 data: form.serialize(),
                 success: function(response) {
                     showToast('Created successfully!');
-                    form.trigger('reset'); // reset form fields
+                    form.trigger('reset');
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
@@ -101,9 +101,9 @@
         });
 
         $('#DishForm').submit(function(e) {
-            e.preventDefault(); // Prevent default form submission
+            e.preventDefault(); 
             var form = $(this);
-            var formData = new FormData(form[0]); // Create FormData object with form data
+            var formData = new FormData(form[0]); 
 
             $.ajax({
                 url: form.attr('action'), // Get the form action URL
@@ -123,7 +123,7 @@
 
 
         //Update Form
-        $('.update-category-form,  .update-deli-form, .update-coupon-form').submit(function(
+        $('.update-category-form,  .update-deli-form, .update-coupon-form, .update-role-form').submit(function(
             e) {
             e.preventDefault();
             var form = $(this);

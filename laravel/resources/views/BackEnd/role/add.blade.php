@@ -19,34 +19,16 @@
                     @endif
                     <div class="card">
                         <div class="card-header text-center">
-                            Add Delivery Boy
+                            Role
                         </div>
                         <div class="card-body">
-                            <form action="{{ url('/delivery-boy/save') }}" method="post" id="deliveryBoyForm">
+                            <form action="{{ url('/role/save') }}" method="post" id="roleForm">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="delivery_boy_name">Delivery Boy Name</label>
+                                    <label for="role_name">Role Name</label>
                                     <input style="border-radius:12px" type="text" class="form-control"
-                                        name="delivery_boy_name">
+                                        name="name">
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="delivery_boy_phone_number">Delivery Boy Phone Number</label>
-                                    <input style="border-radius:12px" type="number" class="form-control"
-                                        name="delivery_boy_phone_number">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="delivery_boy_password"> Delivery Boy Password</label>
-                                    <input style="border-radius:12px" type="password" class="form-control"
-                                        name="delivery_boy_password">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="added_on">Added On</label>
-                                    <input style="border-radius:12px" type="date" class="form-control" name="added_on">
-                                </div>
-
                                 <button type="submit" name="btn" class="btn btn-success">Add</button>
 
                             </form>

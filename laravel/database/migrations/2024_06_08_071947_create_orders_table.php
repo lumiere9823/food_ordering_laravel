@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('order_id');
-            $table->integer('customer_id');
+            $table->integer('user_id');
             $table->integer('shipping_id');
             $table->float('order_total',10,2);
             $table->string('order_status')->default('pending');

@@ -9,7 +9,7 @@
                     <!-- Allocate six columns for the form -->
                     <div class="card">
                         <div class="card-header">
-                            <h3>Datatable for deliveryBoy</h3>
+                            <h3>Datatable for Coupon</h3>
                         </div>
                         <div class="card-body">
                             <table class="table table-bordered table-striped" id="example1">
@@ -21,7 +21,7 @@
                                         <th scope="col">coupon Value</th>
                                         <th scope="col">Cart Min Value</th>
                                         <th scope="col">Status</th>
-                                        <th scope="col">Added On</th>
+                                        <th scope="col">Number Coupon Left</th>
                                         <th scope="col">Expire On</th>
                                         <th scope="col">Action</th>
                                     </tr>
@@ -36,7 +36,7 @@
                                             <td>{{ $coupon->cart_min_value }}</td>
                                             <td id="CouponStatus_{{ $coupon->coupon_id }}">
                                                 {{ $coupon->coupon_status == 1 ? 'active' : 'inactive' }}</td>
-                                            <td>{{ $coupon->added_on }}</td>
+                                            <td>{{ $coupon->coupon_number }}</td>
                                             <td>{{ $coupon->expire_on }}</td>
                                             <td>
                                                 <div class="dropdown">
@@ -134,6 +134,14 @@
                                                                     id="coupon_value_{{ $coupon->coupon_id }}"
                                                                     name="coupon_value"
                                                                     value="{{ $coupon->coupon_value }}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="coupon_number_{{ $coupon->coupon_id }}">Coupon
+                                                                    Left</label>
+                                                                <input type="number" class="form-control"
+                                                                    id="coupon_number_{{ $coupon->coupon_id }}"
+                                                                    name="coupon_number"
+                                                                    value="{{ $coupon->coupon_number }}">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="cart_min_value_{{ $coupon->coupon_id }}">Cart
