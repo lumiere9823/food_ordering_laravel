@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Dish;
+use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 class FrontEndController extends Controller
 {
@@ -15,12 +17,27 @@ class FrontEndController extends Controller
         if(Dish::all()->isEmpty()){
             view('FrontEnd.include.home');
         }
-        $dishes = Dish::where('dish_status', 1)
-              ->orderBy('created_at', 'desc')
-              ->take(3)
-              ->get();
+        $results = DB::select('
+            SELECT 
+                dish_id, 
+                SUM(dish_qty) AS total_qty 
+            FROM 
+                order_details 
+            GROUP BY 
+                dish_id 
+            ORDER BY 
+                total_qty DESC 
+            LIMIT 3
+        ');
+        $dishes = [];
+        foreach ($results as $topDish) {
+            $dish = Dish::find($topDish->dish_id);
+            if ($dish) {
+                $dish->total_qty = $topDish->total_qty;
+                $dishes[] = $dish;
+            }
+        }
 
-        
         return view('FrontEnd.include.home', compact('dishes'));
     }
     public function dish_show(Request $request)

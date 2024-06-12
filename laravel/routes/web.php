@@ -2,22 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::group(['namespace' => 'App\Http\Controllers'], function()
 {   
-    /**
-     * Home Routes
-     */
+
     Route::get('/', 'FrontEndController@index');
     Route::get('/category/dish/show/', 'FrontEndController@dish_show')->name('dish_show');
 
@@ -26,44 +13,19 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('cart/show', 'CartController@show')->name('cart_show');
     Route::post('/update-quantity', 'CartController@updateQuantity')->name('update-quantity');
 
-    //customer route
-
-    // Route::get('/customer/register', 'CustomerController@show')->name('sign_up');
-    // Route::post('/customer/register/store', 'CustomerController@store')->name('store_customer');
-    // Route::get('/customer/login', 'CustomerController@sign_in')->name('sign_in');
-    // Route::post('/customer/post-login', 'CustomerController@post_sign_in')->name('sign_in_customer');
-    // Route::post('/customer/logout', 'CustomerController@logout')->name('logout_customer');
-    
-
-    // Route::get('/checkout/payment','CheckOutController@payment')->name('checkout_payment');
-    // Route::post('/checkout/new/order','CheckOutController@order')->name('new_order');
-    // Route::get('/checkout/order/complete','CheckOutController@order_complete')->name('order_complete');
-
-    // Route::delete('/order/delete/{order_id}','OrderController@deleteOrder')->name('delete_order');
-
-    // Route::post('/coupon/apply','CustomerController@couponApply')->name('apply-coupon');
-
-    
     Route::get('/home', 'HomeController@index')->name('home.index');
     Route::group(['middleware' => ['guest']], function() {
-        /**
-         * Register Routes
-         */
+
         Route::get('/register', 'RegisterController@show')->name('register.show');
         Route::post('/register', 'RegisterController@register')->name('register.perform');
 
-        /**
-         * Login Routes
-         */
         Route::get('/login', 'LoginController@show')->name('login.show');
         Route::post('/login', 'LoginController@login')->name('login.perform');
 
     });
 
     Route::group(['middleware' => ['auth']], function() {
-        /**
-         * Logout Routes
-         */
+
         Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
 
         Route::get('/category/add','CategoryController@index')->name('show_cate_table');

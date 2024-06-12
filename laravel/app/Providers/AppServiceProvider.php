@@ -29,7 +29,8 @@ class AppServiceProvider extends ServiceProvider
             $view->with(compact('categories'));
         });
         View::composer('FrontEnd.include.navTop', function ($view) {
-            $orders = DB::table('orders')
+            if(Auth::check()){
+                $orders = DB::table('orders')
             ->join('users', 'orders.user_id', '=', 'users.id')
             ->join('payments', 'orders.order_id', '=', 'payments.order_id')
             ->join('shippings', 'orders.shipping_id', '=', 'shippings.id')
@@ -40,8 +41,8 @@ class AppServiceProvider extends ServiceProvider
                 'payments.payment_status',
                 'shippings.*',
             )
-              ->where('user_id', Auth::user()->id)
-              ->get();  
+            ->where('user_id', Auth::user()->id)
+            ->get();  
 
               $order_details = DB::table('order_details')    
               ->join('orders', 'order_details.order_id', '=', 'orders.order_id')
@@ -50,9 +51,13 @@ class AppServiceProvider extends ServiceProvider
                   'order_details.dish_price',
                   'order_details.dish_qty'
               )
-              ->where('user_id', Session::get('user_id'))
+              ->where('user_id', Auth::user()->id)
               ->get();      
             $view->with(compact('orders','order_details'));
+            }
+            else{
+                $view->with();
+            }
         });
         View::composer('FrontEnd.include.dish', function ($view) {
             $categories = Category::where('category_status', 1)->get();
