@@ -27,7 +27,7 @@ class FrontEndController extends Controller
                 dish_id 
             ORDER BY 
                 total_qty DESC 
-            LIMIT 3
+            LIMIT 6
         ');
         $dishes = [];
         foreach ($results as $topDish) {

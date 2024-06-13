@@ -22,7 +22,7 @@ class CheckOutController extends Controller
         if($payment_type == 'Cash'){
             $order = new Order();
             $order->user_id = Auth::user()->id;
-            $order->shipping_id = Auth::user()->id;
+            $order->shipping_id = Session::get('shipping_id');
             $order->order_total = Session::get('sum') ;
             $order->save();
 
@@ -56,7 +56,7 @@ class CheckOutController extends Controller
         else{
             $order = new Order();
             $order->user_id = Auth::user()->id;
-            $order->shipping_id = Auth::user()->id;
+            $order->shipping_id = Session::get('shipping_id');
             $order->order_total = Session::get('sum');
             $order->save();
 

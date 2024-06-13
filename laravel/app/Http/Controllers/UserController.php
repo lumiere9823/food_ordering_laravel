@@ -84,24 +84,14 @@ class UserController extends Controller
     }
 
     public function store_shipping(Request $request){
-        $user_id = Auth::user()->id;
-    
-        $customer_shipping = Shipping::where('id', $user_id)->first();
-    
-        if($customer_shipping){
-            $customer_shipping->address = $request->address;
-            $customer_shipping->save();
-            Session::put('shipping_id', $customer_shipping->id );
-        }else{
+
             $shipping = new Shipping();
-            $shipping->id = $user_id;
             $shipping->name = Auth::user()->name;
             $shipping->email = Auth::user()->email;
             $shipping->phone = Auth::user()->phone;
             $shipping->address = $request->address;
             $shipping->save();
             Session::put('shipping_id', $shipping->id );
-        }
     
         return redirect()->route('checkout_payment');
     }
