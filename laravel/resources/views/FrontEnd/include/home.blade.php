@@ -2,9 +2,29 @@
 @section('title')
     Home
 @endsection
-<!-- banner -->
 @section('content')
-    <!-- add-products -->
+    <div class="banner">
+        <div class="banner-text">
+            <div class="container">
+                <h2>Delicious food from the <br> <span>Best Chefs For you.</span></h2>
+                <div class="agileits_search">
+                    <form action="#" method="post">
+                        <input name="Search" type="text" placeholder="Enter Your Area Name" required="">
+                        <select id="agileinfo_search" name="agileinfo_search" required="">
+                            <option value="">Popular Cities</option>
+                            <option value="navs">New York</option>
+                            <option value="quotes">Los Angeles</option>
+                            <option value="videos">Chicago</option>
+                            <option value="news">Phoenix</option>
+                            <option value="notices">Fort Worth</option>
+                            <option value="all">Other</option>
+                        </select>
+                        <input type="submit" value="Search">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="add-products">
         <div class="container">
             <div class="add-products-row">
@@ -26,39 +46,37 @@
             </div>
         </div>
     </div>
-    <!-- //add-products -->
-    <!-- order -->
     <div class="wthree-order">
-        <img src="{{ asset('/frontEndSourceFile/images/i2.jpg') }}" class="w3order-img" alt="" />
+        <img src="{{ asset('/deli.png') }}" style="position: absolute;width: 15%;left: 4%;" class="" alt="" />
         <div class="container">
-            <h3 class="w3ls-title">How To Order Online Food</h3>
-            <p class="w3lsorder-text">Get your favourite food in 4 simple steps.</p>
+            <h3 class="w3ls-title">How To Order Product</h3>
+            <p class="w3lsorder-text">Get your favourite product in 4 simple steps.</p>
             <div class="order-agileinfo">
                 <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids">
                     <div class="order-w3text">
-                        <i class="fa fa-map" aria-hidden="true"></i>
-                        <h5>Search Area</h5>
+                        <i class="fa fa-solid fa-cube" aria-hidden="true"></i>
+                        <h5>Choose Product</h5>
                         <span>1</span>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids">
-                    <div class="order-w3text">
-                        <i class="fa fa-cutlery" aria-hidden="true"></i>
-                        <h5>Choose Food</h5>
-                        <span>2</span>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids">
                     <div class="order-w3text">
                         <i class="fa fa-credit-card" aria-hidden="true"></i>
                         <h5>Pay Money</h5>
+                        <span>2</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids">
+                    <div class="order-w3text">
+                        <i class="fa fa-truck" style="" aria-hidden="true"></i>
+                        <h5>shipping</h5>
                         <span>3</span>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-3 col-xs-6 order-w3lsgrids">
                     <div class="order-w3text">
-                        <i class="fa fa-truck" aria-hidden="true"></i>
-                        <h5>Enjoy Food</h5>
+                        <i class="fa fa-solid fa-box" aria-hidden="true"></i>
+                        <h5>Handed Order</h5>
                         <span>4</span>
                     </div>
                 </div>
@@ -132,11 +150,18 @@
                     <div id="owl-demo" class="owl-carousel text-center agileinfo-gallery-row">
                         @foreach ($dishes as $dish)
                             <a href="{{ route('dish_show', ['category_id' => $dish->category_id]) }}" class="item g1"
-                                style="height: 200px;width: 200px">
-                                <img class="lazyOwl" style="height: 200px;width: 200px"
+                                style="height: 200px; width: 200px; display: inline-block; text-align: center; position: relative;">
+                                <img class="lazyOwl" style="height: 200px; width: 200px;"
                                     src="{{ asset('dish_images/' . $dish->dish_image) }}" title="Our latest gallery"
                                     alt="" />
-                                <div class="agile-dish-caption" style="width: 200px">
+
+                                @if ($dish->number_of_products == 0)
+                                    <img class="sold-out-img"
+                                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 50px; width: 150px;"
+                                        src="{{ asset('sold-out-png-19953.png') }}" title="Sold Out" alt="Sold Out" />
+                                @endif
+
+                                <div class="agile-dish-caption">
                                     <h4>{{ $dish->dish_name }}</h4>
                                     <span>{{ $dish->dish_detail }}</span>
                                 </div>

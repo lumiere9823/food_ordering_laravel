@@ -49,9 +49,8 @@ class OrderController extends Controller
                 'payments.payment_status',
                 'shippings.*',
             )
-            ->where('orders.shipper_id', "")
+            ->where('orders.shipper_id', null)
             ->get();
-
         return view('BackEnd.shipper.manage', compact('orders'));
         }
         else

@@ -5,15 +5,15 @@
 
 @section('content')
     <div class="products">
-        <div class="container">
-            <div class="col-md-9 product-w3ls-right">
+        <div class="">
+            <div class="col-md-10 product-w3ls-right">
                 <div class="product-top">
                     <h4>Food Collection</h4>
                     <div class="clearfix"> </div>
                 </div>
                 <div class="products-row">
                     @foreach ($categoryDish as $dish)
-                        <div class="col-xs-6 col-sm-4 product-grids">
+                        <div class="col-xs-6 col-sm-2 product-grids" style="margin-left: 100px">
                             <div class="flip-container">
                                 <div class="flipper agile-products">
                                     <div class="front">
@@ -32,9 +32,6 @@
                                             <input type="hidden" name="add" value="1">
                                             <input type="hidden" name="w3ls_item" value="{{ $dish->dish_name }}">
                                             <input type="hidden" name="amount" value="{{ $dish->full_price }}">
-                                            <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus"
-                                                    aria-hidden="true"></i> Add to cart</button>
-                                            <span class="w3-agile-line"> </span>
                                             <a href="#" data-toggle="modal"
                                                 data-target="#myModal1{{ $dish->dish_id }}">More</a>
                                         </form>
@@ -81,34 +78,26 @@
                                                     </ul>
                                                 </div>
                                                 <p class="single-price-text">{{ $dish->dish_detail }}</p>
-                                                <form action="{{ route('add_to_cart') }}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="dish_id" value="{{ $dish->dish_id }}" />
-                                                    <input type="number" min="1" name="qty" value="1" />
-                                                    <button type="submit" class="w3ls-cart"><i class="fa fa-cart-plus"
-                                                            aria-hidden="true"></i> Add to cart</button>
-                                                    <span class="w3-agile-line"></span>
-                                                    <a href="#" data-toggle="modal"
-                                                        data-target="#myModal1{{ $dish->dish_id }}"></a>
-                                                </form>
-                                                <a href="#" class="w3ls-cart w3ls-cart-like"><i class="fa fa-heart-o"
-                                                        aria-hidden="true"></i> Add to Wishlist</a>
-                                                <div class="single-page-icons social-icons">
-                                                    <ul>
-                                                        <li>
-                                                            <h4>Share on</h4>
-                                                        </li>
-                                                        <li><a href="#" class="fa fa-facebook icon facebook"> </a>
-                                                        </li>
-                                                        <li><a href="#" class="fa fa-twitter icon twitter"> </a>
-                                                        </li>
-                                                        <li><a href="#" class="fa fa-google-plus icon googleplus">
-                                                            </a></li>
-                                                        <li><a href="#" class="fa fa-dribbble icon dribbble"> </a>
-                                                        </li>
-                                                        <li><a href="#" class="fa fa-rss icon rss"> </a></li>
-                                                    </ul>
-                                                </div>
+                                                @if ($dish->number_of_products !== 0)
+                                                    <form action="{{ route('add_to_cart') }}" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="dish_id"
+                                                            value="{{ $dish->dish_id }}" />
+                                                        <input type="number" min="1" name="qty"
+                                                            value="1" />
+                                                        <button type="submit" class="w3ls-cart"><i class="fa fa-cart-plus"
+                                                                aria-hidden="true"></i> Add to cart</button>
+                                                        <span class="w3-agile-line"></span>
+                                                        <a href="#" data-toggle="modal"
+                                                            data-target="#myModal1{{ $dish->dish_id }}"></a>
+                                                    </form>
+                                                @else
+                                                    <input type="number" min="1" name="qty" value="1"
+                                                        disabled />
+                                                    <button type="button" class="w3ls-cart" disabled><i
+                                                            class="fa fa-cart-plus" aria-hidden="true"></i> Add to
+                                                        cart</button>
+                                                @endif
                                             </div>
                                             <div class="clearfix"> </div>
                                         </div>
@@ -120,7 +109,7 @@
                     <div class="clearfix"> </div>
                 </div>
             </div>
-            <div class="col-md-3 rsidebar">
+            <div class="col-md-2 rsidebar">
                 <div class="rsidebar-top">
                     <div class="slider-left">
                         <h4>CHOOSE BY CATEGORY</h4>
