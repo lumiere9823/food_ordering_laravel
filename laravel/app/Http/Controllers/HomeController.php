@@ -15,35 +15,42 @@ class HomeController extends Controller
         if(Auth::user()->role == 3){
             return redirect('/');
         }
-        $today = Carbon::today();
+        if(Auth::user()->role == 1){
+            $today = Carbon::today();
+            $yesterday = Carbon::yesterday();
+            
+            $firstDayOfMonth = Carbon::now()->startOfMonth();
+            $lastDayOfMonth = Carbon::now()->endOfMonth();
+            $totalOrders = Order::whereBetween('created_at', [$firstDayOfMonth, $lastDayOfMonth])->count();
+            $totalRevenue = Order::whereBetween('created_at', [$firstDayOfMonth, $lastDayOfMonth])->sum('order_total');
+            $totalProductSold = OrderDetail::whereBetween('created_at', [$firstDayOfMonth, $lastDayOfMonth])->sum('dish_qty');
 
-        $yesterday = Carbon::yesterday();
+            $totalOrdersYesterday = Order::whereDate('created_at', $yesterday)->count();
+            $totalRevenueYesterday = Order::whereDate('created_at', $yesterday)->sum('order_total');
+            $totalProductSoldYesterday = OrderDetail::whereDate('created_at', $yesterday)->sum('dish_qty');
 
-        $firstDayOfMonth = Carbon::now()->startOfMonth();
-        $lastDayOfMonth = Carbon::now()->endOfMonth();
-        $totalOrders = Order::whereBetween('created_at', [$firstDayOfMonth, $lastDayOfMonth])->count();
-        $totalRevenue = Order::whereBetween('created_at', [$firstDayOfMonth, $lastDayOfMonth])->sum('order_total');
-        $totalProductSold = OrderDetail::whereBetween('created_at', [$firstDayOfMonth, $lastDayOfMonth])->sum('dish_qty');
+            $totalOrdersToday = Order::whereDate('created_at', $today)->count();
+            $totalRevenueToday = Order::whereDate('created_at', $today)->sum('order_total');
+            $totalProductSoldToday = OrderDetail::whereDate('created_at', $today)->sum('dish_qty');
 
-        $totalOrdersYesterday = Order::whereDate('created_at', $yesterday)->count();
-        $totalRevenueYesterday = Order::whereDate('created_at', $yesterday)->sum('order_total');
-        $totalProductSoldYesterday = OrderDetail::whereDate('created_at', $yesterday)->sum('dish_qty');
-
-        $totalOrdersToday = Order::whereDate('created_at', $today)->count();
-        $totalRevenueToday = Order::whereDate('created_at', $today)->sum('order_total');
-        $totalProductSoldToday = OrderDetail::whereDate('created_at', $today)->sum('dish_qty');
-
-        $data = [
-            'totalOrders' => $totalOrders,
-            'totalRevenue' => $totalRevenue,
-            'totalProductSold' => $totalProductSold,
-            'totalOrdersYesterday' => $totalOrdersYesterday,
-            'totalRevenueYesterday' => $totalRevenueYesterday,
-            'totalProductSoldYesterday' => $totalProductSoldYesterday,
-            'totalOrdersToday' => $totalOrdersToday,
-            'totalRevenueToday' => $totalRevenueToday,
-            'totalProductSoldToday' => $totalProductSoldToday,
-        ];
+            $data = [
+                'totalOrders' => $totalOrders,
+                'totalRevenue' => $totalRevenue,
+                'totalProductSold' => $totalProductSold,
+                'totalOrdersYesterday' => $totalOrdersYesterday,
+                'totalRevenueYesterday' => $totalRevenueYesterday,
+                'totalProductSoldYesterday' => $totalProductSoldYesterday,
+                'totalOrdersToday' => $totalOrdersToday,
+                'totalRevenueToday' => $totalRevenueToday,
+                'totalProductSoldToday' => $totalProductSoldToday,
+            ];
+        }
+        if(Auth::user()->role == 2){
+            $orders = count(Order::where('shipper_id', Auth::user()->id)->get());
+            $data = [
+                'orders' => $orders
+            ];
+        }
 
         return view('BackEnd.Home.index', $data);
     }

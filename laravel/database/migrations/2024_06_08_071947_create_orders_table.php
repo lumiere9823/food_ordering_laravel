@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('order_id');
             $table->integer('user_id');
             $table->integer('shipping_id');
+            $table->integer('shipper_id')->nullable();
             $table->integer('coupon_id')->nullable();
             $table->float('order_total',10,2);
             $table->string('order_status')->default('pending');

@@ -17,24 +17,29 @@
                         <div class="card"
                             style="cursor: pointer; border: 1px solid #ccc; border-radius: 12px; padding: 10px;background-color: #f8f9fa;"
                             data-toggle="modal" data-target="#orderDetailModal{{ $order->order_id }}">
-                            <div class="card-header" style=" padding-top: 4px;">
+                            <div class="card-header"
+                                style="display: flex;justify-content: space-between; padding-top: 4px;">
                                 <h5>Order #{{ $index + 1 }}</h5>
+                                <form method="POST" action="{{ route('accepted_order', $order->order_id) }}">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-primary">Nhận đơn hàng</button>
+                                </form>
                             </div>
                             <hr style="border-color: black;">
                             <div class="card-body">
                                 <p><strong>Customer Name:</strong> {{ $order->name }}</p>
                                 <p><strong>Order Total:</strong> {{ $order->order_total }}</p>
                                 <p><strong>Order Status:</strong> {{ $order->order_status }}</p>
-                                @isset($order->shipper_id)
-                                    <p><strong>Shipper id:</strong> {{ $order->shipper_id }}</p>
-                                @endisset
                                 <p><strong>Cusomer Address:</strong> {{ $order->address }}</p>
                                 <p><strong>Payment Type:</strong> {{ $order->payment_type }}</p>
                                 <p><strong>Payment Status:</strong> {{ $order->payment_status }}</p>
                             </div>
+
                         </div>
                     </div>
 
+                    <!-- Modal for Order Details -->
                     <div class="modal fade" id="orderDetailModal{{ $order->order_id }}" tabindex="-1" role="dialog"
                         aria-labelledby="orderDetailModalLabel{{ $order->order_id }}" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -89,7 +94,7 @@
                                         ?>
                                         @foreach ($order_details as $index => $order_detail)
                                             <div style="padding: 10px;">
-                                                <label for="dish_info">Product {{ $index + 1 }}</label>
+                                                <label for="dish_info">Dish {{ $index + 1 }}</label>
                                                 <div style="margin-bottom: 10px;">
                                                     <label for="OrderName">Name</label>
                                                     <input type="text" class="form-control" id="OrderName"
@@ -111,21 +116,9 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    @if (Auth::user()->role == 1)
-                                        <div style="text-align: center; margin-top: 10px;">
-                                            <form method="POST" action="{{ route('delete_order', $order->order_id) }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button id="deleteOrderBtn_{{ $order->order_id }}"
-                                                    class="btn btn-danger show_confirm" data-toggle="tooltip"
-                                                    title='Delete'>Delete</button>
-                                            </form>
-                                        </div>
-                                    @endif
                                 </div>
                             </div>
                         </div>
-                    </div>
                 @endforeach
             </div>
         </section>

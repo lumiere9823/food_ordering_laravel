@@ -18,7 +18,8 @@
                                     @if (Auth::check() && Auth::user()->role == '1')
                                         <li><a href="{{ route('home.index') }}" style="color:#E14740">Dashboard</a></li>
                                     @else
-                                        <li><a href="#" style="color:#E14740">Orders</a></li>
+                                        <li><a href="{{ route('order_manage_shipper') }}"
+                                                style="color:#E14740">Orders</a></li>
                                     @endif
                                 </ul>
                             @else

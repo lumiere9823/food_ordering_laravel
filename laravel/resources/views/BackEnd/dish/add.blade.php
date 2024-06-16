@@ -1,5 +1,4 @@
 @extends('layouts.app-master')
-
 @section('content')
     <div class="content-wrapper">
         <section class="content container">
@@ -16,21 +15,24 @@
                     @endif
                     <div class="card">
                         <div class="card-header text-center">
-                            Add Dish
+                            Add Product
                         </div>
                         <div class="card-body">
                             <form action="{{ url('/dish/save') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="dish_name">Dish Name</label>
+                                    <label for="dish_name">Product Name</label>
                                     <input style="border-radius:12px" type="text" class="form-control" name="dish_name">
                                 </div>
-
                                 <div class="form-group">
-                                    <label for="dish_detail">Dish Detail</label>
+                                    <label for="dish_detail">Product Detail</label>
                                     <textarea style="border-radius:12px" class="form-control" name="dish_detail" rows="3"></textarea>
                                 </div>
-
+                                <div class="form-group">
+                                    <label for="number_of_products">Number of Products</label>
+                                    <input type="number" style="border-radius:12px" class="form-control"
+                                        name="number_of_products" rows="3"></input>
+                                </div>
                                 <div class="form-group">
                                     <label for="category_id">Category</label>
                                     <select class="form-control" id="category_id" name="category_id">
@@ -41,15 +43,13 @@
                                         @endforeach
                                     </select>
                                 </div>
-
                                 <div class="form-group">
-                                    <label for="dish_image">Dish Image</label>
+                                    <label for="dish_image">Product Image</label>
                                     <input style="border-radius:12px" type="file" class="form-control-file"
                                         name="dish_image">
                                 </div>
-
                                 <div class="form-group d-flex justify-content-center">
-                                    <label for="dish_status">Dish Status</label>
+                                    <label for="dish_status">Product Status</label>
                                     <div class="radio" style="margin-left:20px; display:flex">
                                         <div>
                                             <input type="radio" name="dish_status" value="1" id="active" checked>
@@ -61,9 +61,8 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="card">
-                                    <div class="card-header" title="You can skip this">Dish attribute</div>
+                                    <div class="card-header" title="You can skip this">Product attribute</div>
                                     <div class="card-body">
                                         <div class="form-group">
                                             <div class="row">
@@ -76,9 +75,7 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <button type="submit" class="btn btn-success">Add</button>
-
                             </form>
                         </div>
                     </div>

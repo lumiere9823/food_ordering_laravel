@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Auth;
 use Session;
 
 class OrderController extends Controller
 {
-    public function manageOrder()
+    public function manageOrderAdmin()
     {
-
+        if(Auth::user()->role !== 2)
+        {
         $orders = DB::table('orders')
             ->join('users', 'orders.user_id', '=', 'users.id')
             ->join('payments', 'orders.order_id', '=', 'payments.order_id')
@@ -25,6 +27,64 @@ class OrderController extends Controller
             ->get();
 
         return view('BackEnd.order.manage', compact('orders'));
+        }
+        else
+        {
+            return redirect()->back();
+        }
+    }
+    
+    public function manageOrderShipper()
+    {
+        if(Auth::user()->role == 2)
+        {
+        $orders = DB::table('orders')
+            ->join('users', 'orders.user_id', '=', 'users.id')
+            ->join('payments', 'orders.order_id', '=', 'payments.order_id')
+            ->join('shippings', 'orders.shipping_id', '=', 'shippings.id')
+            ->select(
+                'orders.*',
+                'users.name',
+                'payments.payment_type',
+                'payments.payment_status',
+                'shippings.*',
+            )
+            ->where('orders.shipper_id', "")
+            ->get();
+
+        return view('BackEnd.shipper.manage', compact('orders'));
+        }
+        else
+        {
+            return redirect()->back();
+        }
+    }
+    
+    public function manageOrderSelfShipper()
+    {
+        $id = Auth::user()->id;
+        if(Auth::user()->role == 2)
+        {
+        $orders = DB::table('orders')
+            ->join('users', 'orders.user_id', '=', 'users.id')
+            ->join('payments', 'orders.order_id', '=', 'payments.order_id')
+            ->join('shippings', 'orders.shipping_id', '=', 'shippings.id')
+            ->select(
+                'orders.*',
+                'users.name',
+                'payments.payment_type',
+                'payments.payment_status',
+                'shippings.*',
+            )
+            ->where('orders.shipper_id', $id)
+            ->get();
+
+        return view('BackEnd.shipper.shipper_order', compact('orders'));
+        }
+        else
+        {
+            return redirect()->back();
+        }
     }
 
     public function deleteOrder($id)
@@ -36,4 +96,29 @@ class OrderController extends Controller
         Session::put('sms', 'Order Deleted Successfully');
         return redirect()->back();
     }
+
+    public function acceptOrder($id)
+    {
+        $shipper_id = Auth::user()->id;
+        DB::table('orders')->where('order_id', $id)->update(['shipper_id' => $shipper_id, 'order_status' => 'accepted']);
+
+        Session::put('sms', 'Order Accepted Successfully');
+        return redirect()->back();
+    } 
+
+    public function updateStatus($id)
+{
+    DB::table('orders')->where('order_id', $id)->update(['order_status' => 'completed']);
+
+    // $paymentType = DB::table('payments')->where('order_id', $id)->value('payment_type');
+
+    // if ($paymentType.equalToIgnoringCase('Cash')) {
+    //     DB::table('payments')->where('order_id', $id)->update(['payment_status' => 'completed']);
+    // }
+
+    Session::put('sms', 'Order Status Updated Successfully');
+    return redirect()->back();
+}
+
+
 }

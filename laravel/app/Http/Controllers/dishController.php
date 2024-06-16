@@ -23,6 +23,7 @@ class DishController extends Controller
             'dish_detail' => 'required|string',
             'dish_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:7000',
             'dish_status' => 'required|integer',
+            'number_of_products' => 'required|integer',
         ]);
 
         $dish = new Dish();
@@ -30,6 +31,7 @@ class DishController extends Controller
         $dish->category_id = $request->category_id;
         $dish->dish_name = $request->dish_name;
         $dish->dish_detail = $request->dish_detail;
+        $dish->number_of_products = $request->number_of_products;
 
 
         if ($request->hasFile('dish_image')) {

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('dish_id');
             $table->foreignId('category_id');
             $table->string('dish_name');
+            $table->integer('number_of_products')->default(0);
             $table->longText('dish_detail');
             $table->text('dish_image');
             $table->integer('dish_status');

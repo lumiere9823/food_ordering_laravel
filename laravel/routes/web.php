@@ -21,9 +21,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
         Route::get('/login', 'LoginController@show')->name('login.show');
         Route::post('/login', 'LoginController@login')->name('login.perform');
-
+        
     });
-
+    
+    Route::get('/auth/google', 'App\Http\Controllers\GoogleAuthController@redirectToGoogle')->name('google-auth');
+    Route::get('/auth/google/callback', 'App\Http\Controllers\GoogleAuthController@handleGoogleCallback');
+    
     Route::group(['middleware' => ['auth']], function() {
 
         Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
@@ -52,7 +55,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::delete('/dish/delete/{id}', 'DishController@delete')->name('delete_dish');
         Route::post('/dish/change-status/{id}', 'DishController@changeStatus')->name('change_dish_status');
 
-        Route::get('/order/manage','OrderController@manageOrder')->name('order_manage');
 
         Route::get('/role/add','RoleController@show')->name('show_role_table');
         Route::post('/role/save','RoleController@store')->name('role_save');
@@ -65,7 +67,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::post('/checkout/new/order','CheckOutController@order')->name('new_order');
         Route::get('/checkout/order/complete','CheckOutController@order_complete')->name('order_complete');
 
+        Route::get('/order/manage','OrderController@manageOrderAdmin')->name('order_manage');
+        Route::get('/order/manage-shipper','OrderController@manageOrderShipper')->name('order_manage_shipper');
+        Route::get('/order/manage-self-shipper','OrderController@manageOrderSelfShipper')->name('order_manage_self_shipper');
         Route::delete('/order/delete/{order_id}','OrderController@deleteOrder')->name('delete_order');
+        Route::put('/order/update-status/{id}', 'OrderController@updateStatus')->name('update_status');
+        Route::put('/order/accepted_order/{id}', 'OrderController@acceptOrder')->name('accepted_order');
 
         Route::post('/coupon/apply','UserController@couponApply')->name('apply_coupon');
         
