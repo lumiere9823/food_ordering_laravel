@@ -55,9 +55,10 @@
                                         aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-user" aria-hidden="true"></i> Your Orders
                                     </a>
-                                    <ul class="dropdown-menu" style="overflow-y: auto; max-height: 300px;">
+                                    <ul class="dropdown-menu"
+                                        style="overflow-y: auto; max-height: 300px;min-width:250px;overflow-x:hidden">
                                         @foreach ($orders as $index => $order)
-                                            <li style="width:200px;margin-top:20px;">
+                                            <li style="width:200px;margin-top:20px;margin-left:20px ">
                                                 <div>
                                                     <div style="display: flex;justify-content: space-between;">
                                                         <p>Order {{ $index + 1 }}</p>
@@ -114,3 +115,13 @@
         </div>
     </div>
 </div>
+<script>
+    function toggleDropdown() {
+        var dropdownContent = document.getElementById("dropdownContent");
+        if (dropdownContent.style.display === "none") {
+            dropdownContent.style.display = "block";
+        } else {
+            dropdownContent.style.display = "none";
+        }
+    }
+</script>

@@ -4,142 +4,201 @@ namespace App\Http\Controllers;
 
 use App\Models\BankAccount;
 use App\Models\BankTransaction;
-use App\http\BIDVBankController;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Psy\Util\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Log;
 
 class TransactionController extends Controller
 {
 
-    public function checkCall(Request $request) {
+    public function checkCall(Request $request)
+    {
         $needle = $request->needle;
-        if ($needle == null || $needle == "" || $needle == "undefined" || $needle == 0)
+
+        if (!$needle || $needle === "" || $needle === "undefined" || $needle === 0) {
             return response()->json([
                 'success' => false,
                 'data' => [],
                 'message' => 'Needle is required',
             ]);
+        }
+
         try {
             $match = false;
+
             (new BIDVBankController)->syncTransaction();
-            $data = BankTransaction::where('type',1)->where('checked', false)->where('content', 'like', "%".$needle."%")->get();
+
+            $data = BankTransaction::where('type', 1)
+                ->where('checked', false)
+                ->where('content', 'like', "%" . $needle . "%")
+                ->get();
+
             $qr = \App\Models\QrCode::where('code', $needle)->first();
-            foreach($data as $transaction) {
-                if($qr->amount <= $transaction->amount) {
+
+            foreach ($data as $transaction) {
+                if ($qr->amount <= $transaction->amount) {
                     $match = true;
                     $transaction->checked = true;
                     $transaction->save();
+
                     $qr->transaction_id = $transaction->id;
                     $qr->checked = true;
                     $qr->updated_at = Carbon::now();
                     $qr->save();
                 }
             }
-            if($data->count() > 0) {
+
+            if ($data->count() > 0) {
                 event(new \App\Events\PushScreenData(0, 'payment_received', []));
                 event(new \App\Events\PushScreenData(1, 'payment_received', []));
+
                 return response()->json([
                     'success' => true,
                     'data' => $data,
-                    'message' => 'Here we go',
+                    'message' => 'Transactions found and processed',
                     'match' => $match,
                 ]);
-            }
-            else
+            } else {
                 return response()->json([
                     'success' => false,
                     'data' => [],
-                    'message' => 'Do not found any unchecked transaction',
+                    'message' => 'No unchecked transactions found',
                 ]);
+            }
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'false',
-                'data' => [],
-                'message' => $e->getMessage(),
-            ]);
-        }
+            Log::error('Check Call Error: ' . $e->getMessage());
 
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'message' => 'Internal Server Error',
+            ], 500);
+        }
     }
 
-    public function generateQR(Request $request){
+    public function generateQR(Request $request)
+    {
         $amount = $request->amount;
+
         if ($amount <= 0) {
             return response()->json([
                 'success' => false,
                 'uuid' => null,
-                'message' => 'Số tiền không hợp lệ'
+                'message' => 'Invalid amount',
             ]);
         }
+
         $qr = new \App\Models\QrCode();
         $qr->amount = $amount;
-        $qr->code = "POS".\Illuminate\Support\Str::random(6);
+        $qr->code = "POS" . \Illuminate\Support\Str::random(6);
         $qr->uuid = \Illuminate\Support\Str::uuid();
         $qr->content = "";
         $qr->save();
+
         return response()->json([
             'success' => true,
             'uuid' => $qr->uuid,
-            'message' => 'Tạo mã QR thành công'
+            'message' => 'QR code generated successfully',
         ]);
     }
 
-    public function displayQR(Request $request){
+    public function displayQR(Request $request)
+{
+    try {
         $qr = \App\Models\QrCode::where('uuid', $request->uuid)->first();
-        $bank_id = $request->bank_id;
-        $bank = BankAccount::find($bank_id);
-        if(!$bank) {
+
+        if (!$qr) {
             return response()->json([
                 'success' => false,
-                'data' => [],
-                'message' => 'Không tìm thấy ngân hàng'
-            ]);
+                'message' => 'QR code not found',
+            ], 404);
         }
+
+        $bank = BankAccount::find($request->bank_id);
+        if (!$bank) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bank account not found',
+            ], 404);
+        }
+
         $bankCode = $bank->bank;
         $bankAccount = $bank->account;
         $message = $qr->code;
         $hash = $this->generate_string_hash($bankCode, $bankAccount, $qr->amount, $message);
-        $qrCode = QrCode::style('round')->size(300)->generate($hash);
-        if ($qr == null) {
-            return response("Không tìm thấy mã QR", 404);
-        }
-        return $qrCode;
-    }
 
-    public static function genQRUUID($amount) {
+        $qrCode = \SimpleSoftwareIO\QrCode\Facades\QrCode::size(300)->generate($hash);
+        $qrCodeBase64 = base64_encode($qrCode);
+
+        Log::info($qrCodeBase64);
+        return response()->json([
+            'success' => true,
+            'qrCode' => $qrCodeBase64,
+            'message' => 'QR code generated successfully',
+        ]);
+    } catch (\Exception $e) {
+        // Log the error
+        Log::error('Display QR Error: ' . $e->getMessage());
+
+        // Return a JSON response with internal server error status
+        return response()->json([
+            'success' => false,
+            'message' => 'Internal Server Error',
+        ], 500);
+    }
+}
+
+
+    public static function genQRUUID($amount)
+    {
         $qr = new \App\Models\QrCode();
         $qr->amount = $amount;
-        $qr->code = "POS".\Illuminate\Support\Str::random(6);
+        $qr->code = "POS" . \Illuminate\Support\Str::random(6);
         $qr->uuid = \Illuminate\Support\Str::uuid();
         $qr->content = "";
         $qr->save();
+
         return $qr;
     }
 
-    public static function dispQr($amount, $bank_id) {
-        if($amount <= 0) {
+    public static function dispQr($amount, $bank_id)
+    {
+        // Validate inputs
+        if ($amount <= 0 || !$bank_id) {
             return false;
         }
-        if(!$bank_id) {
-            return false;
-        }
+
+        // Find bank account by ID
         $bank = BankAccount::find($bank_id);
-        if(!$bank) {
+        if (!$bank) {
             return false;
         }
+
+        // Generate a QR code UUID
         $qr = TransactionController::genQRUUID($amount);
         $bankCode = $bank->bank;
         $bankAccount = $bank->bank_number;
         $message = $qr->code;
+
+        // Generate hash for QR code content
         $hash = (new TransactionController)->generate_string_hash($bankCode, $bankAccount, $qr->amount, $message);
-        $qrCode = QrCode::style('round')->size(300)->generate($hash);
-        return ['needle'=> $qr->code, 'qr' => $qrCode];
+
+        // Generate QR code image
+        $qrCode = \SimpleSoftwareIO\QrCode\Facades\QrCode::style('round')->size(300)->generate($hash);
+
+        return ['needle' => $qr->code, 'qr' => $qrCode];
     }
 
-
-    private function generateCheckSum($text) {
+    /**
+     * Generate a checksum for the given text.
+     *
+     * @param string $text
+     * @return string
+     */
+    private function generateCheckSum($text)
+    {
         $crc = 0xFFFF;          // initial value
         $polynomial = 0x1021;   // 0001 0000 0010 0001  (0, 5, 12)
         $bytes = str_split($text);
@@ -160,7 +219,7 @@ class TransactionController extends Controller
     private function generate_string_hash($bankCode, $bankAccount, $amount, $message): string
     {
         $bankIdByCode = array(
-            "BIDV" => "BIDVVNVX"
+            "BIDV" => "BIDV"
         );
 
         if (!isset($bankIdByCode[$bankCode])) {
