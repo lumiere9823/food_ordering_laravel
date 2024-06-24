@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Dish;
 use App\Models\OrderDetail;
 use App\Models\Payment;
 use App\Models\Coupon;
@@ -47,6 +48,7 @@ class CheckOutController extends Controller
                 $orderDetails->dish_name = $cartProduct->name;
                 $orderDetails->dish_price = $cartProduct->price;
                 $orderDetails->dish_qty = $cartProduct->qty;
+                Dish::where('dish_id',$cartProduct->id)->decrement('number_of_products',$cartProduct->qty);
                 $orderDetails->save();
             }
 
@@ -74,6 +76,7 @@ class CheckOutController extends Controller
                 $orderDetails->dish_name = $cartProduct->name;
                 $orderDetails->dish_price = $cartProduct->price;
                 $orderDetails->dish_qty = $cartProduct->qty;
+                Dish::where('dish_id',$cartProduct->id)->decrement('number_of_products',$cartProduct->qty);
                 $orderDetails->save();
             }
 

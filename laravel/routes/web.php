@@ -84,8 +84,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/shipping','UserController@shipping')->name('shipping.show');
         Route::post('/shipping/store','UserController@store_shipping')->name('store_shipping');
 
-        Route::post('/display-qr', 'TransactionController@displayQR')->name('display_qr');
         Route::post('/generate-qr', 'TransactionController@generateQR')->name('generate_qr');
+        Route::post('/display-qr', 'TransactionController@displayQR')->name('display_qr');
 
     });
 });

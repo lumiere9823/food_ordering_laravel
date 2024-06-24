@@ -105,51 +105,47 @@ class TransactionController extends Controller
     }
 
     public function displayQR(Request $request)
-{
-    try {
-        $qr = \App\Models\QrCode::where('uuid', $request->uuid)->first();
+    {
+        try {
+            $qr = \App\Models\QrCode::where('uuid', $request->uuid)->first();
 
-        if (!$qr) {
+            if (!$qr) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'QR code not found',
+                ], 404);
+            }
+
+            $bank = BankAccount::find(1);
+            if (!$bank) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Bank account not found',
+                ], 404);
+            }
+
+            $bankCode = $bank->bank;
+            $bankAccount = $bank->bank_number;
+            $message = $qr->code;
+            $hash = $this->generate_string_hash($bankCode, $bankAccount, $qr->amount, $message);
+
+            $qrCode = \SimpleSoftwareIO\QrCode\Facades\QrCode::size(300)->generate($hash);
+            $qrCodeBase64 = base64_encode($qrCode);
+
+            return response()->json([
+                'success' => true,
+                'qrCode' => $qrCodeBase64,
+                'message' => 'QR code generated successfully',
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Display QR Error: ' . $e->getMessage());
+
             return response()->json([
                 'success' => false,
-                'message' => 'QR code not found',
-            ], 404);
+                'message' => 'Internal Server Error',
+            ], 500);
         }
-
-        $bank = BankAccount::find($request->bank_id);
-        if (!$bank) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Bank account not found',
-            ], 404);
-        }
-
-        $bankCode = $bank->bank;
-        $bankAccount = $bank->account;
-        $message = $qr->code;
-        $hash = $this->generate_string_hash($bankCode, $bankAccount, $qr->amount, $message);
-
-        $qrCode = \SimpleSoftwareIO\QrCode\Facades\QrCode::size(300)->generate($hash);
-        $qrCodeBase64 = base64_encode($qrCode);
-
-        Log::info($qrCodeBase64);
-        return response()->json([
-            'success' => true,
-            'qrCode' => $qrCodeBase64,
-            'message' => 'QR code generated successfully',
-        ]);
-    } catch (\Exception $e) {
-        // Log the error
-        Log::error('Display QR Error: ' . $e->getMessage());
-
-        // Return a JSON response with internal server error status
-        return response()->json([
-            'success' => false,
-            'message' => 'Internal Server Error',
-        ], 500);
     }
-}
-
 
     public static function genQRUUID($amount)
     {
@@ -219,7 +215,7 @@ class TransactionController extends Controller
     private function generate_string_hash($bankCode, $bankAccount, $amount, $message): string
     {
         $bankIdByCode = array(
-            "BIDV" => "BIDV"
+            "BIDV" => "970418"
         );
 
         if (!isset($bankIdByCode[$bankCode])) {
