@@ -15,12 +15,12 @@
                 @foreach ($orders as $index => $order)
                     <div class="mb-3">
                         <div class="card"
-                            style="cursor: pointer; border: 1px solid #ccc; border-radius: 12px; padding: 10px;background-color: #f8f9fa;"
+                            style="cursor: pointer; border: 1px solid #ccc; border-radius: 12px; background-color: #f8f9fa;"
                             data-toggle="modal" data-target="#orderDetailModal{{ $order->order_id }}">
-                            <div class="card-header" style=" padding-top: 4px;">
+                            <div class="card-header" style=" padding-top: 4px;@if($order->order_status == 'completed') background-color: lightgreen; @elseif($order->order_status == 'pending') background-color: red; @else text-primary @endif">
                                 <h5>Order #{{ $index + 1 }}</h5>
                             </div>
-                            <hr style="border-color: black;">
+                            <hr style="border-color: black;margin-top:0;padding-left: 10px;">
                             <div class="card-body">
                                 <p><strong>Customer Name:</strong> {{ $order->name }}</p>
                                 <p><strong>Order Total:</strong> {{ $order->order_total }}</p>

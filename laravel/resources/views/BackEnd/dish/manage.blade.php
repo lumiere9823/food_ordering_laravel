@@ -21,7 +21,7 @@
                                         <th scope="col">Detail</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">Image</th>
-                                        <th scope="col">Created at</th>
+                                        <th scope="col">Product Left</th>
                                         <th scope="col">Updated at</th>
                                         <th scope="col">Action</th>
                                     </tr>
@@ -38,7 +38,7 @@
                                             <td><img src="{{ asset('dish_images/' . $dish->dish_image) }}" alt="Dish Image"
                                                     style="max-width: 200px">
                                             </td>
-                                            <td>{{ $dish->created_at }}</td>
+                                            <td>{{ $dish->number_of_products }}</td>
                                             <td>{{ $dish->updated_at }}</td>
                                             <td>
                                                 <div class="dropdown">
@@ -107,14 +107,24 @@
                                                                 <input type="text" class="form-control" id="dishName"
                                                                     name="dish_name" value="{{ $dish->dish_name }}">
                                                             </div>
+                                                            
                                                             <div class="form-group">
                                                                 <label for="dishDetail">Dish Detail</label>
                                                                 <textarea class="form-control" id="dishDetail" name="dish_detail" rows="3">{{ $dish->dish_detail }}</textarea>
                                                             </div>
+                                                            
                                                             <div class="form-group">
                                                                 <label for="dish_image">Dish Image</label>
                                                                 <input type="file" class="form-control-file"
                                                                     id="dish_image" name="dish_image">
+                                                            </div>
+                                                            
+                                                            <div class="form-group">
+                                                                <label for="dish_image">Product Left</label>
+                                                                <input type="number" class="form-control"
+                                                                                    name="number_of_products" id="number_of_products"
+                                                                                    placeholder="number_of_products"
+                                                                                    value="{{ $dish->number_of_products }}">
                                                             </div>
 
                                                             <div class="form-group">

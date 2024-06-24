@@ -48,8 +48,11 @@ class CheckOutController extends Controller
                 $orderDetails->dish_name = $cartProduct->name;
                 $orderDetails->dish_price = $cartProduct->price;
                 $orderDetails->dish_qty = $cartProduct->qty;
-                Dish::where('dish_id',$cartProduct->id)->decrement('number_of_products',$cartProduct->qty);
-                $orderDetails->save();
+                if($cartProduct->qty <= Dish::where('dish_id',$cartProduct->id)->first()->number_of_products){
+                    Dish::where('dish_id',$cartProduct->id)->decrement('number_of_products',$cartProduct->qty);
+                    $orderDetails->save();
+                }else{
+                    return \redirect('checkout/payment')->with('sms','Order failed');}
             }
 
             Cart::destroy();
@@ -76,8 +79,11 @@ class CheckOutController extends Controller
                 $orderDetails->dish_name = $cartProduct->name;
                 $orderDetails->dish_price = $cartProduct->price;
                 $orderDetails->dish_qty = $cartProduct->qty;
-                Dish::where('dish_id',$cartProduct->id)->decrement('number_of_products',$cartProduct->qty);
-                $orderDetails->save();
+                if($cartProduct->qty <= Dish::where('dish_id',$cartProduct->id)->first()->number_of_products){
+                    Dish::where('dish_id',$cartProduct->id)->decrement('number_of_products',$cartProduct->qty);
+                    $orderDetails->save();
+                }else{
+                    return \redirect('checkout/payment')->with('sms','Order failed');}
             }
 
             Cart::destroy();

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Dish;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use DB;
 use Auth;
 use Session;
@@ -88,6 +91,12 @@ class OrderController extends Controller
 
     public function deleteOrder($id)
     {
+        $orders = OrderDetail::where('order_id',$id)->get();
+        foreach($orders as $order){
+            $dish = Dish::where('dish_id',$order->dish_id)->first();
+            $dish->number_of_products = $dish->number_of_products + $order->dish_qty;
+            $dish->save();
+        }
         DB::table('orders')->where('order_id', $id)->delete();
         DB::table('payments')->where('order_id', $id)->delete();
         DB::table('order_details')->where('order_id', $id)->delete();

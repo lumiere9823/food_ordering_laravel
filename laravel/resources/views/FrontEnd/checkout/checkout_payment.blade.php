@@ -88,12 +88,10 @@ function handleOnlinePayment() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         data: {
-            amount: 1000
+            amount: "{{ Session::get('sum') }}"
         },
         success: function(response) {
-            console.log(response);
             if (response.success) {
-                console.log('QR code generated with UUID: ' + response.uuid);
                 displayQRCode(response.uuid);
             } else {
                 console.error('Failed to generate QR code: ' + response.message);
@@ -120,10 +118,8 @@ function displayQRCode(uuid) {
             bank_id: 1
         },
         success: function(response) {
-            console.log(response);
             if (response.success) {
                 qrCodeCard.show();
-                console.log(response.qrCode);
                 qrCodeCard.html(`
                     <h5>QR Code for Online Payment</h5>
                     <p>Scan this QR code to proceed with the payment.</p>
