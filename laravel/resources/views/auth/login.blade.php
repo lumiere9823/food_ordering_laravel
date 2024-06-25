@@ -2,7 +2,7 @@
 
 @section('content')
     <form method="post" action="{{ route('login.perform') }}">
-
+        @csrf
         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
         <img class="mb-4" src="https://t3.ftcdn.net/jpg/06/76/45/32/240_F_676453298_oawytYg5O4uT2TDkORl8t5rbGuuwGqf9.jpg"
             alt="" width="72" height="72">

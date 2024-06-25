@@ -9,13 +9,6 @@
                 <nav class="navbar navbar-default">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header w3l_logo">
-                        <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse"
-                            data-target="#bs-megadropdown-tabs">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
                         <h1><a href="{{ url('/') }}">Lì xì shop</a></h1>
                     </div>
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
@@ -26,9 +19,11 @@
                                         href="{{ route('dish_show', ['category_id' => $category->category_id]) }}">{{ $category->category_name }}</a>
                                 </li>
                             @endforeach
-                            <li class="w3pages">
-                                <a href="{{ route('cart_show') }}">Your Cart</a>
-                            </li>
+                            @if (!Auth::check())
+                                <li class="w3pages">
+                                    <a href="{{ route('cart_show') }}">Your Cart</a>
+                                </li>
+                            @endif
                             @if (Auth::check())
                                 @if (Auth::check())
                                     <li class="head-dpdn dropdown" style="position: relative;">
@@ -36,8 +31,8 @@
                                             aria-haspopup="true" aria-expanded="false">
                                             <i class="fa fa-user" aria-hidden="true"></i> {{ Auth::user()->name }}
                                         </a>
-                                        @if (Auth::user()->role !== 3)
-                                            <ul class="dropdown-menu" style="color:#E14740">
+                                        <ul class="dropdown-menu" style="color:#E14740">
+                                            @if (Auth::user()->role !== 3)
                                                 @if (Auth::check() && Auth::user()->role == '1')
                                                     <li><a href="{{ route('home.index') }}"
                                                             style="color:#E14740">Dashboard</a></li>
@@ -45,9 +40,12 @@
                                                     <li><a href="{{ route('order_manage_shipper') }}"
                                                             style="color:#E14740">Orders</a></li>
                                                 @endif
-                                            </ul>
-                                        @else
-                                        @endif
+                                            @else
+                                            @endif
+                                            <li class="w3pages">
+                                                <a href="{{ route('cart_show') }}">Your Cart</a>
+                                            </li>
+                                        </ul>
                                     </li>
                                 @endif
                                 <li class="head-dpdn dropdown" style="position: relative;">

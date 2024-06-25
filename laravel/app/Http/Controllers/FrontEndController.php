@@ -13,7 +13,6 @@ class FrontEndController extends Controller
 {
     public function index()
     {
-        Session::put('previous_url', '/');
         if(Dish::all()->isEmpty()){
             view('FrontEnd.include.home');
         }
@@ -38,19 +37,45 @@ class FrontEndController extends Controller
             }
         }
 
-        return view('FrontEnd.include.home', compact('dishes'));
+        $categories = Category::where('category_status', 1)->get();
+
+        return view('FrontEnd.include.home', compact('dishes','categories'));
     }
     public function dish_show(Request $request)
     {
-        Session::put('previous_url', '/category/dish/show/'.$request->category_id);
+        if ($request->has('dishes')) {
+            $categoryDish = $request->dishes;
+            return view('FrontEnd.include.dish', compact('categoryDish'));
+        }
         $categoryDish = Dish::where('dish_status', 1)
                             ->where('category_id', $request->category_id)
                             ->get();
-
         if ($categoryDish->isEmpty()) {
-            return redirect()->back()->with('error', 'No dishes found for this category');
+            return view('FrontEnd.include.dish');
+        }        
+        return view('FrontEnd.include.dish', compact('categoryDish'));
+    }
+
+    public function search(Request $request)
+    {
+        $productName = $request->input('product_name');
+        $categoryId = $request->input('category_id');
+        $query = Dish::query();
+
+        if (!empty($productName)) {
+            $query->where('dish_name', 'like', '%' . $productName . '%')->where('dish_status', 1); 
         }
 
-        return view('FrontEnd.include.dish', compact('categoryDish'));
+        if (!empty($categoryId)) {
+            $query->where('category_id', $categoryId);
+        }
+
+        $results = $query->get();
+
+        if ($results->isEmpty()) {
+            return view('FrontEnd.include.dish');
+        }
+
+        return $this->dish_show($request->merge(['category_id' => $categoryId, 'dishes' => $results]));
     }
 }

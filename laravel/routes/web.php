@@ -12,7 +12,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('add/remove', 'CartController@remove')->name('remove-item');
     Route::get('cart/show', 'CartController@show')->name('cart_show');
     Route::post('/update-quantity', 'CartController@updateQuantity')->name('update-quantity');
-
+    Route::post('/search', 'FrontEndController@search')->name('search');
     Route::get('/home', 'HomeController@index')->name('home.index');
     Route::group(['middleware' => ['guest']], function() {
 

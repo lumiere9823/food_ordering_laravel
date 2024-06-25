@@ -8,18 +8,24 @@
             <div class="container">
                 <h2>Delicious food from the <br> <span>Best Chefs For you.</span></h2>
                 <div class="agileits_search">
-                    <form action="#" method="post">
-                        <input name="Search" type="text" placeholder="Enter Your Area Name" required="">
-                        <select id="agileinfo_search" name="agileinfo_search" required="">
-                            <option value="">Popular Cities</option>
-                            <option value="navs">New York</option>
-                            <option value="quotes">Los Angeles</option>
-                            <option value="videos">Chicago</option>
-                            <option value="news">Phoenix</option>
-                            <option value="notices">Fort Worth</option>
-                            <option value="all">Other</option>
+                    <form action="{{ route('search') }}" method="post">
+                        @csrf
+                        <input name="product_name" type="text" placeholder="Enter Product Name">
+                        <select id="agileinfo_search" name="category_id">
+                            <option value="">All Categories</option>
+                            @foreach ($categories as $category)
+                                <option style="padding:20px;height: 100px;" value="{{ $category->category_id }}">
+                                    {{ $category->category_name }}</option>
+                            @endforeach
                         </select>
-                        <input type="submit" value="Search">
+                        <button type="submit"
+                            style="outline: none;
+                                border: none;
+                                background: #fd463e;
+                                color: #fff;
+                                padding: 1.1em 1em;
+                                font-size: 1em;
+                                width: 20%;">Search</button>
                     </form>
                 </div>
             </div>

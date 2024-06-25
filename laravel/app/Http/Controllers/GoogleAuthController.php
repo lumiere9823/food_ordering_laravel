@@ -9,28 +9,45 @@ use Laravel\Socialite\Facades\Socialite;
 
 class GoogleAuthController extends Controller
 {
+    /**
+     * Redirect the user to the Google authentication page.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
 
+    /**
+     * Obtain the user information from Google.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function handleGoogleCallback()
     {
-            $googleUser = Socialite::driver('google')->stateless()->user();
+        // Retrieve user information from Google
+        $googleUser = Socialite::driver('google')->stateless()->user();
 
-            $user = User::where('email', $googleUser->email)->first();
+        // Check if a user with the same email exists in the database
+        $user = User::where('email', $googleUser->email)->first();
 
-            if ($user) {
-                Auth::login($user);
-                return redirect('/'); 
-            } else {
-                $newUser = new User();
-                $newUser->name = $googleUser->name;
-                $newUser->email = $googleUser->email;
-                $newUser->save();
+        if ($user) {
+            // If user exists, log them in
+            Auth::login($user);
+            return redirect('/'); 
+        } else {
+            // If user does not exist, create a new user
+            $newUser = new User();
+            $newUser->name = $googleUser->name;
+            $newUser->email = $googleUser->email;
+            $newUser->username = $googleUser->email; // You can modify this as needed
+            $newUser->password = bcrypt('12345678'); // Default password for Google users
+            $newUser->save();
 
-                Auth::login($newUser);
-                return redirect('/home'); 
-            }
+            // Log in the new user
+            Auth::login($newUser);
+            return redirect('/home'); 
+        }
     }
 }
