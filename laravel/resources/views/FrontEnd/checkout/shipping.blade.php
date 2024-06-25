@@ -13,11 +13,11 @@
                 <form action="{{ route('store_shipping') }}" method="post">
                     @csrf
                     <input class="agile-ltext" type="text" name="name" placeholder="Username"
-                        value="{{ $customer->name }}" readonly>
+                        value="{{ $customer->name }}" required>
                     <input class="agile-ltext" type="email" name="email" placeholder="Your Email"
-                        value="{{ $customer->email }}" readonly>
+                        value="{{ $customer->email }}" required>
                     <input class="agile-ltext" type="text" name="phone" placeholder="Your Phone Number"
-                        value="{{ $customer->phone }}" readonly>
+                        value="{{ $customer->phone }}" required>
                     <input class="agile-ltext" type="text" name="address" placeholder="Your address" required>
                     <div class="wthreelogin-text">
                         <ul>

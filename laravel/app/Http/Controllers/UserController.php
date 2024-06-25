@@ -88,7 +88,11 @@ class UserController extends Controller
             $shipping = new Shipping();
             $shipping->name = Auth::user()->name;
             $shipping->email = Auth::user()->email;
-            $shipping->phone = Auth::user()->phone;
+            if(Auth::user()->phone == null){
+                $shipping->phone = $request->phone;}
+            else{
+                $shipping->phone = Auth::user()->phone;
+            }
             $shipping->address = $request->address;
             $shipping->save();
             Session::put('shipping_id', $shipping->id );
