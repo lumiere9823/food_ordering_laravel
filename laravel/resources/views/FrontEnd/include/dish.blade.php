@@ -6,6 +6,23 @@
 @section('content')
     <div class="products">
         <div class="">
+            <div class="col-md-2 rsidebar">
+                <div class="rsidebar-top">
+                    <div class="slider-left">
+                        <h4>CHOOSE BY CATEGORY</h4>
+                        <div class="row row1 scroll-pane">
+                            @foreach ($categories as $category)
+                                <label class="checkbox">
+                                    <a href="{{ route('dish_show', ['category_id' => $category->category_id]) }}">
+                                        {{ $category->category_name }}
+                                    </a>
+                                </label>
+                            @endforeach
+                        </div>
+                    </div>
+
+                </div>
+            </div>
             <div class="col-md-10 product-w3ls-right">
                 <div class="product-top">
                     <h4>Product Collection</h4>
@@ -131,30 +148,8 @@
                 @endif
 
             </div>
-            <div class="col-md-2 rsidebar">
-                <div class="rsidebar-top">
-                    <div class="slider-left">
-                        <h4>CHOOSE BY CATEGORY</h4>
-                        <div class="row row1 scroll-pane">
-                            @foreach ($categories as $category)
-                                <label class="checkbox">
-                                    <a href="{{ route('dish_show', ['category_id' => $category->category_id]) }}">
-                                        {{ $category->category_name }}
-                                    </a>
-                                </label>
-                            @endforeach
-                        </div>
-                    </div>
-
-                </div>
-            </div>
             <div class="clearfix"> </div>
         </div>
     </div>
-    <!-- //products -->
-    <div class="container">
-        <div class="w3agile-deals prds-w3text">
-            <h5>for a better shopping experience</h5>
-        </div>
-    </div>
+
 @endsection
