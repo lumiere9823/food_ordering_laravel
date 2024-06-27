@@ -14,18 +14,21 @@ use Illuminate\Support\Facades\Auth;
 
 class CheckOutController extends Controller
 {
-    public function payment(){
+    public function payment()
+    {
         return \view('FrontEnd.checkout.checkout_payment');
     }
 
-    public function order(Request $request){
-        $payment_type =  $request->payment_type;
-        if($payment_type == 'Cash'){
+    public function order(Request $request)
+    {
+        $payment_type = $request->payment_type;
+        if ($payment_type == 'Cash') {
             $order = new Order();
             $order->user_id = Auth::user()->id;
             $order->shipping_id = Session::get('shipping_id');
-            $order->order_total = Session::get('sum') ;
+            $order->order_total = Session::get('sum');
             $order->save();
+
 
             $payment = new Payment();
             $payment->order_id = $order->order_id;
@@ -39,26 +42,27 @@ class CheckOutController extends Controller
             } catch (\Exception $e) {
                 echo $e;
             }
-            
+
             $cartProducts = Cart::content();
-            foreach($cartProducts as $cartProduct){
+            foreach ($cartProducts as $cartProduct) {
                 $orderDetails = new OrderDetail();
                 $orderDetails->order_id = $order->order_id;
                 $orderDetails->dish_id = $cartProduct->id;
                 $orderDetails->dish_name = $cartProduct->name;
                 $orderDetails->dish_price = $cartProduct->price;
                 $orderDetails->dish_qty = $cartProduct->qty;
-                if($cartProduct->qty <= Dish::where('dish_id',$cartProduct->id)->first()->number_of_products){
-                    Dish::where('dish_id',$cartProduct->id)->decrement('number_of_products',$cartProduct->qty);
+                if ($cartProduct->qty <= Dish::where('dish_id', $cartProduct->id)->first()->number_of_products) {
+                    Dish::where('dish_id', $cartProduct->id)->decrement('number_of_products', $cartProduct->qty);
                     $orderDetails->save();
-                }else{
-                    return \redirect('checkout/payment')->with('sms','Order failed');}
+                } else {
+                    return \redirect('checkout/payment')->with('sms', 'Order failed');
+                }
             }
 
             Cart::destroy();
-            return \redirect('checkout/order/complete')->with('sms','Order completed successfully');
-        }
-        else{
+            return \redirect('checkout/order/complete')->with('sms', 'Order completed successfully');
+        } else {
+
             $order = new Order();
             $order->user_id = Auth::user()->id;
             $order->shipping_id = Session::get('shipping_id');
@@ -70,28 +74,24 @@ class CheckOutController extends Controller
             $payment->payment_type = $payment_type;
             $payment->save();
 
-            
             $cartProducts = Cart::content();
-            foreach($cartProducts as $cartProduct){
+            foreach ($cartProducts as $cartProduct) {
                 $orderDetails = new OrderDetail();
                 $orderDetails->order_id = $order->order_id;
                 $orderDetails->dish_id = $cartProduct->id;
                 $orderDetails->dish_name = $cartProduct->name;
                 $orderDetails->dish_price = $cartProduct->price;
                 $orderDetails->dish_qty = $cartProduct->qty;
-                if($cartProduct->qty <= Dish::where('dish_id',$cartProduct->id)->first()->number_of_products){
-                    Dish::where('dish_id',$cartProduct->id)->decrement('number_of_products',$cartProduct->qty);
-                    $orderDetails->save();
-                }else{
-                    return \redirect('checkout/payment')->with('sms','Order failed');}
+                Dish::where('dish_id', $cartProduct->id)->decrement('number_of_products', $cartProduct->qty);
+                $orderDetails->save();
             }
-
             Cart::destroy();
-            return \redirect('checkout/order/complete')->with('sms','Order completed successfully');
+            return \redirect('checkout/order/complete')->with('sms', 'Order completed successfully');
         }
     }
 
-    public function order_complete(){
+    public function order_complete()
+    {
         return \view('FrontEnd.checkout.checkout_complete');
     }
 

@@ -12,14 +12,18 @@ class CartController extends Controller
 {
     public function insert(Request $request){
         $dish = Dish::findOrFail($request->dish_id);
-    
-        Cart::add([
-            'id' => $request->dish_id, 
-            'name' => $dish->dish_name,
-            'qty' => $request->qty, 
-            'price' => $dish->full_price,
-            'options' => ['dish_image' => $dish->dish_image]
-        ]);
+        if($request->qty > $dish->number_of_products)
+        {
+            return redirect()->back()->with('sms','Sorry! We have only '.$dish->number_of_products.' '.$dish->dish_name.' left');
+        }else{
+            Cart::add([
+                'id' => $request->dish_id, 
+                'name' => $dish->dish_name,
+                'qty' => $request->qty, 
+                'price' => $dish->full_price,
+                'options' => ['dish_image' => $dish->dish_image]
+            ]);
+        }
     
         return redirect()->back()->with('sms','Added to cart successfully');
     }

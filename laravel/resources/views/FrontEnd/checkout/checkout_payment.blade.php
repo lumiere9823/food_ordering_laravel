@@ -47,8 +47,8 @@
                                                     </tr>
                                                     <tr>
                                                         <td colspan="2" class="text-center">
-                                                            <input type="submit" name="btn" class="btn btn-primary"
-                                                                value="Confirm Order">
+                                                            <button type="submit" name="btn" class="btn btn-primary"
+                                                                value="Confirm Order"> Confirm Order</button>
                                                         </td>
                                                     </tr>
                                                 </table>

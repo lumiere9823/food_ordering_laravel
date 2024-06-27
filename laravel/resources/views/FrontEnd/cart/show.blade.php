@@ -203,7 +203,6 @@
                     $('#qty_' + rowId).html(data.qty);
                     $('#quantity1_' + rowId).html(data.qty);
 
-                    // Update the total price based on the new quantity
                     var totalPrice = data.qty * price;
                     $('#total_' + rowId).html(totalPrice);
                     $('#total1_' + rowId).html(totalPrice);

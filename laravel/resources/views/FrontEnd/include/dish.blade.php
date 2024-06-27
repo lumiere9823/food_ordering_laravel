@@ -81,19 +81,6 @@
                                                 <div class="col-md-7 modal_body_right single-top-right">
                                                     <h3 class="item_name">{{ $dish->dish_name }}</h3>
                                                     <p>{{ $dish->dish_detail }}</p>
-                                                    <div class="single-rating">
-                                                        <ul>
-                                                            <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                                                            <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                                                            <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                                                            <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                                                            <li class="w3act"><i class="fa fa-star-o"
-                                                                    aria-hidden="true"></i>
-                                                            </li>
-                                                            <li class="rating">20 reviews</li>
-                                                            <li><a href="#">Add your review</a></li>
-                                                        </ul>
-                                                    </div>
                                                     <div class="single-price">
                                                         <ul>
                                                             <li>{{ $dish->full_price }}</li>
