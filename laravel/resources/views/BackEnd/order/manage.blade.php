@@ -25,12 +25,20 @@
                                 <p><strong>Customer Name:</strong> {{ $order->name }}</p>
                                 <p><strong>Order Total:</strong> {{ $order->order_total }}</p>
                                 <p><strong>Order Status:</strong> {{ $order->order_status }}</p>
-                                @isset($order->shipper_id)
-                                    <p><strong>Shipper id:</strong> {{ $order->shipper_id }}</p>
-                                @endisset
                                 <p><strong>Cusomer Address:</strong> {{ $order->address }}</p>
                                 <p><strong>Payment Type:</strong> {{ $order->payment_type }}</p>
                                 <p><strong>Payment Status:</strong> {{ $order->payment_status }}</p>
+                                @isset($order->shipper_id)
+                                <h4 style="font-weight:bold; color:green">Đơn hàng đã được tiếp nhận:</h4>
+                                    <?php
+                                        $shipper = DB::table('users')
+                                            ->select('name','phone')
+                                            ->where('id', $order->shipper_id)
+                                            ->first();
+                                    ?>
+                                    <p><strong>Shipper Name:</strong> {{ $shipper->name }}</p>
+                                    <p><strong>Shipper Phone Number:</strong> {{ $shipper->phone }}</p>
+                                @endisset
                             </div>
                         </div>
                     </div>

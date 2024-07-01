@@ -12,7 +12,7 @@
         @endif
         <section class="content container">
             <div class="row justify-content-center">
-                @if (isset($order))
+                @if (isset($orders) && count($orders) > 0)
                     @foreach ($orders as $index => $order)
                         <div class="mb-3">
                             <div class="card"

@@ -81,7 +81,8 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="{{ route('show_user_table') }}">Add</a></li>
-                        <li><a href="{{ route('manage_user') }}">Manage</a></li>
+                        <li><a href="{{ route('manage_user') }}">Manage All User</a></li>
+                        <li><a href="{{ route('manage_shipper') }}">Manage Shipper</a></li>
                     </ul>
                 </li>
 
