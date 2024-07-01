@@ -96,10 +96,5 @@
             @endif
 
         </section>
-
-        <!-- Main content -->
-        <section class="content container-fluid">
-
-        </section>
     </div>
 @endsection

@@ -79,6 +79,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/user/add','UserController@save')->name('show_user_table');
         Route::post('/user/save','UserController@store')->name('user_save');
         Route::get('/user/manage','UserController@manage')->name('manage_user');
+        Route::get('/user/manage-shipper','UserController@manageShipper')->name('manage_shipper');
+        Route::get('/users/search', 'UserController@search')->name('users.search');
+        Route::get('/shippers/search', 'UserController@searchShipper')->name('shippers.search');
         Route::put('/user/update/{id}', 'UserController@update')->name('user.update');
         Route::delete('/user/delete/{id}', 'UserController@delete')->name('user.delete');
         Route::get('/shipping','UserController@shipping')->name('shipping.show');

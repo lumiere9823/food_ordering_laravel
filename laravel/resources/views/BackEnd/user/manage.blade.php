@@ -3,6 +3,16 @@
 @section('content')
     <div class="content-wrapper">
         <section class="content container">
+        <div class="input-group">
+            <form action="{{route('users.search')}}" method="get"  style="display: flex;">
+                <div class="form-outline" data-mdb-input-init style="display: flex;">
+                    <input name="search" type="search" id="form1" placeholder="Type to search" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary" data-mdb-ripple-init>
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
             <div class="row justify-content-center" style="position: relative">
                 <!-- Center the row -->
                 <div style=" border:solid white 1px; border-radius:12px; padding: 20px; background: white">

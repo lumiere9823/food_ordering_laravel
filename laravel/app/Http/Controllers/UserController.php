@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Shipping;
@@ -42,6 +43,41 @@ class UserController extends Controller
         $users = User::whereNot('role', 1)->get();
         $roles = Role::all();
         return view("BackEnd.user.manage",compact('users','roles'));
+    }
+    
+    public function manageShipper() {
+        $users = User::where('role', 2)->get();
+    
+        $roles = Role::all();
+    
+        $ordersCount = [];
+
+        $orders = Order::all();
+        foreach ($users as $user) {
+            $ordersCount[$user->id] = 0;
+            foreach ($orders as $order) {
+                if ($order->shipper_id == $user->id) {
+                    $ordersCount[$user->id]++;
+                }
+            }
+            $user->ordersCount = $ordersCount[$user->id];
+        }
+    
+        return view("BackEnd.user.manage_shipper", compact('users', 'roles', 'orders'));
+    }
+
+    public function search(Request $request){
+        $search = $request->search;
+        $users = User::where('name','like','%'.$search.'%')->get();
+        $roles = Role::all();
+        return view("BackEnd.user.manage",compact('users','roles'));
+    }
+    
+    public function searchShipper(Request $request){
+        $search = $request->search;
+        $users = User::where('name','like','%'.$search.'%')->where('role', 2)->get();
+        $roles = Role::all();
+        return view("BackEnd.user.manage_shipper",compact('users','roles'));
     }
 
     public function edit($id){
